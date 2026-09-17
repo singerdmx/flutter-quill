@@ -5,12 +5,18 @@ import '../base_button/base_value_button.dart';
 import '../config/simple_toolbar_config.dart';
 import 'quill_icon_button.dart';
 
-typedef QuillToolbarIndentBaseButton = QuillToolbarBaseButton<
-    QuillToolbarIndentButtonOptions, QuillToolbarIndentButtonExtraOptions>;
+typedef QuillToolbarIndentBaseButton =
+    QuillToolbarBaseButton<
+      QuillToolbarIndentButtonOptions,
+      QuillToolbarIndentButtonExtraOptions
+    >;
 
-typedef QuillToolbarIndentBaseButtonState<W extends QuillToolbarIndentButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarIndentButtonOptions,
-        QuillToolbarIndentButtonExtraOptions>;
+typedef QuillToolbarIndentBaseButtonState<W extends QuillToolbarIndentButton> =
+    QuillToolbarCommonButtonState<
+      W,
+      QuillToolbarIndentButtonOptions,
+      QuillToolbarIndentButtonExtraOptions
+    >;
 
 class QuillToolbarIndentButton extends QuillToolbarIndentBaseButton {
   const QuillToolbarIndentButton({

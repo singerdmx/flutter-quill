@@ -13,9 +13,11 @@ class QuillToolbarSelectAlignmentButtonExtraOptions
 }
 
 class QuillToolbarSelectAlignmentButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectAlignmentButtonOptions,
-        QuillToolbarBaseButtonExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarSelectAlignmentButtonOptions,
+          QuillToolbarBaseButtonExtraOptions
+        > {
   const QuillToolbarSelectAlignmentButtonOptions({
     this.iconsData,
     this.tooltips,

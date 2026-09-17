@@ -8,14 +8,20 @@ import '../../config/buttons/link_style_options.dart';
 import '../quill_icon_button.dart';
 import 'link_dialog.dart';
 
-typedef QuillToolbarLinkStyleBaseButton = QuillToolbarBaseButton<
-    QuillToolbarLinkStyleButtonOptions,
-    QuillToolbarLinkStyleButtonExtraOptions>;
+typedef QuillToolbarLinkStyleBaseButton =
+    QuillToolbarBaseButton<
+      QuillToolbarLinkStyleButtonOptions,
+      QuillToolbarLinkStyleButtonExtraOptions
+    >;
 
 typedef QuillToolbarLinkStyleBaseButtonState<
-        W extends QuillToolbarLinkStyleBaseButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButtonOptions,
-        QuillToolbarLinkStyleButtonExtraOptions>;
+  W extends QuillToolbarLinkStyleBaseButton
+> =
+    QuillToolbarCommonButtonState<
+      W,
+      QuillToolbarLinkStyleButtonOptions,
+      QuillToolbarLinkStyleButtonExtraOptions
+    >;
 
 class QuillToolbarLinkStyleButton extends QuillToolbarLinkStyleBaseButton {
   const QuillToolbarLinkStyleButton({
@@ -86,10 +92,7 @@ class QuillToolbarLinkStyleButtonState
     }
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      icon: Icon(
-        iconData,
-        size: iconSize * iconButtonFactor,
-      ),
+      icon: Icon(iconData, size: iconSize * iconButtonFactor),
       isSelected: isToggled,
       onPressed: () => _openLinkDialog(context),
       afterPressed: afterButtonPressed,

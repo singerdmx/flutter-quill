@@ -67,7 +67,7 @@ abstract final class LinkValidator {
     'sip:', // Lync
     'whatsapp:',
     'http://',
-    'https://'
+    'https://',
   ];
 
   static bool validate(
@@ -92,7 +92,8 @@ abstract final class LinkValidator {
       return true;
     }
     // Implemented for backward compatibility, clients should use validateLink instead.
-    return (linkPrefixes + (legacyAddationalLinkPrefixes ?? []))
-        .any((prefix) => link.startsWith(prefix));
+    return (linkPrefixes + (legacyAddationalLinkPrefixes ?? [])).any(
+      (prefix) => link.startsWith(prefix),
+    );
   }
 }

@@ -13,8 +13,8 @@ import 'text/text_selection.dart';
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
-typedef CustomRecognizerBuilder = GestureRecognizer? Function(
-    Attribute attribute, Leaf leaf);
+typedef CustomRecognizerBuilder =
+    GestureRecognizer? Function(Attribute attribute, Leaf leaf);
 
 /// Delegate interface for the [EditorTextSelectionGestureDetectorBuilder].
 ///
@@ -66,8 +66,10 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// Creates a [EditorTextSelectionGestureDetectorBuilder].
   ///
   /// The [delegate] must not be null.
-  EditorTextSelectionGestureDetectorBuilder(
-      {required this.delegate, this.detectWordBoundary = true});
+  EditorTextSelectionGestureDetectorBuilder({
+    required this.delegate,
+    this.detectWordBoundary = true,
+  });
 
   /// The delegate for this [EditorTextSelectionGestureDetectorBuilder].
   ///
@@ -126,7 +128,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     // A mouse shouldn't trigger the selection overlay.
     // For backwards-compatibility, we treat a null kind the same as touch.
     kind = details.kind;
-    shouldShowSelectionToolbar = kind == null ||
+    shouldShowSelectionToolbar =
+        kind == null ||
         kind ==
             PointerDeviceKind
                 .mouse || // Enable word selection by mouse double tap
@@ -326,8 +329,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback./lib/src/material/text_field.dart
   @protected
   void onDragSelectionUpdate(
-      //DragStartDetails startDetails,
-      DragUpdateDetails updateDetails) {
+    //DragStartDetails startDetails,
+    DragUpdateDetails updateDetails,
+  ) {
     renderEditor!.extendSelection(
       updateDetails.globalPosition,
       cause: SelectionChangedCause.drag,

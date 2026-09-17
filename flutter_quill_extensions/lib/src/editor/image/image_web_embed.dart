@@ -8,9 +8,7 @@ import '../../common/utils/web/web.dart';
 import 'config/image_web_config.dart';
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
-  const QuillEditorWebImageEmbedBuilder({
-    required this.config,
-  });
+  const QuillEditorWebImageEmbedBuilder({required this.config});
 
   final QuillEditorWebImageEmbedConfig config;
 
@@ -21,14 +19,12 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   bool get expanded => false;
 
   @override
-  Widget build(
-    BuildContext context,
-    EmbedContext embedContext,
-  ) {
+  Widget build(BuildContext context, EmbedContext embedContext) {
     assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
 
-    final (height, width, margin, alignment) =
-        getWebElementAttributes(embedContext.node);
+    final (height, width, margin, alignment) = getWebElementAttributes(
+      embedContext.node,
+    );
 
     var imageSource = embedContext.node.value.data.toString();
 
@@ -56,9 +52,7 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
     return ConstrainedBox(
       constraints:
           config.constraints ?? BoxConstraints.loose(const Size(200, 200)),
-      child: HtmlElementView(
-        viewType: imageSource,
-      ),
+      child: HtmlElementView(viewType: imageSource),
     );
   }
 }

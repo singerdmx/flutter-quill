@@ -42,8 +42,11 @@ const _validTesingLinks = [
 void main() {
   test('validate correctly', () {
     for (final validLink in _validTesingLinks) {
-      expect(LinkValidator.validate(validLink), true,
-          reason: 'Expected the link `$validLink` to be valid.');
+      expect(
+        LinkValidator.validate(validLink),
+        true,
+        reason: 'Expected the link `$validLink` to be valid.',
+      );
     }
   });
 
@@ -61,13 +64,17 @@ void main() {
       return mockResult;
     }
 
-    expect(LinkValidator.validate('example', customValidateLink: testCallback),
-        mockResult);
+    expect(
+      LinkValidator.validate('example', customValidateLink: testCallback),
+      mockResult,
+    );
     expect(customCallbackCalled, true);
 
     mockResult = true;
-    expect(LinkValidator.validate('example', customValidateLink: testCallback),
-        mockResult);
+    expect(
+      LinkValidator.validate('example', customValidateLink: testCallback),
+      mockResult,
+    );
   });
 
   test('supports legacyRegex when not null', () {
@@ -78,9 +85,12 @@ void main() {
 
   test('supports legacyAddationalLinkPrefixes', () {
     expect(
-        LinkValidator.validate('app://example',
-            legacyAddationalLinkPrefixes: ['app://']),
-        true);
+      LinkValidator.validate(
+        'app://example',
+        legacyAddationalLinkPrefixes: ['app://'],
+      ),
+      true,
+    );
   });
 
   test('default linkPrefixes', () {
@@ -99,7 +109,7 @@ void main() {
       'sip:',
       'whatsapp:',
       'http://',
-      'https://'
+      'https://',
     ]);
   });
 }

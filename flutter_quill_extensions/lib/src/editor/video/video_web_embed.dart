@@ -8,9 +8,7 @@ import 'config/video_web_config.dart';
 import 'youtube_video_url.dart';
 
 class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
-  const QuillEditorWebVideoEmbedBuilder({
-    required this.config,
-  });
+  const QuillEditorWebVideoEmbedBuilder({required this.config});
 
   final QuillEditorWebVideoEmbedConfig config;
 
@@ -21,10 +19,7 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
   bool get expanded => false;
 
   @override
-  Widget build(
-    BuildContext context,
-    EmbedContext embedContext,
-  ) {
+  Widget build(BuildContext context, EmbedContext embedContext) {
     var videoUrl = embedContext.node.value.data;
     if (isYouTubeUrl(videoUrl)) {
       // ignore: deprecated_member_use_from_same_package
@@ -34,8 +29,9 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
       }
     }
 
-    final (height, width, margin, alignment) =
-        getWebElementAttributes(embedContext.node);
+    final (height, width, margin, alignment) = getWebElementAttributes(
+      embedContext.node,
+    );
 
     createHtmlIFrameElement(
       src: videoUrl,
@@ -45,11 +41,6 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
       alignSelf: alignment,
     );
 
-    return SizedBox(
-      height: 500,
-      child: HtmlElementView(
-        viewType: videoUrl,
-      ),
-    );
+    return SizedBox(height: 500, child: HtmlElementView(viewType: videoUrl));
   }
 }

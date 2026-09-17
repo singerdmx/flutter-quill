@@ -6,8 +6,10 @@ void main() {
   /// Collections of Attribute keys are used to allow quick iteration by type of scope.
   group('collections of keys', () {
     test('unmodifiable inlineKeys', () {
-      expect(() => Attribute.inlineKeys.add('value'),
-          throwsA(const TypeMatcher<UnsupportedError>()));
+      expect(
+        () => Attribute.inlineKeys.add('value'),
+        throwsA(const TypeMatcher<UnsupportedError>()),
+      );
     });
 
     /// All registered attributes should be listed in collections of keys.

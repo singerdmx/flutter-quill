@@ -8,8 +8,8 @@ documentation: https://github.com/singerdmx/flutter-quill/tree/master/flutter_qu
 topics: [testing, text, rich-text-editor, flutter-quill]
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:

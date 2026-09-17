@@ -30,7 +30,8 @@ Future<void> main(List<String> args) async {
   final templateArb =
       jsonDecode(await templateArbFile.readAsString()) as Map<String, Object?>;
   print(
-      'The length of the current translation keys: ${templateArb.keys.length}');
+    'The length of the current translation keys: ${templateArb.keys.length}',
+  );
   final newTranslationKeysLength = templateArb.keys.length;
 
   if (newTranslationKeysLength > _expectedTranslationKeysLength) {

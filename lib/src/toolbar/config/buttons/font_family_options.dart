@@ -18,9 +18,12 @@ class QuillToolbarFontFamilyButtonExtraOptions
   final String currentValue;
 }
 
-class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions> {
+class QuillToolbarFontFamilyButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarFontFamilyButtonOptions,
+          QuillToolbarFontFamilyButtonExtraOptions
+        > {
   const QuillToolbarFontFamilyButtonOptions({
     this.attribute = Attribute.font,
     this.items,

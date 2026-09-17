@@ -19,8 +19,12 @@ class QuillToolbarFontSizeButtonExtraOptions
 }
 
 @immutable
-class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
+class QuillToolbarFontSizeButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarFontSizeButtonOptions,
+          QuillToolbarFontSizeButtonExtraOptions
+        > {
   const QuillToolbarFontSizeButtonOptions({
     super.iconSize,
     super.iconButtonFactor,

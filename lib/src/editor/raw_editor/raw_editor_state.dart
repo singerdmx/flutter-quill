@@ -1,4 +1,4 @@
-import 'dart:async' show StreamSubscription;
+import 'dart:async' show StreamSubscription, Timer;
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
@@ -96,11 +96,15 @@ class QuillRawEditorState extends EditorState
 
   @override
   void insertContent(KeyboardInsertedContent content) {
-    assert(widget.config.contentInsertionConfiguration?.allowedMimeTypes
-            .contains(content.mimeType) ??
-        false);
-    widget.config.contentInsertionConfiguration?.onContentInserted
-        .call(content);
+    assert(
+      widget.config.contentInsertionConfiguration?.allowedMimeTypes.contains(
+            content.mimeType,
+          ) ??
+          false,
+    );
+    widget.config.contentInsertionConfiguration?.onContentInserted.call(
+      content,
+    );
   }
 
   /// Copy current selection to [Clipboard].
@@ -116,8 +120,9 @@ class QuillRawEditorState extends EditorState
       userUpdateTextEditingValue(
         TextEditingValue(
           text: textEditingValue.text,
-          selection:
-              TextSelection.collapsed(offset: textEditingValue.selection.end),
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
         ),
         SelectionChangedCause.toolbar,
       );
@@ -154,13 +159,19 @@ class QuillRawEditorState extends EditorState
     userUpdateTextEditingValue(
       textEditingValue.copyWith(
         selection: TextSelection(
-            baseOffset: 0, extentOffset: textEditingValue.text.length),
+          baseOffset: 0,
+          extentOffset: textEditingValue.text.length,
+        ),
       ),
       cause,
     );
 
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
+    if (cause == SelectionChangedCause.toolbar && scrollController.hasClients) {
+      // Reveal the start of the selection (the top of the document) with a
+      // single deterministic scroll. The post-frame `_showCaretOnScreen`
+      // also reveals the selection start (`endpoints.first`) bug does this
+      // with a lag.
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
     }
   }
 
@@ -169,15 +180,18 @@ class QuillRawEditorState extends EditorState
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
-      clipboardStatus:
-          (_clipboardStatus != null) ? _clipboardStatus!.value : null,
+      clipboardStatus: (_clipboardStatus != null)
+          ? _clipboardStatus!.value
+          : null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
-      onCut:
-          cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
-      onPaste:
-          pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
+      onCut: cutEnabled
+          ? () => cutSelection(SelectionChangedCause.toolbar)
+          : null,
+      onPaste: pasteEnabled
+          ? () => pasteText(SelectionChangedCause.toolbar)
+          : null,
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
@@ -205,10 +219,7 @@ class QuillRawEditorState extends EditorState
     if (text.isEmpty) {
       return;
     }
-    await SystemChannels.platform.invokeMethod(
-      'LookUp.invoke',
-      text,
-    );
+    await SystemChannels.platform.invokeMethod('LookUp.invoke', text);
   }
 
   /// Launch a web search on the current selection,
@@ -221,10 +232,7 @@ class QuillRawEditorState extends EditorState
   Future<void> searchWebForSelection(SelectionChangedCause cause) async {
     final text = textEditingValue.selection.textInside(textEditingValue.text);
     if (text.isNotEmpty) {
-      await SystemChannels.platform.invokeMethod(
-        'SearchWeb.invoke',
-        text,
-      );
+      await SystemChannels.platform.invokeMethod('SearchWeb.invoke', text);
     }
   }
 
@@ -238,12 +246,15 @@ class QuillRawEditorState extends EditorState
   Future<void> shareSelection(SelectionChangedCause cause) async {
     final text = textEditingValue.selection.textInside(textEditingValue.text);
     if (text.isNotEmpty) {
-      await SystemChannels.platform.invokeMethod(
-        'Share.invoke',
-        text,
-      );
+      await SystemChannels.platform.invokeMethod('Share.invoke', text);
     }
   }
+
+  /// The vertical room (in logical pixels) reserved above the bottom of the
+  /// visible editor so the selection context menu stays fully on-screen when it
+  /// is rendered below the selection.
+  static const double _kSelectionContextMenuReserve =
+      kMinInteractiveDimension + 16;
 
   /// Returns the anchor points for the default context menu.
   ///
@@ -252,11 +263,62 @@ class QuillRawEditorState extends EditorState
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);
-    return TextSelectionToolbarAnchors.fromSelection(
+    final anchors = TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
       startGlyphHeight: glyphHeights.startGlyphHeight,
       endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
+    );
+    return _clampAnchorsToVisibleViewport(anchors);
+  }
+
+  /// Clamps [anchors] into the visible region of the editor so the selection
+  /// context menu keeps an on-screen position even when the selection extends
+  /// past the viewport.
+  TextSelectionToolbarAnchors _clampAnchorsToVisibleViewport(
+    TextSelectionToolbarAnchors anchors,
+  ) {
+    final editor = renderEditor;
+    if (!editor.hasSize) {
+      return anchors;
+    }
+    final viewportObject = RenderAbstractViewport.maybeOf(editor);
+    if (viewportObject is! RenderBox) {
+      return anchors;
+    }
+    final viewport = viewportObject as RenderBox;
+    if (!viewport.hasSize) {
+      return anchors;
+    }
+
+    // The vertical bounds of the editor that are actually visible, in global
+    // coordinates.
+    final editorTop = editor.localToGlobal(Offset.zero).dy;
+    final editorBottom = editor.localToGlobal(Offset(0, editor.size.height)).dy;
+    final viewportTop = viewport.localToGlobal(Offset.zero).dy;
+    final viewportBottom = viewport
+        .localToGlobal(Offset(0, viewport.size.height))
+        .dy;
+    final visibleTop = math.max(editorTop, viewportTop);
+    final visibleBottom = math.min(editorBottom, viewportBottom);
+
+    // Not enough visible room to reposition meaningfully, leave as-is.
+    if (visibleBottom - visibleTop <= _kSelectionContextMenuReserve) {
+      return anchors;
+    }
+
+    Offset clampY(Offset point, double low, double high) =>
+        Offset(point.dx, point.dy.clamp(low, high));
+
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
+      secondaryAnchor: anchors.secondaryAnchor == null
+          ? null
+          : clampY(
+              anchors.secondaryAnchor!,
+              visibleTop,
+              visibleBottom - _kSelectionContextMenuReserve,
+            ),
     );
   }
 
@@ -283,10 +345,12 @@ class QuillRawEditorState extends EditorState
       );
     }
 
-    final startCharacterRect =
-        renderEditor.getLocalRectForCaret(selection.base);
-    final endCharacterRect =
-        renderEditor.getLocalRectForCaret(selection.extent);
+    final startCharacterRect = renderEditor.getLocalRectForCaret(
+      selection.base,
+    );
+    final endCharacterRect = renderEditor.getLocalRectForCaret(
+      selection.extent,
+    );
     return QuillEditorGlyphHeights(
       startCharacterRect.height,
       endCharacterRect.height,
@@ -329,10 +393,12 @@ class QuillRawEditorState extends EditorState
     return ScribbleFocusable(
       editorKey: _editorKey,
       enabled: widget.config.enableScribble && !widget.config.readOnly,
-      renderBoxForBounds: () => context
-          .findAncestorStateOfType<QuillEditorState>()
-          ?.context
-          .findRenderObject() as RenderBox?,
+      renderBoxForBounds: () =>
+          context
+                  .findAncestorStateOfType<QuillEditorState>()
+                  ?.context
+                  .findRenderObject()
+              as RenderBox?,
       onScribbleFocus: (offset) {
         widget.config.focusNode.requestFocus();
         widget.config.onScribbleActivated?.call();
@@ -352,8 +418,10 @@ class QuillRawEditorState extends EditorState
       final raw = widget.config.placeholder?.replaceAll(r'"', '\\"');
       // get current block attributes applied to the first line even if it
       // is empty
-      final blockAttributesWithoutContent =
-          doc.root.children.firstOrNull?.toDelta().first.attributes;
+      final blockAttributesWithoutContent = doc.root.children.firstOrNull
+          ?.toDelta()
+          .first
+          .attributes;
       // check if it has code block attribute to add '//' to give to the users
       // the feeling of this is really a block of code
       final isCodeBlock =
@@ -391,47 +459,48 @@ class QuillRawEditorState extends EditorState
       /// the scroll view with [BaselineProxy] which mimics the editor's
       /// baseline.
       // This implies that the first line has no styles applied to it.
-      final baselinePadding =
-          EdgeInsets.only(top: _styles!.paragraph!.verticalSpacing.top);
+      final baselinePadding = EdgeInsets.only(
+        top: _styles!.paragraph!.verticalSpacing.top,
+      );
       child = BaselineProxy(
-          textStyle: _styles!.paragraph!.style,
-          padding: baselinePadding,
-          child: _scribbleFocusable(
-            SingleChildScrollView(
-              controller: _scrollController,
-              physics: widget.config.scrollPhysics,
-              child: CompositedTransformTarget(
-                link: _toolbarLayerLink,
-                child: MouseRegion(
-                  cursor: widget.config.readOnly
-                      ? widget.config.readOnlyMouseCursor
-                      : SystemMouseCursors.text,
-                  child: QuillRawEditorMultiChildRenderObject(
-                    key: _editorKey,
-                    offset: _scrollController.hasClients
-                        ? _scrollController.position
-                        : null,
-                    document: doc,
-                    selection: controller.selection,
-                    hasFocus: _hasFocus,
-                    scrollable: widget.config.scrollable,
-                    textDirection: _textDirection,
-                    startHandleLayerLink: _startHandleLayerLink,
-                    endHandleLayerLink: _endHandleLayerLink,
-                    onSelectionChanged: _handleSelectionChanged,
-                    onSelectionCompleted: _handleSelectionCompleted,
-                    scrollBottomInset: widget.config.scrollBottomInset,
-                    padding: widget.config.padding,
-                    maxContentWidth: widget.config.maxContentWidth,
-                    cursorController: _cursorCont,
-                    floatingCursorDisabled:
-                        widget.config.floatingCursorDisabled,
-                    children: _buildChildren(doc, context),
-                  ),
+        textStyle: _styles!.paragraph!.style,
+        padding: baselinePadding,
+        child: _scribbleFocusable(
+          SingleChildScrollView(
+            controller: _scrollController,
+            physics: widget.config.scrollPhysics,
+            child: CompositedTransformTarget(
+              link: _toolbarLayerLink,
+              child: MouseRegion(
+                cursor: widget.config.readOnly
+                    ? widget.config.readOnlyMouseCursor
+                    : SystemMouseCursors.text,
+                child: QuillRawEditorMultiChildRenderObject(
+                  key: _editorKey,
+                  offset: _scrollController.hasClients
+                      ? _scrollController.position
+                      : null,
+                  document: doc,
+                  selection: controller.selection,
+                  hasFocus: _hasFocus,
+                  scrollable: widget.config.scrollable,
+                  textDirection: _textDirection,
+                  startHandleLayerLink: _startHandleLayerLink,
+                  endHandleLayerLink: _endHandleLayerLink,
+                  onSelectionChanged: _handleSelectionChanged,
+                  onSelectionCompleted: _handleSelectionCompleted,
+                  scrollBottomInset: widget.config.scrollBottomInset,
+                  padding: widget.config.padding,
+                  maxContentWidth: widget.config.maxContentWidth,
+                  cursorController: _cursorCont,
+                  floatingCursorDisabled: widget.config.floatingCursorDisabled,
+                  children: _buildChildren(doc, context),
                 ),
               ),
             ),
-          ));
+          ),
+        ),
+      );
     } else {
       child = _scribbleFocusable(
         CompositedTransformTarget(
@@ -505,6 +574,11 @@ class QuillRawEditorState extends EditorState
     TextSelection selection,
     SelectionChangedCause cause,
   ) {
+    // Swallow the caret placement caused by tapping a checkbox (see _handleCheckboxTap).
+    if (_ignoreCheckboxTapSelectionChange) {
+      _ignoreCheckboxTapSelectionChange = false;
+      return;
+    }
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.local);
 
@@ -541,21 +615,25 @@ class QuillRawEditorState extends EditorState
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
+      // The same tap also fires the editor's selection gesture (onSingleTapUp), which
+      // would move the caret to this line. Ignore that gesture-driven change so the
+      // caret stays put and the toolbar doesn't flicker to this line's style.
+      _ignoreCheckboxTapSelectionChange = true;
+
       _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
         ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
-        ..formatText(offset, 0, attribute)
+        // Format silently: formatText() stages the checked/unchecked attribute into
+        // toggledStyle, which getSelectionStyle() merges — notifying now would briefly
+        // light up the checklist toolbar button. The post-frame updateSelection below
+        // resets toggledStyle and notifies once with the clean state.
+        ..formatText(offset, 0, attribute, shouldNotifyListeners: false);
 
-        // Checkbox tapping causes controller.selection to go to offset 0
-        // Stop toggling those two toolbar buttons
-        ..toolbarButtonToggler = {
-          Attribute.list.key: attribute,
-          Attribute.header.key: Attribute.header
-        };
-
-      // Go back from offset 0 to current selection
       SchedulerBinding.instance.addPostFrameCallback((_) {
+        // Fallback: clear the guard (in case the gesture never fired) and restore the
+        // selection in case it moved despite it.
+        _ignoreCheckboxTapSelectionChange = false;
         controller
           ..ignoreFocusOnTextChange = false
           ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
@@ -586,15 +664,23 @@ class QuillRawEditorState extends EditorState
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
       final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
-        final editableTextLine =
-            _getEditableTextLineFromNode(node, context, attrs);
-        result.add(Directionality(
-            textDirection: nodeTextDirection, child: editableTextLine));
+        final editableTextLine = _getEditableTextLineFromNode(
+          node,
+          context,
+          attrs,
+        );
+        result.add(
+          Directionality(
+            textDirection: nodeTextDirection,
+            child: editableTextLine,
+          ),
+        );
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
+          showCodeBlockLineNumbers: widget.config.showCodeBlockLineNumbers,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
@@ -605,7 +691,7 @@ class QuillRawEditorState extends EditorState
           enableInteractiveSelection: widget.config.enableInteractiveSelection,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
+              ? const EdgeInsets.symmetric(horizontal: 4, vertical: 16)
               : null,
           embedBuilder: widget.config.embedBuilder,
           textSpanBuilder: widget.config.textSpanBuilder,
@@ -620,6 +706,7 @@ class QuillRawEditorState extends EditorState
           customRecognizerBuilder: widget.config.customRecognizerBuilder,
           customStyleBuilder: widget.config.customStyleBuilder,
           customLinkPrefixes: widget.config.customLinkPrefixes,
+          transformLink: widget.config.transformLink,
           composingRange: composingRange.value,
         );
         result.add(
@@ -640,7 +727,10 @@ class QuillRawEditorState extends EditorState
   }
 
   EditableTextLine _getEditableTextLineFromNode(
-      Line node, BuildContext context, Map<String, Attribute<dynamic>> attrs) {
+    Line node,
+    BuildContext context,
+    Map<String, Attribute<dynamic>> attrs,
+  ) {
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
@@ -654,23 +744,25 @@ class QuillRawEditorState extends EditorState
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
+      transformLink: widget.config.transformLink,
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        _getHorizontalSpacingForLine(node, _styles),
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.config.selectionColor,
-        widget.config.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont,
-        _styles!.inlineCode!,
-        _getDecoration(node, _styles, attrs));
+      node,
+      null,
+      textLine,
+      _getHorizontalSpacingForLine(node, _styles),
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.config.selectionColor,
+      widget.config.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+      _styles!.inlineCode!,
+      _getDecoration(node, _styles, attrs),
+    );
     return editableTextLine;
   }
 
@@ -741,7 +833,9 @@ class QuillRawEditorState extends EditorState
   }
 
   HorizontalSpacing _getHorizontalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
+    Block node,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = node.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.horizontalSpacing;
@@ -758,7 +852,9 @@ class QuillRawEditorState extends EditorState
   }
 
   VerticalSpacing _getVerticalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
+    Block node,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = node.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.verticalSpacing;
@@ -774,8 +870,11 @@ class QuillRawEditorState extends EditorState
     return VerticalSpacing.zero;
   }
 
-  BoxDecoration? _getDecoration(Node node, DefaultStyles? defaultStyles,
-      Map<String, Attribute<dynamic>> attrs) {
+  BoxDecoration? _getDecoration(
+    Node node,
+    DefaultStyles? defaultStyles,
+    Map<String, Attribute<dynamic>> attrs,
+  ) {
     if (attrs.containsKey(Attribute.header.key)) {
       final level = attrs[Attribute.header.key]!.value;
       switch (level) {
@@ -840,13 +939,14 @@ class QuillRawEditorState extends EditorState
         } else {
           _keyboardVisibilityController = KeyboardVisibilityController();
           _keyboardVisible = _keyboardVisibilityController!.isVisible;
-          _keyboardVisibilitySubscription =
-              _keyboardVisibilityController?.onChange.listen((visible) {
-            _keyboardVisible = visible;
-            if (visible) {
-              _onChangeTextEditingValue(!_hasFocus);
-            }
-          });
+          _keyboardVisibilitySubscription = _keyboardVisibilityController
+              ?.onChange
+              .listen((visible) {
+                _keyboardVisible = visible;
+                if (visible) {
+                  _onChangeTextEditingValue(!_hasFocus);
+                }
+              });
 
           HardwareKeyboard.instance.addHandler(_hardwareKeyboardEvent);
         }
@@ -961,6 +1061,8 @@ class QuillRawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
+    _keyboardInsetSettleTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
     assert(!hasConnection);
@@ -1015,6 +1117,12 @@ class QuillRawEditorState extends EditorState
       _onChangeTextEditingValue(ignoreFocus);
     } else {
       requestKeyboard();
+      // Keep the platform IME's editing state (selection) in sync even when the
+      // soft keyboard is not (yet) visible — e.g. Android with a hardware
+      // keyboard. Without this, after moving the caret with a tap/mouse the IME
+      // keeps its stale cursor position and inserts typed text there.
+      // Does nothing if no input connection is open.
+      updateRemoteValueIfNeeded();
       if (mounted) {
         // Use controller.value in build()
         // Mark widget as dirty and trigger build and updateChildren
@@ -1092,8 +1200,9 @@ class QuillRawEditorState extends EditorState
   void _handleFocusChanged() {
     if (dirty) {
       requestKeyboard();
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _handleFocusChanged());
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => _handleFocusChanged(),
+      );
       return;
     }
     openOrCloseConnection();
@@ -1101,11 +1210,40 @@ class QuillRawEditorState extends EditorState
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
       WidgetsBinding.instance.addObserver(this);
+      _lastBottomViewInset = View.maybeOf(context)?.viewInsets.bottom ?? 0;
       _showCaretOnScreen();
     } else {
       WidgetsBinding.instance.removeObserver(this);
     }
     updateKeepAlive();
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (!mounted) {
+      return;
+    }
+    final view = View.maybeOf(context);
+    if (view == null) {
+      return;
+    }
+    final bottomViewInset = view.viewInsets.bottom;
+    if (bottomViewInset == _lastBottomViewInset) {
+      return;
+    }
+    _lastBottomViewInset = bottomViewInset;
+    // The inset animates frame-by-frame and can overshoot before settling, so
+    // debounce and reveal the caret once against the final viewport.
+    _keyboardInsetSettleTimer?.cancel();
+    if (bottomViewInset == 0) {
+      // Keyboard dismissed: leave the scroll position alone.
+      return;
+    }
+    _keyboardInsetSettleTimer = Timer(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        _showCaretOnScreen();
+      }
+    });
   }
 
   void _onChangedClipboardStatus() {
@@ -1129,6 +1267,17 @@ class QuillRawEditorState extends EditorState
   // This causes controller.selection to go to offset 0
   bool _disableScrollControllerAnimateOnce = false;
 
+  // Tracks the bottom view inset (keyboard height). Caret reveal is debounced until the
+  // inset stops changing (see didChangeMetrics) so the caret is revealed against the final
+  // viewport.
+  double _lastBottomViewInset = 0;
+  Timer? _keyboardInsetSettleTimer;
+  // Tapping a checkbox also triggers the editor's tap gesture (onSingleTapUp), which
+  // would move the caret to the tapped line and make the toolbar briefly reflect that
+  // line's style. This flag lets _handleSelectionChanged ignore that one gesture-driven
+  // selection change so the caret — and the toolbar — stay put.
+  bool _ignoreCheckboxTapSelectionChange = false;
+
   void _showCaretOnScreen() {
     if (!widget.config.showCursor || _showCaretOnScreenScheduled) {
       return;
@@ -1144,8 +1293,10 @@ class QuillRawEditorState extends EditorState
         }
 
         final viewport = RenderAbstractViewport.of(renderEditor);
-        final editorOffset =
-            renderEditor.localToGlobal(const Offset(0, 0), ancestor: viewport);
+        final editorOffset = renderEditor.localToGlobal(
+          const Offset(0, 0),
+          ancestor: viewport,
+        );
         final offsetInViewport = _scrollController.offset + editorOffset.dy;
 
         final offset = renderEditor.getOffsetToRevealCursor(
@@ -1194,10 +1345,7 @@ class QuillRawEditorState extends EditorState
       openConnectionIfNeeded();
       if (!keyboardAlreadyShown) {
         /// delay 500 milliseconds for waiting keyboard show up
-        Future.delayed(
-          const Duration(milliseconds: 500),
-          _showCaretOnScreen,
-        );
+        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
       } else {
         _showCaretOnScreen();
       }

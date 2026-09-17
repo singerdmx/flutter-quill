@@ -69,7 +69,5 @@ class QuillToolbarBaseButtonOptions<T, I> {
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 }
 
-typedef QuillToolbarButtonOptionsChildBuilder<T, I> = Widget Function(
-  T options,
-  I extraOptions,
-)?;
+typedef QuillToolbarButtonOptionsChildBuilder<T, I> =
+    Widget Function(T options, I extraOptions)?;

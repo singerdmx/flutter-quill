@@ -11,8 +11,12 @@ class QuillToolbarCustomButtonExtraOptions
   });
 }
 
-class QuillToolbarCustomButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarBaseButtonOptions, QuillToolbarCustomButtonExtraOptions> {
+class QuillToolbarCustomButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarBaseButtonOptions,
+          QuillToolbarCustomButtonExtraOptions
+        > {
   const QuillToolbarCustomButtonOptions({
     this.icon,
     super.afterButtonPressed,

@@ -8,16 +8,17 @@ import '../base_button/base_value_button.dart';
 import '../simple_toolbar.dart';
 import '../theme/quill_icon_theme.dart';
 
-typedef ToggleStyleButtonBuilder = Widget Function(
-  BuildContext context,
-  Attribute attribute,
-  IconData icon,
-  bool? isToggled,
-  VoidCallback? onPressed,
-  VoidCallback? afterPressed, [
-  double iconSize,
-  QuillIconTheme? iconTheme,
-]);
+typedef ToggleStyleButtonBuilder =
+    Widget Function(
+      BuildContext context,
+      Attribute attribute,
+      IconData icon,
+      bool? isToggled,
+      VoidCallback? onPressed,
+      VoidCallback? afterPressed, [
+      double iconSize,
+      QuillIconTheme? iconTheme,
+    ]);
 
 class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
   const QuillToolbarToggleStyleButton({
@@ -39,8 +40,8 @@ class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
 }
 
 class QuillToolbarToggleStyleButtonState
-    extends QuillToolbarToggleStyleBaseButtonState<
-        QuillToolbarToggleStyleButton> {
+    extends
+        QuillToolbarToggleStyleBaseButtonState<QuillToolbarToggleStyleButton> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
@@ -172,10 +173,7 @@ Widget defaultToggleStyleButtonBuilder(
 ]) {
   final isEnabled = onPressed != null;
   return QuillToolbarIconButton(
-    icon: Icon(
-      icon,
-      size: iconSize * iconButtonFactor,
-    ),
+    icon: Icon(icon, size: iconSize * iconButtonFactor),
     isSelected: isEnabled ? isToggled == true : false,
     onPressed: onPressed,
     afterPressed: afterPressed,

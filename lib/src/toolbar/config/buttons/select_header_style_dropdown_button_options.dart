@@ -17,9 +17,11 @@ class QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions
 }
 
 class QuillToolbarSelectHeaderStyleDropdownButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectHeaderStyleDropdownButtonOptions,
-        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarSelectHeaderStyleDropdownButtonOptions,
+          QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions
+        > {
   const QuillToolbarSelectHeaderStyleDropdownButtonOptions({
     super.afterButtonPressed,
     super.childBuilder,

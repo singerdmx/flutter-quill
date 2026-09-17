@@ -4,9 +4,9 @@ void createHtmlImageElement({
   required String width,
   required String margin,
   required String alignSelf,
-}) =>
-    throw UnimplementedError(
-        'A stub method is called, createHtmlImageElement is for web platforms only.');
+}) => throw UnimplementedError(
+  'A stub method is called, createHtmlImageElement is for web platforms only.',
+);
 
 void createHtmlIFrameElement({
   required String src,
@@ -14,6 +14,6 @@ void createHtmlIFrameElement({
   required String width,
   required String margin,
   required String alignSelf,
-}) =>
-    throw UnimplementedError(
-        'A stub method is called, createHtmlIFrameElement is for web platforms only.');
+}) => throw UnimplementedError(
+  'A stub method is called, createHtmlIFrameElement is for web platforms only.',
+);

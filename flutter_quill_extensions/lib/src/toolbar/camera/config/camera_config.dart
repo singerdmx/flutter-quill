@@ -11,8 +11,12 @@ class QuillToolbarCameraButtonExtraOptions
   });
 }
 
-class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarCameraButtonOptions, QuillToolbarCameraButtonExtraOptions> {
+class QuillToolbarCameraButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarCameraButtonOptions,
+          QuillToolbarCameraButtonExtraOptions
+        > {
   const QuillToolbarCameraButtonOptions({
     this.cameraConfig,
     super.iconSize,

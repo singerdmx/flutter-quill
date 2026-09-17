@@ -2,18 +2,18 @@ import 'package:meta/meta.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../../document/nodes/leaf.dart';
 
-typedef SpaceShortcutEventHandler = bool Function(
-    QuillText node, QuillController controller);
+typedef SpaceShortcutEventHandler =
+    bool Function(QuillText node, QuillController controller);
 
 /// Defines the implementation of shortcut events for space key calls.
 @immutable
 @experimental
 class SpaceShortcutEvent {
-  SpaceShortcutEvent({
-    required this.character,
-    required this.handler,
-  }) : assert(character != '\n' && character.trim().isNotEmpty,
-            'character that cannot be empty, a whitespace or a new line. Ensure that you are passing a not empty character');
+  SpaceShortcutEvent({required this.character, required this.handler})
+    : assert(
+        character != '\n' && character.trim().isNotEmpty,
+        'character that cannot be empty, a whitespace or a new line. Ensure that you are passing a not empty character',
+      );
 
   final String character;
   final SpaceShortcutEventHandler handler;

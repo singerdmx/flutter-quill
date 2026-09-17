@@ -4,10 +4,7 @@ import 'package:flutter_quill/internal.dart';
 
 import 'utils/patterns.dart';
 
-enum LinkType {
-  video,
-  image,
-}
+enum LinkType { video, image }
 
 class TypeLinkDialog extends StatefulWidget {
   const TypeLinkDialog({

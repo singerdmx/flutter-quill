@@ -26,7 +26,7 @@ const linkPrefixes = [
   'skype:',
   'sip:', // Lync
   'whatsapp:',
-  'http'
+  'http',
 ];
 
 /// List of possible actions returned from [LinkActionPickerDelegate].
@@ -47,11 +47,18 @@ enum LinkMenuAction {
 /// Used internally by widget layer.
 typedef LinkActionPicker = Future<LinkMenuAction> Function(Node linkNode);
 
-typedef LinkActionPickerDelegate = Future<LinkMenuAction> Function(
-    BuildContext context, String link, Node node);
+typedef LinkActionPickerDelegate =
+    Future<LinkMenuAction> Function(
+      BuildContext context,
+      String link,
+      Node node,
+    );
 
 Future<LinkMenuAction> defaultLinkActionPickerDelegate(
-    BuildContext context, String link, Node node) async {
+  BuildContext context,
+  String link,
+  Node node,
+) async {
   switch (defaultTargetPlatform) {
     case TargetPlatform.iOS:
       return _showCupertinoLinkMenu(context, link);
@@ -97,10 +104,7 @@ TextRange getLinkRange(Node node) {
 
 /// Contains information about link and text.
 class QuillTextLink {
-  QuillTextLink(
-    this.text,
-    this.link,
-  );
+  QuillTextLink(this.text, this.link);
 
   factory QuillTextLink.prepare(QuillController controller) {
     final link = _getLinkAttributeValue(controller);
@@ -153,7 +157,9 @@ class QuillTextLink {
 }
 
 Future<LinkMenuAction> _showCupertinoLinkMenu(
-    BuildContext context, String link) async {
+  BuildContext context,
+  String link,
+) async {
   final result = await showCupertinoModalPopup<LinkMenuAction>(
     // Set useRootNavigator to false to fix https://github.com/singerdmx/flutter-quill/issues/1170
     useRootNavigator: false,
@@ -215,7 +221,7 @@ class _CupertinoAction extends StatelessWidget {
               icon,
               size: theme.iconTheme.size,
               color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
-            )
+            ),
           ],
         ),
       ),
@@ -224,7 +230,9 @@ class _CupertinoAction extends StatelessWidget {
 }
 
 Future<LinkMenuAction> _showMaterialMenu(
-    BuildContext context, String link) async {
+  BuildContext context,
+  String link,
+) async {
   final result = await showModalBottomSheet<LinkMenuAction>(
     context: context,
     builder: (ctx) {

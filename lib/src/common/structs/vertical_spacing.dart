@@ -2,24 +2,15 @@ import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 class VerticalSpacing {
-  const VerticalSpacing(
-    this.top,
-    this.bottom,
-  );
+  const VerticalSpacing(this.top, this.bottom);
 
   final double top;
   final double bottom;
 
   static const zero = VerticalSpacing(0, 0);
 
-  VerticalSpacing copyWith({
-    double? top,
-    double? bottom,
-  }) {
-    return VerticalSpacing(
-      top ?? this.top,
-      bottom ?? this.bottom,
-    );
+  VerticalSpacing copyWith({double? top, double? bottom}) {
+    return VerticalSpacing(top ?? this.top, bottom ?? this.bottom);
   }
 
   @override

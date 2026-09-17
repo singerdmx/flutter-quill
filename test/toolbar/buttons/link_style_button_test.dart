@@ -83,10 +83,7 @@ void main() {
     );
 
     const link = 'example invalid link';
-    await tester.enterText(
-      find.widgetWithText(TextFormField, loc.link),
-      link,
-    );
+    await tester.enterText(find.widgetWithText(TextFormField, loc.link), link);
 
     await tester.pumpAndSettle();
 

@@ -1,5 +1,4 @@
 @internal
-@visibleForTesting
 library;
 
 import 'package:flutter/material.dart';
@@ -39,7 +38,8 @@ class LinkDialogState extends State<LinkDialog> {
   late String _text;
 
   @Deprecated(
-      'Will be removed in future-releases, please migrate to QuillToolbarLinkStyleButtonOptions.validateLink.')
+    'Will be removed in future-releases, please migrate to QuillToolbarLinkStyleButtonOptions.validateLink.',
+  )
   RegExp get linkRegExp {
     return widget.legacyLinkRegExp ??
         AutoFormatMultipleLinksRule.singleLineUrlRegExp;
@@ -86,10 +86,7 @@ class LinkDialogState extends State<LinkDialog> {
               onChanged: _textChanged,
               controller: _textController,
               textInputAction: TextInputAction.next,
-              autofillHints: const [
-                AutofillHints.name,
-                AutofillHints.url,
-              ],
+              autofillHints: const [AutofillHints.name, AutofillHints.url],
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -116,35 +113,27 @@ class LinkDialogState extends State<LinkDialog> {
           ],
         ),
       ),
-      actions: [
-        _okButton(),
-      ],
+      actions: [_okButton()],
     );
   }
 
   Widget _okButton() {
     if (widget.action != null) {
-      return widget.action!.builder(
-        canPress(),
-        _applyLink,
-      );
+      return widget.action!.builder(canPress(), _applyLink);
     }
 
     return TextButton(
       onPressed: canPress() ? _applyLink : null,
-      child: Text(
-        context.loc.ok,
-        style: widget.dialogTheme?.buttonTextStyle,
-      ),
+      child: Text(context.loc.ok, style: widget.dialogTheme?.buttonTextStyle),
     );
   }
 
   bool get _isLinkValid => LinkValidator.validate(
-        _link,
-        customValidateLink: widget.validateLink,
-        // Implemented for backward compatibility, clients should use validateLink instead.
-        legacyRegex: widget.legacyLinkRegExp,
-      );
+    _link,
+    customValidateLink: widget.validateLink,
+    // Implemented for backward compatibility, clients should use validateLink instead.
+    legacyRegex: widget.legacyLinkRegExp,
+  );
 
   @visibleForTesting
   @internal

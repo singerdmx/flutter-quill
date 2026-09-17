@@ -128,10 +128,10 @@ class QuillSimpleToolbarButtonOptions {
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
 
   final QuillToolbarSelectHeaderStyleDropdownButtonOptions
-      selectHeaderStyleDropdownButton;
+  selectHeaderStyleDropdownButton;
 
   final QuillToolbarSelectLineHeightStyleDropdownButtonOptions
-      selectLineHeightStyleDropdownButton;
+  selectLineHeightStyleDropdownButton;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
   final QuillToolbarLinkStyleButton2Options linkStyle2;

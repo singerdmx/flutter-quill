@@ -26,7 +26,11 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     }
 
     widget.controller.replaceTextWithEmbeds(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
+      diff.start,
+      diff.deleted.length,
+      diff.inserted,
+      value.selection,
+    );
   }
 
   @override
@@ -75,8 +79,10 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
     additionalOffset = expandedRect.height >= editableSize.height
         ? editableSize.height / 2 - expandedRect.center.dy
-        : 0.0
-            .clamp(expandedRect.bottom - editableSize.height, expandedRect.top);
+        : 0.0.clamp(
+            expandedRect.bottom - editableSize.height,
+            expandedRect.top,
+          );
     unitOffset = const Offset(0, 1);
 
     // No overscrolling when encountering tall fonts/scripts that extend past
@@ -91,9 +97,11 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
     final offsetDelta =
         (scrollController.hasClients ? scrollController.offset : 0) -
-            targetOffset;
+        targetOffset;
     return RevealedOffset(
-        rect: rect.shift(unitOffset * offsetDelta), offset: targetOffset);
+      rect: rect.shift(unitOffset * offsetDelta),
+      offset: targetOffset,
+    );
   }
 
   @override
@@ -106,7 +114,9 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
   @override
   void userUpdateTextEditingValue(
-      TextEditingValue value, SelectionChangedCause cause) {
+    TextEditingValue value,
+    SelectionChangedCause cause,
+  ) {
     textEditingValue = value;
   }
 

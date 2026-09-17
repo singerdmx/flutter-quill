@@ -23,9 +23,7 @@ extension QuillWidgetTesterCursorMovementExtension on WidgetTester {
       testTextInput.updateEditingValue(
         TextEditingValue(
           text: editor.textEditingValue.text,
-          selection: TextSelection.collapsed(
-            offset: index,
-          ),
+          selection: TextSelection.collapsed(offset: index),
         ),
       );
       await idle();

@@ -57,10 +57,7 @@ void updateChangelogVersion({
     print('The CHANGELOG file does not exist: ${changelogFile.absolute.path}');
     exit(1);
   }
-  _updateChangelogFile(
-    changelogFile: changelogFile,
-    newVersion: newVersion,
-  );
+  _updateChangelogFile(changelogFile: changelogFile, newVersion: newVersion);
 }
 
 void _updateChangelogFile({
@@ -69,18 +66,19 @@ void _updateChangelogFile({
 }) {
   final changelog = changelogFile.readAsStringSync();
 
-  final newVersionFormattedDate =
-      DateFormat('yyyy-MM-dd').format(DateTime.now());
+  final newVersionFormattedDate = DateFormat(
+    'yyyy-MM-dd',
+  ).format(DateTime.now());
   final changelogWithUpdateLinks = _updateVersionLinks(
     changeLog: changelog,
     newVersion: newVersion,
   );
   final changelogWithUnreleasedReplacedByNewVersion =
       _replaceUnreleasedWithNewVersion(
-    changeLog: changelogWithUpdateLinks,
-    newVersion: newVersion,
-    newVersionFormattedDate: newVersionFormattedDate,
-  );
+        changeLog: changelogWithUpdateLinks,
+        newVersion: newVersion,
+        newVersionFormattedDate: newVersionFormattedDate,
+      );
   final changelogWithNewUnreleased = _addNewUnreleasedEntry(
     changelog: changelogWithUnreleasedReplacedByNewVersion,
     newVersion: newVersion,
@@ -146,8 +144,9 @@ String _updateVersionLinks({
   final currentVersionRefLinkLineIndex = unreleasedRefLinkLineIndex - 1;
 
   final currentVersionRefLinkLine = lines[currentVersionRefLinkLineIndex];
-  final currentVersion =
-      _getVersionFromVersionRefLinkLine(currentVersionRefLinkLine);
+  final currentVersion = _getVersionFromVersionRefLinkLine(
+    currentVersionRefLinkLine,
+  );
 
   final unreleasedRefLinkLine = lines[unreleasedRefLinkLineIndex];
 
@@ -160,15 +159,18 @@ String _updateVersionLinks({
       'Fix the CHANGELOG format. See also: $kKeepAChangelogFormatLink',
     );
   }
-  final updatedUnreleasedRefLinkLine =
-      unreleasedRefLinkLine.replaceFirst(currentVersion, newVersion);
+  final updatedUnreleasedRefLinkLine = unreleasedRefLinkLine.replaceFirst(
+    currentVersion,
+    newVersion,
+  );
   lines[unreleasedRefLinkLineIndex] = updatedUnreleasedRefLinkLine;
 
   // Add a new version link ref
 
   final twoVersionAgoRefLinkLine = lines[currentVersionRefLinkLineIndex - 1];
-  final twoVersionAgo =
-      _getVersionFromVersionRefLinkLine(twoVersionAgoRefLinkLine);
+  final twoVersionAgo = _getVersionFromVersionRefLinkLine(
+    twoVersionAgoRefLinkLine,
+  );
 
   final newVersionRefLinkLine = currentVersionRefLinkLine
       .replaceFirst('[$currentVersion]', '[$newVersion]')
@@ -222,9 +224,9 @@ String _replaceUnreleasedWithNewVersion({
   int? unreleasedVersionEntryIndex;
 
   for (final (index, line) in lines.indexed) {
-    if (line
-        .toLowerCase()
-        .startsWith('## [$kUnreleasedVersionEntryName]'.toLowerCase())) {
+    if (line.toLowerCase().startsWith(
+      '## [$kUnreleasedVersionEntryName]'.toLowerCase(),
+    )) {
       unreleasedVersionEntryIndex = index;
       break;
     }
@@ -252,8 +254,9 @@ String _addNewUnreleasedEntry({
   required String newVersion,
   required String newVersionFormattedDate,
 }) {
-  final newVersionEntryIndex =
-      changelog.indexOf('## [$newVersion] - $newVersionFormattedDate');
+  final newVersionEntryIndex = changelog.indexOf(
+    '## [$newVersion] - $newVersionFormattedDate',
+  );
   if (newVersionEntryIndex == -1) {
     throw FormatException(
       'Could not find the new version entry in the CHANGELOG. Expected to find: ## [$newVersion] - $newVersionFormattedDate\n\n'
@@ -261,11 +264,14 @@ String _addNewUnreleasedEntry({
     );
   }
 
-  final changelogBeforeNewVersionEntry =
-      changelog.substring(0, newVersionEntryIndex);
+  final changelogBeforeNewVersionEntry = changelog.substring(
+    0,
+    newVersionEntryIndex,
+  );
   const newUnreleasedEntry = '## [$kUnreleasedVersionEntryName]\n\n';
-  final changelogFromVersionEntryOnward =
-      changelog.substring(newVersionEntryIndex);
+  final changelogFromVersionEntryOnward = changelog.substring(
+    newVersionEntryIndex,
+  );
   // ignore: unnecessary_brace_in_string_interps
   return '${changelogBeforeNewVersionEntry}${newUnreleasedEntry}${changelogFromVersionEntryOnward}';
 }
