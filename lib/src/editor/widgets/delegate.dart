@@ -185,6 +185,21 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
+  /// Handler for [EditorTextSelectionGestureDetector.onSecondaryTapDown].
+  ///
+  /// By default, it does nothing. Subclasses can override this to record the
+  /// secondary (right-click) tap position, e.g. to let the context menu open
+  /// at the mouse pointer.
+  ///
+  /// See also:
+  ///
+  ///  * [EditorTextSelectionGestureDetector.onSecondaryTapDown], which triggers
+  ///    this callback.
+  @protected
+  void onSecondaryTapDown(TapDownDetails details) {
+    /* Subclass should override this method if needed. */
+  }
+
   /// Handler for [EditorTextSelectionGestureDetector.onSingleTapUp].
   ///
   /// By default, it selects word edge if selection is enabled.
@@ -380,6 +395,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
       onSingleLongTapEnd: onSingleLongTapEnd,
       onDoubleTapDown: onDoubleTapDown,
+      onSecondaryTapDown: onSecondaryTapDown,
       onSecondarySingleTapUp: onSecondarySingleTapUp,
       onDragSelectionStart: onDragSelectionStart,
       onDragSelectionUpdate: onDragSelectionUpdate,

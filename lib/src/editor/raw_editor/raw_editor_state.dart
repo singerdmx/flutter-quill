@@ -259,7 +259,23 @@ class QuillRawEditorState extends EditorState
   /// Returns the anchor points for the default context menu.
   ///
   /// Copied from [EditableTextState].
+  ///
+  /// Unlike [EditableTextState], the selection-based anchors are used as a
+  /// fallback only: when the menu was opened with a secondary (right-click)
+  /// tap, the anchors point at the mouse pointer instead, mirroring the
+  /// [EditableTextState.contextMenuAnchors] behavior.
   TextSelectionToolbarAnchors get contextMenuAnchors {
+    final lastSecondaryTapDownPosition =
+        renderEditor.lastSecondaryTapDownPosition;
+    if (lastSecondaryTapDownPosition != null) {
+      return _clampAnchorsToVisibleViewport(
+        TextSelectionToolbarAnchors(
+          primaryAnchor: lastSecondaryTapDownPosition,
+          secondaryAnchor: lastSecondaryTapDownPosition,
+        ),
+      );
+    }
+
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);

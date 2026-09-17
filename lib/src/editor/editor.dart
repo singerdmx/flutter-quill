@@ -575,6 +575,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
   }
 
+  @override
+  void onSecondaryTapDown(TapDownDetails details) {
+    // Record the mouse position so the context menu can open at the pointer,
+    // mirroring RenderEditable.lastSecondaryTapDownPosition / EditableText.
+    renderEditor?.lastSecondaryTapDownPosition = details.globalPosition;
+  }
+
   /// onSingleTapUp for mouse right click
   @override
   void onSecondarySingleTapUp(TapUpDetails details) {
@@ -934,6 +941,14 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   Offset? _lastTapDownPosition;
+
+  /// The position of the most recent secondary (right-click) tap down, in
+  /// global coordinates.
+  ///
+  /// Mirrors [RenderEditable.lastSecondaryTapDownPosition]. It allows the
+  /// context menu to open at the mouse pointer, like [EditableText] does,
+  /// instead of at the current selection.
+  Offset? lastSecondaryTapDownPosition;
 
   // Used on Desktop (mouse and keyboard enabled platforms) as base offset
   // for extending selection, either with combination of `Shift` + Click or

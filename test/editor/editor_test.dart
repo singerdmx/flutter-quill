@@ -1,5 +1,6 @@
 import 'dart:convert' show jsonDecode;
 
+import 'package:flutter/gestures.dart' show kSecondaryMouseButton;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -137,6 +138,39 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.copy));
       expect(didCopy, isTrue);
+    });
+
+    testWidgets('context menu anchors to the secondary tap position', (
+      tester,
+    ) async {
+      final editorKey = GlobalKey<EditorState>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: QuillEditor(
+              focusNode: FocusNode(),
+              scrollController: ScrollController(),
+              controller: controller,
+              config: QuillEditorConfig(editorKey: editorKey),
+            ),
+          ),
+        ),
+      );
+      await tester.quillEnterText(find.byType(QuillEditor), 'Hello world\n');
+
+      final tapPosition = tester.getCenter(find.byType(QuillEditor));
+      await tester.tap(
+        find.byType(QuillEditor),
+        buttons: kSecondaryMouseButton,
+      );
+      await tester.pump();
+
+      final state = editorKey.currentState! as QuillRawEditorState;
+      expect(
+        state.renderEditor.lastSecondaryTapDownPosition,
+        tapPosition,
+      );
+      expect(state.contextMenuAnchors.primaryAnchor, tapPosition);
     });
 
     testWidgets(
