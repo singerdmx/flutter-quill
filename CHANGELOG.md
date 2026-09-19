@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed an `Invalid argument(s): string is not well-formed UTF-16` crash in `addText` while laying out a line: `_TextLineState._splitAndApplyComposingStyle` cut the node text at the composing offsets without checking that they land on a code-point boundary, so a composing range carried over from an older document state could split a surrogate pair (an emoji) in half. The composing decoration is now skipped when the range is out of range or would split a pair.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
