@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a crash (assert in debug, fatal `RangeError` in release) when painting selection endpoints for a selection edge that produces no glyph boxes, e.g. an offset inside an emoji grapheme cluster [#2751](https://github.com/singerdmx/flutter-quill/pull/2751).
+- Fixed a fatal `Bad state: No element` crash in `getLineBoundary` when resolving the line boundary of an empty line (e.g. line-boundary navigation with Home/End/Shift+Home on a hardware keyboard), which produced no glyph boxes; falls back to the caret position [#2751](https://github.com/singerdmx/flutter-quill/pull/2751).
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
