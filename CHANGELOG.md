@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a `Null check operator used on a null value` crash in `_TextLineState._tapNodeLink`/`_longPressLink` when a cached link gesture recognizer fires after the document mutates: the captured node can be detached or have lost its `link` attribute by the time the tap is swept by the gesture arena (`_linkRecognizers` is not cleared when the line content changes), so the link attribute is now read defensively instead of force-unwrapped.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
