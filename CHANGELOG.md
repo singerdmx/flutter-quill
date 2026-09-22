@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the browser context menu on the web (notably Chrome on macOS) working on the wrong text: right-clicking a selection cleared it so **Copy**/**Cut** had nothing to act on, and **Paste** inserted at the end of the document instead of at the clicked position. The browser moved the selection of the hidden `<textarea>` according to its own plain-text layout, which doesn't match the rendered document. A right click now places the caret at the click position (or keeps a non-collapsed selection), and selection changes reported by the browser while the menu opens are ignored.
+- Fixed taps being ignored after using the browser context menu on the web: the menu swallows the right button's pointer up, which left the editor's tap recognizer stuck on the stale pointer, so clicking elsewhere neither cleared the selection nor placed the caret.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

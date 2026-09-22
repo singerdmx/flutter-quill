@@ -2,6 +2,8 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart'
+    show PointerDeviceKind, PointerDownEvent, kSecondaryMouseButton;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +48,65 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// - cmd/ctrl+a to select all.
   /// - Changing the selection using a physical keyboard.
   bool get shouldCreateInputConnection => kIsWeb || !widget.config.readOnly;
+
+  /// When the last right mouse button press over the editor happened.
+  /// Only used on the web.
+  DateTime? _contextMenuPointerDownTime;
+
+  /// How long after a right click platform selection changes are ignored.
+  static const _contextMenuSelectionGuard = Duration(milliseconds: 500);
+
+  /// Must be called for every pointer down event over the editor on the web.
+  ///
+  /// On the web the browser context menu (with Copy/Cut/Paste) is opened on
+  /// the hidden DOM `<textarea>` that mirrors the document as plain text.
+  /// On right click the browser (e.g. Chrome on macOS selects the word under
+  /// the pointer) changes the DOM selection according to the textarea's own
+  /// text layout, which doesn't match the rendered document. That change is
+  /// reported back via [updateEditingValue] and replaces the editor selection:
+  /// the selected text disappears and can't be copied from the menu, and a
+  /// paste from the menu lands in the wrong place (usually the document end).
+  ///
+  /// To avoid that, a right click places the caret at the click position
+  /// (unless there is a non-collapsed selection to keep for copying), and
+  /// selection changes reported by the browser right after it are ignored.
+  void handleWebPointerDown(PointerDownEvent event) {
+    if (!kIsWeb) {
+      return;
+    }
+    final isSecondaryClick =
+        event.kind == PointerDeviceKind.mouse &&
+        (event.buttons & kSecondaryMouseButton) != 0;
+    if (!isSecondaryClick) {
+      _contextMenuPointerDownTime = null;
+      return;
+    }
+    if (!textEditingValue.selection.isValid ||
+        textEditingValue.selection.isCollapsed) {
+      final position = renderEditor.getPositionForOffset(event.position);
+      widget.controller.updateSelection(
+        TextSelection.collapsed(offset: position.offset),
+        ChangeSource.local,
+      );
+    }
+    _contextMenuPointerDownTime = DateTime.now();
+  }
+
+  /// Whether [value] is a selection-only change caused by the browser
+  /// while opening its context menu (see [handleWebPointerDown]).
+  bool _isContextMenuSelectionChange(TextEditingValue value) {
+    final pointerDownTime = _contextMenuPointerDownTime;
+    if (pointerDownTime == null) {
+      return false;
+    }
+    if (DateTime.now().difference(pointerDownTime) >
+        _contextMenuSelectionGuard) {
+      _contextMenuPointerDownTime = null;
+      return false;
+    }
+    return value.text == _lastKnownRemoteTextEditingValue!.text &&
+        value.selection != _lastKnownRemoteTextEditingValue!.selection;
+  }
 
   /// Returns `true` if there is open input connection.
   bool get hasConnection =>
@@ -228,6 +289,17 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       // composing updates separately from regular changes for text and
       // selection.
       _lastKnownRemoteTextEditingValue = value;
+      return;
+    }
+
+    if (_isContextMenuSelectionChange(value)) {
+      // Restore the editor selection in the DOM so the browser context menu
+      // copies/cuts the text that is actually selected in the editor.
+      _textInputConnection!.setEditingState(
+        _lastKnownRemoteTextEditingValue!.copyWith(
+          composing: const TextRange(start: -1, end: -1),
+        ),
+      );
       return;
     }
 
