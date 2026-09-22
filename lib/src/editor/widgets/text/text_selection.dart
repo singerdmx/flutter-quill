@@ -1111,6 +1111,28 @@ class _EditorTextSelectionGestureDetectorState
 class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
   _TransparentTapGestureRecognizer({super.debugOwner});
 
+  PointerDeviceKind? _trackedPointerKind;
+
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    // A mouse has a single pointer, so a new mouse pointer going down while
+    // another one is still tracked means the up event of the previous one was
+    // lost. This happens on the web after a right click: the browser context
+    // menu swallows the pointer up, and the recognizer would otherwise stay
+    // stuck on the stale pointer and ignore every following tap.
+    final stalePointer = primaryPointer;
+    if (event.kind == PointerDeviceKind.mouse &&
+        _trackedPointerKind == PointerDeviceKind.mouse &&
+        state != GestureRecognizerState.ready &&
+        stalePointer != null &&
+        stalePointer != event.pointer) {
+      resolve(GestureDisposition.rejected);
+      stopTrackingPointer(stalePointer);
+    }
+    _trackedPointerKind = event.kind;
+    super.addAllowedPointer(event);
+  }
+
   @override
   void rejectGesture(int pointer) {
     // Accept new gestures that another recognizer has already won.
