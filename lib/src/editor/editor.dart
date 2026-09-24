@@ -294,6 +294,7 @@ class QuillEditorState extends State<QuillEditor>
             : null,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
+        paintSelectionAboveText: config.paintSelectionAboveText,
         cursorStyle: CursorStyle(
           color: cursorColor,
           backgroundColor: Colors.grey,

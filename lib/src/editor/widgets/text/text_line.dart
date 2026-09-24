@@ -785,6 +785,7 @@ class EditableTextLine extends RenderObjectWidget {
     this.devicePixelRatio,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.paintSelectionAboveText,
     this.decoration, {
     super.key,
   });
@@ -802,6 +803,7 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
+  final bool paintSelectionAboveText;
   final BoxDecoration? decoration;
 
   @override
@@ -822,6 +824,7 @@ class EditableTextLine extends RenderObjectWidget {
       color,
       cursorCont,
       inlineCodeStyle,
+      paintSelectionAboveText,
       decoration,
     );
   }
@@ -842,6 +845,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
       ..setInlineCodeStyle(inlineCodeStyle)
+      ..setPaintSelectionAboveText(paintSelectionAboveText)
       ..setDecoration(decoration);
   }
 
@@ -870,6 +874,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.paintSelectionAboveText,
     this.decoration,
   );
 
@@ -889,6 +894,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
+  bool paintSelectionAboveText;
   BoxDecoration? decoration;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
@@ -1003,6 +1009,12 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (inlineCodeStyle == newStyle) return;
     inlineCodeStyle = newStyle;
     markNeedsLayout();
+  }
+
+  void setPaintSelectionAboveText(bool value) {
+    if (paintSelectionAboveText == value) return;
+    paintSelectionAboveText = value;
+    markNeedsPaint();
   }
 
   void setDecoration(BoxDecoration? newDecoration) {
@@ -1467,6 +1479,35 @@ class RenderEditableTextLine extends RenderEditableBox {
         }
       }
 
+      final showSelection =
+          enableInteractiveSelection &&
+          line.documentOffset <= textSelection.end &&
+          textSelection.start <= line.documentOffset + line.length - 1;
+
+      if (showSelection) {
+        if (_selectedRects == null) {
+          final local = localSelection(line, textSelection, false);
+          _selectedRects = _body!.getBoxesForSelection(local);
+
+          // Paint a small rect at the start of empty lines that
+          // are contained by the selection.
+          if (line.isEmpty &&
+              textSelection.baseOffset <= line.offset &&
+              textSelection.extentOffset > line.offset) {
+            final lineHeight = preferredLineHeight(
+              TextPosition(offset: line.offset),
+            );
+            _selectedRects!.add(
+              TextBox.fromLTRBD(0, 0, 3, lineHeight, textDirection),
+            );
+          }
+        }
+      }
+
+      if (showSelection && !paintSelectionAboveText) {
+        _paintSelection(context, effectiveOffset);
+      }
+
       if (hasFocus &&
           cursorCont.show.value &&
           containsCursor() &&
@@ -1483,26 +1524,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         _paintCursor(context, effectiveOffset, line.hasEmbed);
       }
 
-      // paint the selection on the top
-      if (enableInteractiveSelection &&
-          line.documentOffset <= textSelection.end &&
-          textSelection.start <= line.documentOffset + line.length - 1) {
-        final local = localSelection(line, textSelection, false);
-        _selectedRects ??= _body!.getBoxesForSelection(local);
-
-        // Paint a small rect at the start of empty lines that
-        // are contained by the selection.
-        if (line.isEmpty &&
-            textSelection.baseOffset <= line.offset &&
-            textSelection.extentOffset > line.offset) {
-          final lineHeight = preferredLineHeight(
-            TextPosition(offset: line.offset),
-          );
-          _selectedRects?.add(
-            TextBox.fromLTRBD(0, 0, 3, lineHeight, textDirection),
-          );
-        }
-
+      if (showSelection && paintSelectionAboveText) {
         _paintSelection(context, effectiveOffset);
       }
     }
