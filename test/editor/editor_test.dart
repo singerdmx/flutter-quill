@@ -274,6 +274,34 @@ void main() {
     );
 
     testWidgets(
+      'getLocalRectForCaret includes the horizontal offset of the line',
+      (tester) async {
+        Future<Rect> caretRect(EdgeInsets padding) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: QuillEditor.basic(
+                controller: controller,
+                config: QuillEditorConfig(padding: padding),
+              ),
+            ),
+          );
+          return tester
+              .state<QuillRawEditorState>(find.byType(QuillRawEditor))
+              .renderEditor
+              .getLocalRectForCaret(const TextPosition(offset: 2));
+        }
+
+        controller.replaceText(0, 0, 'Hello', null);
+        final unpadded = await caretRect(EdgeInsets.zero);
+        final padded = await caretRect(
+          const EdgeInsets.only(left: 24, top: 16),
+        );
+
+        expect(padded.topLeft - unpadded.topLeft, const Offset(24, 16));
+      },
+    );
+
+    testWidgets(
       'should throw MissingFlutterQuillLocalizationException if the delegate is not provided',
       (tester) async {
         await tester.pumpWidget(

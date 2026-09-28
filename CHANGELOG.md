@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `RenderEditor.getLocalRectForCaret` now includes the horizontal offset of the caret's line (the editor's `padding` and centered `maxContentWidth` layouts). It was shifted only vertically, so the caret rect sent to the platform (IME composing and caret rect), the floating cursor start and any caller using the rect sat left of the caret by the left inset.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
