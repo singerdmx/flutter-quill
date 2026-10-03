@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed `Unsupported operation: Cannot add to a fixed-length list` while painting a selection that covers an empty line. The empty-line marker rect was added to the list returned by `getBoxesForSelection`, which `TextPainter` returns as a fixed-length copy when the line has a paint offset (a line that isn't left-aligned, re-laid out at a new width, e.g. after a desktop window resize). The boxes are now copied before the marker is added, and built once per selection rather than on every repaint [#2769](https://github.com/singerdmx/flutter-quill/pull/2769).
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

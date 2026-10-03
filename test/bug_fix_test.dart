@@ -242,4 +242,48 @@ void main() {
       );
     },
   );
+  group('selection painting across an empty line', () {
+    testWidgets(
+      'painting a selection that covers an empty line does not add to the '
+      "engine's fixed-length box list",
+      (tester) async {
+        // The middle paragraph is empty. A selection covering it gets a small
+        // marker rect, which used to be added to the list returned by
+        // getBoxesForSelection. TextPainter returns a fixed-length copy of
+        // that list when the line has a paint offset: a line that isn't
+        // left-aligned, re-laid out at a new width without rebuilding its
+        // paragraph (e.g. a resized desktop window). The add then threw
+        // 'Unsupported operation: Cannot add to a fixed-length list' on paint.
+        final controller = QuillController.basic()
+          ..document.insert(0, 'first\n\nthird')
+          ..formatText(6, 0, Attribute.centerAlignment);
+        addTearDown(controller.dispose);
+
+        Widget editorWithWidth(double width) => QuillTestApp.withScaffold(
+          Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(
+              width: width,
+              child: QuillEditor.basic(controller: controller),
+            ),
+          ),
+        );
+
+        await tester.pumpWidget(editorWithWidth(400));
+        await tester.pumpAndSettle();
+        await tester.pumpWidget(editorWithWidth(300));
+        await tester.pumpAndSettle();
+
+        controller.updateSelection(
+          TextSelection(
+            baseOffset: 0,
+            extentOffset: controller.document.length - 1,
+          ),
+          ChangeSource.local,
+        );
+        await tester.pump();
+        expect(tester.takeException(), isNull);
+      },
+    );
+  });
 }

@@ -1487,20 +1487,24 @@ class RenderEditableTextLine extends RenderEditableBox {
       if (enableInteractiveSelection &&
           line.documentOffset <= textSelection.end &&
           textSelection.start <= line.documentOffset + line.length - 1) {
-        final local = localSelection(line, textSelection, false);
-        _selectedRects ??= _body!.getBoxesForSelection(local);
+        if (_selectedRects == null) {
+          final local = localSelection(line, textSelection, false);
+          // The engine returns a fixed-length list, so copy it before adding
+          // to it. Built once per selection: the result is cached until the
+          // selection changes, so adding on every paint would stack up rects.
+          final rects = _body!.getBoxesForSelection(local).toList();
 
-        // Paint a small rect at the start of empty lines that
-        // are contained by the selection.
-        if (line.isEmpty &&
-            textSelection.baseOffset <= line.offset &&
-            textSelection.extentOffset > line.offset) {
-          final lineHeight = preferredLineHeight(
-            TextPosition(offset: line.offset),
-          );
-          _selectedRects?.add(
-            TextBox.fromLTRBD(0, 0, 3, lineHeight, textDirection),
-          );
+          // Paint a small rect at the start of empty lines that
+          // are contained by the selection.
+          if (line.isEmpty &&
+              textSelection.baseOffset <= line.offset &&
+              textSelection.extentOffset > line.offset) {
+            final lineHeight = preferredLineHeight(
+              TextPosition(offset: line.offset),
+            );
+            rects.add(TextBox.fromLTRBD(0, 0, 3, lineHeight, textDirection));
+          }
+          _selectedRects = rects;
         }
 
         _paintSelection(context, effectiveOffset);
