@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed iOS floating cursor gestures updating the selection while dragging. The final caret position is now committed at gesture end, engine-provided two-finger selections are preserved, and the floating position is scrolled into view without changing the selection.
+- Fixed floating cursor cleanup when a gesture ends without movement and stale left-edge origin state between gestures.
+- Fixed caret rectangles omitting the editor child's horizontal offset, including left padding and centered content, which could shift the floating cursor and platform caret geometry.
+- Fixed floating cursor painting omitting the editor's paint offset, which could displace it when the editor is positioned or scrolled.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
