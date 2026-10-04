@@ -34,7 +34,7 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
     Object? data,
     Attribute? attribute,
   }) {
-    final itr = DeltaIterator(document.toDelta())..skip(index + len!);
+    final itr = DeltaIterator(document.deltaView)..skip(index + len!);
 
     return Delta()
       ..retain(index)
@@ -56,7 +56,7 @@ class CatchAllDeleteRule extends DeleteRule {
     Object? data,
     Attribute? attribute,
   }) {
-    final itr = DeltaIterator(document.toDelta())..skip(index + len!);
+    final itr = DeltaIterator(document.deltaView)..skip(index + len!);
 
     return Delta()
       ..retain(index)
@@ -82,7 +82,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
     Object? data,
     Attribute? attribute,
   }) {
-    final itr = DeltaIterator(document.toDelta())..skip(index);
+    final itr = DeltaIterator(document.deltaView)..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
       return null;
@@ -105,11 +105,11 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
       ..delete(len);
 
     // Check if the previous line is empty
-    final prevItr = DeltaIterator(document.toDelta())..skip(index - 1);
+    final prevItr = DeltaIterator(document.deltaView)..skip(index - 1);
     final prevOp = prevItr.next(1);
     if (prevOp.data == '\n') {
       // Check if the current block is at the start and not empty
-      final currentBlockItr = DeltaIterator(document.toDelta())..skip(index);
+      final currentBlockItr = DeltaIterator(document.deltaView)..skip(index);
       var currentBlockOp = currentBlockItr.next(1);
       final isBlockStart = currentBlockOp.data == '\n';
       var isBlockNotEmpty = false;
@@ -173,7 +173,7 @@ class EnsureEmbedLineRule extends DeleteRule {
     Object? data,
     Attribute? attribute,
   }) {
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
 
     var op = itr.skip(index);
     final opAfter = itr.skip(index + 1);

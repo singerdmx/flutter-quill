@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Heuristic rules no longer copy the whole document delta on every edit, improving typing performance in long documents.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

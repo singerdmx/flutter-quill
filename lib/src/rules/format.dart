@@ -42,7 +42,7 @@ class ResolveLineFormatRule extends FormatRule {
     // Apply line styles to all newline characters within range of this
     // retain operation.
     var result = Delta()..retain(index);
-    final itr = DeltaIterator(document.toDelta())..skip(index);
+    final itr = DeltaIterator(document.deltaView)..skip(index);
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
@@ -139,7 +139,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
     }
 
     final delta = Delta();
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
     final before = itr.skip(index), after = itr.next();
     var beg = index;
     var retain = 0;
@@ -180,7 +180,7 @@ class ResolveInlineFormatRule extends FormatRule {
     }
 
     final delta = Delta()..retain(index);
-    final itr = DeltaIterator(document.toDelta())..skip(index);
+    final itr = DeltaIterator(document.deltaView)..skip(index);
 
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {

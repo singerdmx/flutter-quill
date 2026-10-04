@@ -42,7 +42,7 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
     if (data is! String || data != '\n') {
       return null;
     }
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
     final before = itr.skip(index);
     if (before == null) {
       return null;
@@ -93,7 +93,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       // Only interested in text containing at least one newline character.
       return null;
     }
-    final itr = DeltaIterator(document.toDelta())..skip(index);
+    final itr = DeltaIterator(document.deltaView)..skip(index);
 
     // Look for the next newline.
     final nextNewLine = _getNextNewLine(itr);
@@ -182,7 +182,7 @@ class AutoExitBlockRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
     final prev = itr.skip(index), cur = itr.next();
     final blockStyle = Style.fromJson(cur.attributes).getBlockExceptHeader();
     // We are not in a block, ignore.
@@ -254,7 +254,7 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document.toDelta())..skip(index);
+    final itr = DeltaIterator(document.deltaView)..skip(index);
     final cur = itr.next();
     if (cur.data is! String || !(cur.data as String).startsWith('\n')) {
       return null;
@@ -298,7 +298,7 @@ class InsertEmbedsRule extends InsertRule {
     }
 
     final delta = Delta()..retain(index + (len ?? 0));
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
     final prev = itr.skip(index), cur = itr.next();
 
     final textBefore = prev?.data is String ? prev!.data as String? : '';
@@ -512,7 +512,7 @@ class AutoFormatLinksRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document.toDelta());
+    final itr = DeltaIterator(document.deltaView);
     final prev = itr.skip(index);
     if (prev == null || prev.data is! String) {
       return null;
@@ -558,7 +558,7 @@ class PreserveInlineStylesRule extends InsertRule {
       return null;
     }
 
-    final documentDelta = document.toDelta();
+    final documentDelta = document.deltaView;
     final itr = DeltaIterator(documentDelta);
     len ??= 0;
     var prev = itr.skip(len == 0 ? index : index + 1);

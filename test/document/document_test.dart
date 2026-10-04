@@ -292,4 +292,36 @@ void main() {
       expect(document.cachedPlainText, isNull);
     });
   });
+
+  group('deltaView', () {
+    test('toDelta still returns an independent operations list', () {
+      final document = Document.fromDelta(
+        Delta()
+          ..insert('Hello', {'bold': true})
+          ..insert('\n'),
+      );
+      final view = document.deltaView;
+      final copy = document.toDelta();
+
+      expect(identical(copy, view), isFalse);
+      expect(identical(copy.operations, view.operations), isFalse);
+      copy.operations.clear();
+
+      expect(document.toPlainText(), 'Hello\n');
+      expect(document.deltaView, view);
+      expect(document.toDelta().first.attributes, {'bold': true});
+    });
+
+    test('reflects the current contents without copying', () {
+      final document = Document()..insert(0, 'Hello');
+      final view = document.deltaView;
+
+      expect(view, document.toDelta());
+      expect(identical(view, document.deltaView), isTrue);
+
+      document.insert(5, ' world');
+      expect(document.deltaView, document.toDelta());
+      expect(view, isNot(document.toDelta()));
+    });
+  });
 }
