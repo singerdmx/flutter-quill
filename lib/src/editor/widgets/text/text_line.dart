@@ -1,10 +1,10 @@
-import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -65,6 +65,43 @@ class _TextLineState extends State<TextLine> {
   UniqueKey _richTextKey = UniqueKey();
 
   final _linkRecognizers = <Node, GestureRecognizer>{};
+  final _linkRecognizerStyles = <Node, Style>{};
+
+  void _pruneLinkRecognizers() {
+    final stale = <GestureRecognizer>[];
+    _linkRecognizers.removeWhere((node, recognizer) {
+      final isStale =
+          !identical(node.parent, widget.line) ||
+          _linkRecognizerStyles[node] != node.style;
+      if (isStale) {
+        stale.add(recognizer);
+        _linkRecognizerStyles.remove(node);
+      }
+      return isStale;
+    });
+    if (stale.isEmpty) return;
+    // Replace the old spans before disposing their recognizers.
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      for (final recognizer in stale) {
+        recognizer.dispose();
+      }
+    });
+  }
+
+  void _clearLinkRecognizers() {
+    _linkRecognizers
+      ..forEach((key, value) => value.dispose())
+      ..clear();
+    _linkRecognizerStyles.clear();
+  }
+
+  bool _isCurrentLink(Node node) =>
+      mounted &&
+      identical(node.parent, widget.line) &&
+      widget.line.parent != null &&
+      _linkRecognizers.containsKey(node) &&
+      _linkRecognizerStyles[node] == node.style &&
+      node.style.attributes[Attribute.link.key]?.value != null;
 
   QuillPressedKeys? _pressedKeys;
 
@@ -73,11 +110,7 @@ class _TextLineState extends State<TextLine> {
     if (_metaOrControlPressed != newValue) {
       setState(() {
         _metaOrControlPressed = newValue;
-        _linkRecognizers
-          ..forEach((key, value) {
-            value.dispose();
-          })
-          ..clear();
+        _clearLinkRecognizers();
       });
     }
   }
@@ -118,20 +151,14 @@ class _TextLineState extends State<TextLine> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.readOnly != widget.readOnly) {
       _richTextKey = UniqueKey();
-      _linkRecognizers
-        ..forEach((key, value) {
-          value.dispose();
-        })
-        ..clear();
+      _clearLinkRecognizers();
     }
   }
 
   @override
   void dispose() {
     _pressedKeys?.removeListener(_pressedKeysChanged);
-    _linkRecognizers
-      ..forEach((key, value) => value.dispose())
-      ..clear();
+    _clearLinkRecognizers();
     super.dispose();
   }
 
@@ -143,6 +170,7 @@ class _TextLineState extends State<TextLine> {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
+    _pruneLinkRecognizers();
 
     if (widget.line.hasEmbed && widget.line.childCount == 1) {
       // Single child embeds can be expanded
@@ -206,7 +234,7 @@ class _TextLineState extends State<TextLine> {
 
     // The line could contain more than one Embed & more than one Text
     final textSpanChildren = <InlineSpan>[];
-    var textNodes = LinkedList<Node>();
+    var textNodes = <Node>[];
     for (var child in widget.line.children) {
       if (child is Embed) {
         if (textNodes.isNotEmpty) {
@@ -218,7 +246,7 @@ class _TextLineState extends State<TextLine> {
               widget.textSpanBuilder,
             ),
           );
-          textNodes = LinkedList<Node>();
+          textNodes = <Node>[];
         }
         // Creates correct node for custom embed
         if (child.value.type == BlockEmbed.customType) {
@@ -255,8 +283,7 @@ class _TextLineState extends State<TextLine> {
         continue;
       }
 
-      // here child is Text node and its value is cloned
-      textNodes.add(child.clone());
+      textNodes.add(child);
     }
 
     if (textNodes.isNotEmpty) {
@@ -289,12 +316,12 @@ class _TextLineState extends State<TextLine> {
 
   InlineSpan _buildTextSpan(
     DefaultStyles defaultStyles,
-    LinkedList<Node> nodes,
+    Iterable<Node> nodes,
     TextStyle lineStyle,
     TextSpanBuilder textSpanBuilder,
   ) {
     if (nodes.isEmpty && kIsWeb) {
-      nodes = LinkedList<Node>()..add(leaf.QuillText());
+      nodes = [leaf.QuillText()];
     }
 
     final isComposingRangeOutOfLine =
@@ -674,6 +701,7 @@ class _TextLineState extends State<TextLine> {
         final recognizer = widget.customRecognizerBuilder!.call(value, segment);
         if (recognizer != null) {
           _linkRecognizers[segment] = recognizer;
+          _linkRecognizerStyles[segment] = segment.style;
           return;
         }
       });
@@ -685,12 +713,23 @@ class _TextLineState extends State<TextLine> {
 
     if (isLink && canLaunchLinks) {
       if (isDesktop || widget.readOnly) {
-        _linkRecognizers[segment] = TapGestureRecognizer()
-          ..onTap = () => _tapNodeLink(segment);
+        final recognizer = TapGestureRecognizer();
+        recognizer.onTap = () {
+          if (identical(_linkRecognizers[segment], recognizer)) {
+            _tapNodeLink(segment);
+          }
+        };
+        _linkRecognizers[segment] = recognizer;
       } else {
-        _linkRecognizers[segment] = LongPressGestureRecognizer()
-          ..onLongPress = () => _longPressLink(segment);
+        final recognizer = LongPressGestureRecognizer();
+        recognizer.onLongPress = () {
+          if (identical(_linkRecognizers[segment], recognizer)) {
+            _longPressLink(segment);
+          }
+        };
+        _linkRecognizers[segment] = recognizer;
       }
+      _linkRecognizerStyles[segment] = segment.style;
     }
     return _linkRecognizers[segment];
   }
@@ -700,6 +739,7 @@ class _TextLineState extends State<TextLine> {
   }
 
   void _tapNodeLink(Node node) {
+    if (!_isCurrentLink(node)) return;
     final link = node.style.attributes[Attribute.link.key]!.value;
 
     _tapLink(link);
@@ -730,7 +770,9 @@ class _TextLineState extends State<TextLine> {
   }
 
   Future<void> _longPressLink(Node node) async {
+    if (!_isCurrentLink(node)) return;
     final link = node.style.attributes[Attribute.link.key]!.value!;
+    final recognizer = _linkRecognizers[node];
     final action = await widget.linkActionPicker(node);
     switch (action) {
       case LinkMenuAction.launch:
@@ -740,6 +782,11 @@ class _TextLineState extends State<TextLine> {
         Clipboard.setData(ClipboardData(text: link));
         break;
       case LinkMenuAction.remove:
+        if (!_isCurrentLink(node) ||
+            !identical(_linkRecognizers[node], recognizer) ||
+            node.style.attributes[Attribute.link.key]?.value != link) {
+          break;
+        }
         final range = getLinkRange(node);
         widget.controller.formatText(
           range.start,

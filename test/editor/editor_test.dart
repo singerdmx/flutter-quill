@@ -273,6 +273,39 @@ void main() {
       },
     );
 
+    testWidgets('removing a link drops its cached recognizer', (tester) async {
+      controller
+        ..document.insert(0, 'example.com')
+        ..formatText(
+          0,
+          'example.com'.length,
+          const LinkAttribute('example.com'),
+        )
+        ..readOnly = true;
+
+      final launched = <String>[];
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: QuillEditorConfig(onLaunchUrl: launched.add),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await tester.tapOnText(find.textRange.ofSubstring('example.com'));
+      await tester.pump();
+      expect(launched, ['https://example.com']);
+
+      controller.formatText(0, 'example.com'.length, const LinkAttribute(null));
+      await tester.pumpAndSettle();
+
+      await tester.tapOnText(find.textRange.ofSubstring('example.com'));
+      await tester.pump();
+      expect(launched, ['https://example.com']);
+    });
+
     testWidgets(
       'should throw MissingFlutterQuillLocalizationException if the delegate is not provided',
       (tester) async {

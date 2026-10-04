@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Dispose cached text gesture recognizers after linked or custom-styled leaves are removed or reformatted, while preserving recognizers for unchanged leaves.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
