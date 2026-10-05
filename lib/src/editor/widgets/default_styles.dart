@@ -252,6 +252,8 @@ class DefaultStyles {
     this.sizeLarge,
     this.sizeHuge,
     this.palette,
+    this.forceStrutHeight,
+    this.strutLeading,
   });
 
   final DefaultTextBlockStyle? h1;
@@ -290,6 +292,12 @@ class DefaultStyles {
 
   /// Custom palette of colors
   final Map<String, Color>? palette;
+
+  /// Whether the line height defined by [StrutStyle] should be forced.
+  final bool? forceStrutHeight;
+
+  /// The additional leading for [StrutStyle] as a multiple of the font size.
+  final double? strutLeading;
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
@@ -567,6 +575,8 @@ class DefaultStyles {
       sizeLarge: other.sizeLarge ?? sizeLarge,
       sizeHuge: other.sizeHuge ?? sizeHuge,
       palette: other.palette ?? palette,
+      forceStrutHeight: other.forceStrutHeight ?? forceStrutHeight,
+      strutLeading: other.strutLeading ?? strutLeading,
     );
   }
 }

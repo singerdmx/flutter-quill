@@ -288,5 +288,80 @@ void main() {
         expect(exception, isA<MissingFlutterQuillLocalizationException>());
       },
     );
+
+    testWidgets('forceStrutHeight overrides larger inline text', (
+      tester,
+    ) async {
+      controller.document = Document.fromJson([
+        {'insert': 'Small '},
+        {
+          'insert': 'large',
+          'attributes': {'size': '48'},
+        },
+        {'insert': '\n'},
+      ]);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(),
+          ),
+        ),
+      );
+      final line = find.descendant(
+        of: find.byType(QuillEditor),
+        matching: find.byType(RichText),
+      );
+      expect(line, findsOneWidget);
+      final naturalHeight = tester.getSize(line).height;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(
+              customStyles: DefaultStyles(forceStrutHeight: true),
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.getSize(line).height, lessThan(naturalHeight));
+    });
+
+    testWidgets('strutLeading adds line spacing', (tester) async {
+      controller.document = Document.fromJson([
+        {'insert': 'test\n'},
+      ]);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(
+              customStyles: DefaultStyles(strutLeading: 0),
+            ),
+          ),
+        ),
+      );
+      final line = find.descendant(
+        of: find.byType(QuillEditor),
+        matching: find.byType(RichText),
+      );
+      expect(line, findsOneWidget);
+      final baseHeight = tester.getSize(line).height;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(
+              customStyles: DefaultStyles(strutLeading: 1),
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.getSize(line).height, greaterThan(baseHeight));
+    });
   });
 }

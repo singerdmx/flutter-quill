@@ -39,7 +39,21 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+enum _LineSpacingPreset {
+  defaults('Default', null),
+  forceStrutHeight('Force strut height', DefaultStyles(forceStrutHeight: true)),
+  leadingZero('Leading: 0', DefaultStyles(strutLeading: 0)),
+  leadingOne('Leading: 1', DefaultStyles(strutLeading: 1));
+
+  const _LineSpacingPreset(this.label, this.styles);
+
+  final String label;
+  final DefaultStyles? styles;
+}
+
 class _HomePageState extends State<HomePage> {
+  _LineSpacingPreset _lineSpacingPreset = _LineSpacingPreset.defaults;
+
   final QuillController _controller = () {
     return QuillController.basic(
       config: QuillControllerConfig(
@@ -83,6 +97,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Flutter Quill Example'),
         actions: [
+          PopupMenuButton<_LineSpacingPreset>(
+            icon: const Icon(Icons.format_line_spacing),
+            tooltip: 'Line spacing: ${_lineSpacingPreset.label}',
+            initialValue: _lineSpacingPreset,
+            onSelected: (preset) {
+              setState(() {
+                _lineSpacingPreset = preset;
+              });
+            },
+            itemBuilder: (context) => [
+              for (final preset in _LineSpacingPreset.values)
+                CheckedPopupMenuItem(
+                  value: preset,
+                  checked: preset == _lineSpacingPreset,
+                  child: Text(preset.label),
+                ),
+            ],
+          ),
           IconButton(
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
@@ -152,10 +184,14 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: QuillEditor(
+                // Recreate the editor so nullable style settings return to
+                // their defaults instead of retaining the previous merge.
+                key: ValueKey(_lineSpacingPreset),
                 focusNode: _editorFocusNode,
                 scrollController: _editorScrollController,
                 controller: _controller,
                 config: QuillEditorConfig(
+                  customStyles: _lineSpacingPreset.styles,
                   placeholder: 'Start writing your notes...',
                   padding: const EdgeInsets.all(16),
                   embedBuilders: [
