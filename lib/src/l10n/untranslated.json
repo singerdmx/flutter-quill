@@ -430,18 +430,6 @@
     "saveImagePermissionDenied"
   ],
 
-  "tr": [
-    "insertVideo",
-    "errorUnexpectedSavingImage",
-    "successImageSavedGallery",
-    "successImageSaved",
-    "successImageDownloaded",
-    "openGallery",
-    "openFileLocation",
-    "openFile",
-    "saveImagePermissionDenied"
-  ],
-
   "uk": [
     "insertVideo",
     "errorUnexpectedSavingImage",
