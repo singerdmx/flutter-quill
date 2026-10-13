@@ -292,4 +292,16 @@ void main() {
       expect(document.cachedPlainText, isNull);
     });
   });
+
+  group('getPlainText beyond document length', () {
+    test('oversized len does not repeat content (#2704)', () {
+      final document = Document()..insert(0, 'This is string 1');
+      expect(document.getPlainText(0, 50), 'This is string 1\n');
+    });
+
+    test('blank document does not repeat its trailing newline (#2704)', () {
+      final document = Document();
+      expect(document.getPlainText(0, 50), '\n');
+    });
+  });
 }
