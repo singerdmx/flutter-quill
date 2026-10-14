@@ -147,9 +147,19 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
+    // Close the menu as soon as Paste is tapped, as cut and copy do, but keep
+    // the handles: the text stays selected if nothing gets pasted.
+    if (cause == SelectionChangedCause.toolbar) {
+      hideToolbar(false);
+    }
+
     if (await controller.clipboardPaste()) {
       bringIntoView(textEditingValue.selection.extent);
-      return;
+    }
+
+    if (cause == SelectionChangedCause.toolbar &&
+        textEditingValue.selection.isCollapsed) {
+      _selectionOverlay?.hideHandles();
     }
   }
 
@@ -1123,6 +1133,13 @@ class QuillRawEditorState extends EditorState
       // keeps its stale cursor position and inserts typed text there.
       // Does nothing if no input connection is open.
       updateRemoteValueIfNeeded();
+      // Update the selection menu and handles after the change, as
+      // `_onChangeTextEditingValue` does when the keyboard is visible.
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _updateOrDisposeSelectionOverlayIfNeeded();
+        }
+      });
       if (mounted) {
         // Use controller.value in build()
         // Mark widget as dirty and trigger build and updateChildren

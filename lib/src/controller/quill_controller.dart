@@ -262,6 +262,22 @@ class QuillController extends ChangeNotifier {
     );
   }
 
+  /// Replaces [len] characters at [index] with [data] (a string, an
+  /// [Embeddable], or a [Delta] such as a pasted copy).
+  ///
+  /// [textSelection] sets the selection after the change. How to give it
+  /// depends on [data].
+  ///
+  /// For a string or an [Embeddable], give the final selection. This method
+  /// only shifts it when the document's rules add or remove characters.
+  ///
+  /// For a [Delta], give the selection using positions in the text before the
+  /// change. This method then moves each position so that it still points to
+  /// the same text. A caret anywhere from [index] to [index] + [len] ends up
+  /// right after the inserted content.
+  ///
+  /// When [textSelection] is `null`, [selection] keeps the same character
+  /// positions, so after the change it may point to entirely different text.
   void replaceText(
     int index,
     int len,
@@ -278,7 +294,9 @@ class QuillController extends ChangeNotifier {
 
     Delta? delta;
     Style? style;
-    if (len > 0 || data is! String || data.isNotEmpty) {
+    final insertsNothing =
+        (data is String && data.isEmpty) || (data is Delta && data.isEmpty);
+    if (len > 0 || !insertsNothing) {
       delta = document.replace(index, len, data);
 
       /// Remove block styles as they can only be attached to line endings
@@ -290,6 +308,7 @@ class QuillController extends ChangeNotifier {
         ),
       );
       var shouldRetainDelta =
+          data is! Delta &&
           style.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
@@ -317,6 +336,13 @@ class QuillController extends ChangeNotifier {
     if (textSelection != null) {
       if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection);
+      } else if (data is Delta) {
+        _updateSelection(
+          textSelection.copyWith(
+            baseOffset: delta.transformPosition(textSelection.baseOffset),
+            extentOffset: delta.transformPosition(textSelection.extentOffset),
+          ),
+        );
       } else {
         final user = Delta()
           ..retain(index)

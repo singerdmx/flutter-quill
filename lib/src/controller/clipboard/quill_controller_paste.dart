@@ -30,7 +30,9 @@ extension QuillControllerPaste on QuillController {
           selection.start,
           selection.end - selection.start,
           clipboardText,
-          TextSelection.collapsed(offset: selection.end + clipboardText.length),
+          TextSelection.collapsed(
+            offset: selection.start + clipboardText.length,
+          ),
         );
       }
       return true;
