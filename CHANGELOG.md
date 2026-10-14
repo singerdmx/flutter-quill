@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the caret landing in the wrong place after a paste.
+- Fixed a failed assertion when `QuillController.replaceText` inserts an empty `Delta`, as when pasted HTML converts to nothing.
+- Fixed the selection menu staying open after a paste or an undo while no on-screen keyboard is showing. **Paste** now closes the menu as soon as it is tapped ([#2401](https://github.com/singerdmx/flutter-quill/issues/2401)).
+- Fixed a style toggled with nothing selected, such as **Bold**, being applied to the first character of a pasted copy.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

@@ -299,5 +299,88 @@ void main() {
       );
       expect(controller.selection, const TextSelection.collapsed(offset: 14));
     });
+
+    // A document holding 'one two three', with 'two' selected.
+    QuillController selectTwo() => QuillController.basic()
+      ..compose(
+        Delta()..insert('one two three'),
+        const TextSelection.collapsed(offset: 0),
+        ChangeSource.local,
+      )
+      ..updateSelection(
+        const TextSelection(baseOffset: 4, extentOffset: 7),
+        ChangeSource.local,
+      );
+
+    // Copies [text] in an editor, which is what an internal paste pastes.
+    void copyInEditor(String text) {
+      final source = QuillController.basic()
+        ..compose(
+          Delta()..insert(text),
+          const TextSelection.collapsed(offset: 0),
+          ChangeSource.local,
+        )
+        ..updateSelection(
+          TextSelection(baseOffset: 0, extentOffset: text.length),
+          ChangeSource.local,
+        );
+      expect(source.clipboardSelection(true), true);
+    }
+
+    test('Plain over a selection', () async {
+      final controller = selectTwo();
+      expect(
+        controller.pastePlainTextOrDelta(
+          'ab',
+          pastePlainText: '',
+          pasteDelta: Delta(),
+        ),
+        true,
+        reason: 'External paste',
+      );
+      expect(controller.document.toPlainText(), 'one ab three\n');
+      expect(controller.selection, const TextSelection.collapsed(offset: 6));
+    });
+
+    test('Delta over a selection', () async {
+      // Copies shorter than the selection, as long as it, and longer.
+      for (final copied in ['ab', 'abc', 'abcde']) {
+        copyInEditor(copied);
+        final controller = selectTwo();
+        expect(
+          pasteUsingPlainOrDelta(controller, copied),
+          true,
+          reason: 'Internal paste',
+        );
+        expect(controller.document.toPlainText(), 'one $copied three\n');
+        expect(
+          controller.selection,
+          TextSelection.collapsed(offset: 4 + copied.length),
+          reason: 'The caret goes right after the pasted "$copied"',
+        );
+      }
+    });
+
+    test('Delta ignores a toggled style', () async {
+      copyInEditor('ab');
+      final controller = QuillController.basic()
+        ..compose(
+          Delta()..insert('[]'),
+          const TextSelection.collapsed(offset: 0),
+          ChangeSource.local,
+        )
+        ..updateSelection(
+          const TextSelection.collapsed(offset: 1),
+          ChangeSource.local,
+        )
+        ..formatSelection(Attribute.bold);
+      //
+      expect(
+        pasteUsingPlainOrDelta(controller, 'ab'),
+        true,
+        reason: 'Internal paste',
+      );
+      expect(controller.document.toDelta(), Delta()..insert('[ab]\n'));
+    });
   });
 }

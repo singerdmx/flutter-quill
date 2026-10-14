@@ -242,6 +242,116 @@ void main() {
       expect(controller.document.toDelta(), Delta()..insert('d11a\n'));
     });
 
+    test('replaceText with a Delta moves a caret at the index past it', () {
+      controller.replaceText(
+        1,
+        0,
+        Delta()..insert('XY'),
+        const TextSelection.collapsed(offset: 1),
+      );
+
+      expect(controller.document.toPlainText(), 'dXYata\n');
+      expect(controller.selection, const TextSelection.collapsed(offset: 3));
+    });
+
+    test('replaceText with a Delta keeps a later caret on the same text', () {
+      controller.replaceText(
+        0,
+        0,
+        Delta()..insert('XY'),
+        const TextSelection.collapsed(offset: 2),
+      );
+
+      expect(controller.document.toPlainText(), 'XYdata\n');
+      expect(controller.selection, const TextSelection.collapsed(offset: 4));
+    });
+
+    test('replaceText with a Delta moves a caret at the end of the replaced '
+        'text past the inserted content', () {
+      controller.replaceText(
+        1,
+        2,
+        Delta()..insert('X'),
+        const TextSelection.collapsed(offset: 3),
+      );
+
+      expect(controller.document.toPlainText(), 'dXa\n');
+      expect(controller.selection, const TextSelection.collapsed(offset: 2));
+    });
+
+    test('replaceText with a Delta counts an embed as one character', () {
+      controller.replaceText(
+        1,
+        0,
+        Delta()
+          ..insert({'image': 'x.png'})
+          ..insert('XY'),
+        const TextSelection.collapsed(offset: 1),
+      );
+
+      expect(controller.selection, const TextSelection.collapsed(offset: 4));
+    });
+
+    test('replaceText with an empty Delta at a caret only moves the caret', () {
+      var listenerCalled = false;
+      controller
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..replaceText(1, 0, Delta(), const TextSelection.collapsed(offset: 2));
+
+      expect(listenerCalled, isTrue);
+      expect(controller.document.toDelta(), Delta()..insert('data\n'));
+      expect(controller.selection, const TextSelection.collapsed(offset: 2));
+    });
+
+    test('replaceText with an empty Delta over a range deletes it', () {
+      controller.replaceText(
+        1,
+        2,
+        Delta(),
+        const TextSelection.collapsed(offset: 1),
+      );
+
+      expect(controller.document.toDelta(), Delta()..insert('da\n'));
+      expect(controller.selection, const TextSelection.collapsed(offset: 1));
+    });
+
+    test('replaceText with a Delta ignores a toggled style', () {
+      controller
+        ..updateSelection(
+          const TextSelection.collapsed(offset: 4),
+          ChangeSource.local,
+        )
+        ..formatSelection(Attribute.bold)
+        ..replaceText(
+          4,
+          0,
+          Delta()..insert('XY'),
+          const TextSelection.collapsed(offset: 4),
+        );
+
+      expect(controller.document.toDelta(), Delta()..insert('dataXY\n'));
+    });
+
+    test('replaceText with a String takes a toggled style', () {
+      controller
+        ..updateSelection(
+          const TextSelection.collapsed(offset: 4),
+          ChangeSource.local,
+        )
+        ..formatSelection(Attribute.bold)
+        ..replaceText(4, 0, 'XY', const TextSelection.collapsed(offset: 6));
+
+      expect(
+        controller.document.toDelta(),
+        Delta()
+          ..insert('data')
+          ..insert('XY', {'bold': true})
+          ..insert('\n'),
+      );
+    });
+
     test('formatTextStyle', () {
       var listenerCalled = false;
       final style = const Style().put(Attribute.bold).put(Attribute.italic);

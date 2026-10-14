@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -242,4 +244,108 @@ void main() {
       );
     },
   );
+
+  group('2401 - Context menu remains visible after a paste', () {
+    testWidgets('Paste closes the menu as soon as it is tapped', (
+      tester,
+    ) async {
+      final pasteResult = Completer<bool>();
+      final controller = QuillController(
+        document: Document()..insert(0, 'Hello'),
+        selection: const TextSelection.collapsed(offset: 0),
+        config: QuillControllerConfig(
+          clipboardConfig: QuillClipboardConfig(
+            onClipboardPaste: () => pasteResult.future,
+          ),
+        ),
+      );
+      final focusNode = FocusNode();
+      final scrollController = ScrollController();
+      addTearDown(() {
+        controller.dispose();
+        focusNode.dispose();
+        scrollController.dispose();
+      });
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor(
+            focusNode: focusNode,
+            scrollController: scrollController,
+            controller: controller,
+            config: const QuillEditorConfig(autoFocus: true, expands: true),
+          ),
+        ),
+      );
+      await tester.longPress(find.byType(QuillEditor));
+      await tester.pumpAndSettle();
+      expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
+
+      final paste = tester
+          .state<QuillRawEditorState>(find.byType(QuillRawEditor))
+          .pasteText(SelectionChangedCause.toolbar);
+      await tester.pumpAndSettle();
+      expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+
+      pasteResult.complete(true);
+      await tester.pumpAndSettle();
+      await paste;
+    });
+
+    testWidgets('Paste keeps the selection handles when it pastes nothing', (
+      tester,
+    ) async {
+      final controller = QuillController(
+        document: Document()..insert(0, 'Hello world'),
+        selection: const TextSelection.collapsed(offset: 0),
+        config: QuillControllerConfig(
+          clipboardConfig: QuillClipboardConfig(
+            onClipboardPaste: () async => true,
+          ),
+        ),
+      );
+      final focusNode = FocusNode();
+      final scrollController = ScrollController();
+      addTearDown(() {
+        controller.dispose();
+        focusNode.dispose();
+        scrollController.dispose();
+      });
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor(
+            focusNode: focusNode,
+            scrollController: scrollController,
+            controller: controller,
+            config: const QuillEditorConfig(autoFocus: true, expands: true),
+          ),
+        ),
+      );
+      await tester.longPressAt(
+        tester.getTopLeft(find.byType(QuillEditor)) + const Offset(12, 10),
+      );
+      await tester.pumpAndSettle();
+      // The handle widget's class is private, so match its type name.
+      final handles = find.byWidgetPredicate(
+        (widget) =>
+            widget.runtimeType.toString() == '_TextSelectionHandleOverlay',
+      );
+      expect(
+        controller.selection,
+        const TextSelection(baseOffset: 0, extentOffset: 5),
+      );
+      expect(handles, findsNWidgets(2));
+
+      await tester
+          .state<QuillRawEditorState>(find.byType(QuillRawEditor))
+          .pasteText(SelectionChangedCause.toolbar);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+      expect(
+        controller.selection,
+        const TextSelection(baseOffset: 0, extentOffset: 5),
+      );
+      expect(handles, findsNWidgets(2));
+    });
+  });
 }
