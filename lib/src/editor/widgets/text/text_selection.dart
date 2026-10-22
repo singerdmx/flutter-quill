@@ -909,7 +909,10 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragStart(DragStartDetails details) {
     assert(_lastDragStartDetails == null);
     _lastDragStartDetails = details;
-    widget.dragOffsetNotifier?.value = details.globalPosition;
+    // No magnifier here: this recognizer only accepts a mouse, and a pointer
+    // shows the text it selects. The magnifier belongs to touch (long press and
+    // handle drags), whose end handlers clear it - this drag never did, so on
+    // iOS/Android with a mouse it stayed up after the button was released.
     widget.onDragSelectionStart?.call(details);
   }
 
@@ -930,7 +933,6 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragUpdateThrottled() {
     assert(_lastDragStartDetails != null);
     assert(_lastDragUpdateDetails != null);
-    widget.dragOffsetNotifier?.value = _lastDragUpdateDetails?.globalPosition;
     if (widget.onDragSelectionUpdate != null) {
       widget.onDragSelectionUpdate!(
         //_lastDragStartDetails!,

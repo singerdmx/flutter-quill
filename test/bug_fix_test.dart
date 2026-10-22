@@ -242,4 +242,45 @@ void main() {
       );
     },
   );
+
+  group('Mouse drag-select leaves the magnifier up on iOS/Android', () {
+    testWidgets(
+      'no magnifier during or after a mouse drag',
+      (tester) async {
+        final controller = QuillController(
+          document: Document()..insert(0, 'Mouse drag selection'),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(
+            QuillEditor.basic(
+              controller: controller,
+              config: const QuillEditorConfig(
+                quillMagnifierBuilder: defaultQuillMagnifierBuilder,
+              ),
+            ),
+          ),
+        );
+
+        final start =
+            tester.getTopLeft(find.byType(QuillEditor)) + const Offset(10, 10);
+        final gesture = await tester.startGesture(
+          start,
+          kind: PointerDeviceKind.mouse,
+          buttons: kPrimaryMouseButton,
+        );
+        await tester.pump();
+        await gesture.moveTo(start + const Offset(40, 0));
+        await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+        expect(find.byType(QuillMagnifier), findsNothing);
+
+        await gesture.up();
+        await tester.pumpAndSettle();
+        expect(find.byType(QuillMagnifier), findsNothing);
+        expect(controller.selection.isCollapsed, isFalse);
+      },
+      variant: TargetPlatformVariant.mobile(),
+    );
+  });
 }

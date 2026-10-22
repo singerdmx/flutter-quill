@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the magnifier staying on screen after selecting text by dragging with a mouse on iOS and Android (e.g. an iPad app running on a Mac, or an iPad with a trackpad). The mouse drag-select gesture set the magnifier position on start and update but never cleared it on end, so it stayed up until the editor was disposed. A mouse drag no longer shows the magnifier; touch long-press and handle drags are unchanged [#2777](https://github.com/singerdmx/flutter-quill/pull/2777).
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
