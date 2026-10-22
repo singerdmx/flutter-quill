@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- An indented block under an ordered list (such as a nested checklist) no longer ends the list: the numbering of the outer list continues after it instead of restarting at 1.
+- An indented block under an ordered list (such as a nested checklist) no longer ends the list: the numbering of the outer list continues after it instead of restarting at 1 [#2778](https://github.com/singerdmx/flutter-quill/pull/2778).
 
 ## [11.6.0] - 2026-09-16
 
