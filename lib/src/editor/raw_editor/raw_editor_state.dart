@@ -655,13 +655,20 @@ class QuillRawEditorState extends EditorState
 
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
+      final isOl = attrs[Attribute.list.key] == Attribute.ol;
+      final int indent = attrs[Attribute.indent.key]?.value ?? 0;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol ||
-          attrs.isEmpty) {
-        clearIndents = true;
+      if (prevNodeOl && !isOl && indent > 0) {
+        // An indented block under an ordered list (e.g. a nested checklist)
+        // belongs to the list item above it, so it does not finish the list:
+        // only the levels at or below its indent restart.
+        indentLevelCounts.removeWhere((level, _) => level >= indent);
+      } else {
+        if (prevNodeOl && !isOl || attrs.isEmpty) {
+          clearIndents = true;
+        }
+        prevNodeOl = isOl;
       }
-
-      prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
       final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(

@@ -242,4 +242,59 @@ void main() {
       );
     },
   );
+  group('Ordered list numbering', () {
+    testWidgets('an indented checklist does not restart the outer list', (
+      tester,
+    ) async {
+      final controller = QuillController(
+        document: Document.fromJson([
+          {'insert': 'one'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'ordered'},
+          },
+          {'insert': 'two'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'ordered'},
+          },
+          {'insert': 'todo 1'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'unchecked', 'indent': 1},
+          },
+          {'insert': 'todo 2'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'unchecked', 'indent': 1},
+          },
+          {'insert': 'three'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'ordered'},
+          },
+          {'insert': 'paragraph\n'},
+          {'insert': 'new list'},
+          {
+            'insert': '\n',
+            'attributes': {'list': 'ordered'},
+          },
+        ]),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+      addTearDown(controller.dispose);
+
+      await tester.pumpWidget(
+        QuillTestApp.withScaffold(QuillEditor.basic(controller: controller)),
+      );
+
+      final numbers = tester
+          .widgetList<Text>(find.byType(Text))
+          .map((text) => text.data)
+          .whereType<String>()
+          .where((data) => RegExp(r'^\d+\.$').hasMatch(data))
+          .toList();
+      expect(numbers, ['1.', '2.', '3.', '1.']);
+    });
+  });
 }

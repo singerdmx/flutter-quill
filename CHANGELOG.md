@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- An indented block under an ordered list (such as a nested checklist) no longer ends the list: the numbering of the outer list continues after it instead of restarting at 1.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
