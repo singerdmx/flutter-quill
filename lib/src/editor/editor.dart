@@ -1010,9 +1010,12 @@ class RenderEditor extends RenderEditableContainerBox
     assert(_extendSelectionOrigin != null);
     final position = getPositionForOffset(to);
 
+    // Base and extent stay in document order, so record which end moved:
+    // getOffsetToRevealCursor reveals that end, which is what lets a drag
+    // past the bottom of the viewport scroll down as well as up.
     if (position.offset < _extendSelectionOrigin!.baseOffset) {
       _handleSelectionChange(
-        TextSelection(
+        DragTextSelection(
           baseOffset: position.offset,
           extentOffset: _extendSelectionOrigin!.extentOffset,
           affinity: selection.affinity,
@@ -1021,10 +1024,11 @@ class RenderEditor extends RenderEditableContainerBox
       );
     } else if (position.offset > _extendSelectionOrigin!.extentOffset) {
       _handleSelectionChange(
-        TextSelection(
+        DragTextSelection(
           baseOffset: _extendSelectionOrigin!.baseOffset,
           extentOffset: position.offset,
           affinity: selection.affinity,
+          first: false,
         ),
         cause,
       );

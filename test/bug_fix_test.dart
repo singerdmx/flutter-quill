@@ -242,4 +242,45 @@ void main() {
       );
     },
   );
+  group('Mouse drag-select past the bottom of the viewport', () {
+    testWidgets('scrolls down to follow the pointer', (tester) async {
+      final controller = QuillController(
+        document: Document()
+          ..insert(0, List.generate(60, (i) => 'Line $i').join('\n')),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+      final scrollController = ScrollController();
+      addTearDown(controller.dispose);
+      addTearDown(scrollController.dispose);
+      await tester.pumpWidget(
+        QuillTestApp.withScaffold(
+          SizedBox(
+            height: 300,
+            child: QuillEditor.basic(
+              controller: controller,
+              scrollController: scrollController,
+              config: const QuillEditorConfig(expands: true),
+            ),
+          ),
+        ),
+      );
+
+      final editor = find.byType(QuillEditor);
+      final start = tester.getTopLeft(editor) + const Offset(10, 10);
+      final gesture = await tester.startGesture(
+        start,
+        kind: PointerDeviceKind.mouse,
+        buttons: kPrimaryMouseButton,
+      );
+      await tester.pump();
+      await gesture.moveTo(tester.getBottomLeft(editor) + const Offset(10, -2));
+      await tester.pumpAndSettle();
+      await gesture.moveBy(const Offset(0, 1));
+      await tester.pumpAndSettle();
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(scrollController.offset, greaterThan(0));
+    });
+  });
 }
