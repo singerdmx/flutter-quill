@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Dragging a selection with a mouse or trackpad past the bottom of the editor now scrolls down to follow the pointer. `extendSelection` keeps base and extent in document order, and `getOffsetToRevealCursor` revealed the first endpoint of a plain selection, so a drag upwards scrolled but a drag downwards never did. `extendSelection` now records which end moved (as a handle drag already does), and that end is revealed.
+- Dragging a selection with a mouse or trackpad past the bottom of the editor now scrolls down to follow the pointer. `extendSelection` keeps base and extent in document order, and `getOffsetToRevealCursor` revealed the first endpoint of a plain selection, so a drag upwards scrolled but a drag downwards never did. `extendSelection` now records which end moved (as a handle drag already does), and that end is revealed [#2780](https://github.com/singerdmx/flutter-quill/pull/2780).
 
 ## [11.6.0] - 2026-09-16
 
