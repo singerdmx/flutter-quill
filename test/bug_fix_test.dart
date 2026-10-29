@@ -242,4 +242,140 @@ void main() {
       );
     },
   );
+  group('Mouse drag-select past the bottom of the viewport', () {
+    testWidgets('scrolls down to follow the pointer', (tester) async {
+      final controller = QuillController(
+        document: Document()
+          ..insert(0, List.generate(60, (i) => 'Line $i').join('\n')),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+      final scrollController = ScrollController();
+      addTearDown(controller.dispose);
+      addTearDown(scrollController.dispose);
+      await tester.pumpWidget(
+        QuillTestApp.withScaffold(
+          SizedBox(
+            height: 300,
+            child: QuillEditor.basic(
+              controller: controller,
+              scrollController: scrollController,
+              config: const QuillEditorConfig(expands: true),
+            ),
+          ),
+        ),
+      );
+
+      final editor = find.byType(QuillEditor);
+      final start = tester.getTopLeft(editor) + const Offset(10, 10);
+      final gesture = await tester.startGesture(
+        start,
+        kind: PointerDeviceKind.mouse,
+        buttons: kPrimaryMouseButton,
+      );
+      await tester.pump();
+      await gesture.moveTo(tester.getBottomLeft(editor) + const Offset(10, -2));
+      await tester.pumpAndSettle();
+      await gesture.moveBy(const Offset(0, 1));
+      await tester.pumpAndSettle();
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(scrollController.offset, greaterThan(0));
+    });
+
+    // Pumps a mouse drag-select from the top of the editor to [holdAt] and
+    // holds the pointer still there; returns the scroll offset it reached on
+    // arrival and after holding.
+    Future<(double, double)> holdDragAt(
+      WidgetTester tester,
+      ScrollController scrollController,
+      Offset Function(Rect editor) holdAt,
+    ) async {
+      final editor = tester.getRect(find.byType(QuillEditor));
+      final gesture = await tester.startGesture(
+        editor.topLeft + const Offset(10, 10),
+        kind: PointerDeviceKind.mouse,
+        buttons: kPrimaryMouseButton,
+      );
+      await tester.pump();
+      // A sideways move first: the drag recognizer is horizontal, and the
+      // update it accepts on only carries the horizontal part of the move.
+      await gesture.moveBy(const Offset(20, 0));
+      await tester.pump(const Duration(milliseconds: 100));
+      await gesture.moveTo(holdAt(editor));
+      await tester.pump(const Duration(milliseconds: 100));
+      final arrived = scrollController.offset;
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      final held = scrollController.offset;
+      await gesture.up();
+      await tester.pumpAndSettle();
+      return (arrived, held);
+    }
+
+    Future<ScrollController> pumpLongNote(
+      WidgetTester tester, {
+      double scrollBottomInset = 0,
+    }) async {
+      final controller = QuillController(
+        document: Document()
+          ..insert(0, List.generate(200, (i) => 'Line $i').join('\n')),
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true,
+      );
+      final scrollController = ScrollController();
+      addTearDown(controller.dispose);
+      addTearDown(scrollController.dispose);
+      await tester.pumpWidget(
+        QuillTestApp.withScaffold(
+          Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              height: 300,
+              child: QuillEditor.basic(
+                controller: controller,
+                scrollController: scrollController,
+                config: QuillEditorConfig(
+                  expands: true,
+                  showCursor: false,
+                  scrollBottomInset: scrollBottomInset,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      return scrollController;
+    }
+
+    testWidgets('keeps scrolling while the pointer is held at the edge', (
+      tester,
+    ) async {
+      final scrollController = await pumpLongNote(tester);
+      final (arrived, held) = await holdDragAt(
+        tester,
+        scrollController,
+        (editor) => editor.bottomLeft + const Offset(80, -2),
+      );
+      expect(held, greaterThan(arrived + 50));
+    });
+
+    testWidgets('treats the top of a covered bottom as the edge', (
+      tester,
+    ) async {
+      // The pointer is held 40px above the editor's real bottom edge - out of
+      // auto-scroll reach - but inside the 60px drawn over it.
+      final scrollController = await pumpLongNote(
+        tester,
+        scrollBottomInset: 60,
+      );
+      final (arrived, held) = await holdDragAt(
+        tester,
+        scrollController,
+        (editor) => editor.bottomLeft + const Offset(80, -40),
+      );
+      expect(held, greaterThan(arrived + 50));
+    });
+  });
 }
