@@ -941,6 +941,14 @@ class _EditorTextSelectionGestureDetectorState
     _lastDragUpdateDetails = null;
   }
 
+  // A drag cancelled once it started (e.g. by a system gesture) ends like one
+  // released, or whatever it started - such as an edge auto-scroll - runs on.
+  void _handleDragCancel() {
+    if (_lastDragStartDetails != null) {
+      _handleDragEnd(DragEndDetails());
+    }
+  }
+
   void _handleDragEnd(DragEndDetails details) {
     assert(_lastDragStartDetails != null);
     if (_dragUpdateThrottleTimer != null) {
@@ -1061,7 +1069,8 @@ class _EditorTextSelectionGestureDetectorState
                 ..dragStartBehavior = DragStartBehavior.down
                 ..onStart = _handleDragStart
                 ..onUpdate = _handleDragUpdate
-                ..onEnd = _handleDragEnd;
+                ..onEnd = _handleDragEnd
+                ..onCancel = _handleDragCancel;
             },
           );
     }
