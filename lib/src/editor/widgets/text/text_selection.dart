@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderProxyBox;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +20,36 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   return selection.copyWith(
     baseOffset: math.max(selection.start - offset, 0),
     extentOffset: math.min(selection.end - offset, node.length - 1),
+  );
+}
+
+/// Returns the point that the magnifier shows while a drag selects text at
+/// [selectionPoint], in global coordinates.
+///
+/// Vertically, the point is in the middle of the line at [selectionPoint].
+/// Horizontally, it is at [selectionPoint], but it stays between the two ends
+/// of that line.
+Offset getMagnifierPointOnLine(RenderEditor editor, Offset selectionPoint) {
+  final position = editor.getPositionForOffset(selectionPoint);
+  final caretBottom = editor
+      .getEndpointsForSelection(TextSelection.fromPosition(position))
+      .first
+      .point;
+  var localX = caretBottom.dx;
+  // An empty line has no text, so it has no ends to keep `localX` between.
+  // Also, `getLineAtOffset` fails with an error for an empty line.
+  if ((editor.document.queryChild(position.offset).node?.length ?? 1) > 1) {
+    final lineEnds = editor.getEndpointsForSelection(
+      editor.getLineAtOffset(position),
+    );
+    localX = clampDouble(
+      editor.globalToLocal(selectionPoint).dx,
+      math.min(lineEnds.first.point.dx, lineEnds.last.point.dx),
+      math.max(lineEnds.first.point.dx, lineEnds.last.point.dx),
+    );
+  }
+  return editor.localToGlobal(
+    Offset(localX, caretBottom.dy - editor.preferredLineHeight(position) / 2),
   );
 }
 
@@ -96,7 +127,9 @@ class EditorTextSelectionOverlay {
 
   TextEditingValue value;
 
-  /// The offset of the drag handle used to position the magnifier.
+  /// While a selection handle is dragged, the handle sets this to the point to
+  /// which the dragged end of the selection moves, in global coordinates. When
+  /// the drag ends, the handle sets it to `null`.
   ValueNotifier<Offset?>? dragOffsetNotifier;
 
   /// Whether selection handles are visible.
@@ -443,7 +476,19 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
 class _TextSelectionHandleOverlayState
     extends State<_TextSelectionHandleOverlay>
     with SingleTickerProviderStateMixin {
-  late Offset _dragPosition;
+  /// The position where the handle was first touched, in global coordinates.
+  ///
+  /// The drag is measured from this position, not from the position where the
+  /// drag is recognized. Otherwise, the selection would move less than the
+  /// touch.
+  Offset? _firstTouchPosition;
+
+  /// The middle of the line at this handle's end of the selection, relative
+  /// to [_firstTouchPosition].
+  ///
+  /// It stays the same for the whole drag, so the selection moves in the same
+  /// way wherever the handle is touched.
+  Offset _lineMiddleFromTouch = Offset.zero;
 
   late AnimationController _controller;
 
@@ -485,14 +530,38 @@ class _TextSelectionHandleOverlayState
     super.dispose();
   }
 
+  /// Returns the middle of the line at this handle's end of the selection, in
+  /// global coordinates, and the height of that line.
+  ({Offset middle, double height}) _getLineAtHandle() {
+    final isStart = widget.position == _TextSelectionHandlePosition.start;
+    final endpoints = widget.renderObject.getEndpointsForSelection(
+      widget.selection,
+    );
+    final caretBottom = (isStart ? endpoints.first : endpoints.last).point;
+    final lineHeight = widget.renderObject.preferredLineHeight(
+      TextPosition(
+        offset: isStart ? widget.selection.start : widget.selection.end,
+      ),
+    );
+    return (
+      middle: widget.renderObject.localToGlobal(
+        caretBottom.translate(0, -lineHeight / 2),
+      ),
+      height: lineHeight,
+    );
+  }
+
+  void _handleDragDown(DragDownDetails details) {
+    _firstTouchPosition = details.globalPosition;
+  }
+
   void _handleDragStart(DragStartDetails details) {
-    widget.dragOffsetNotifier?.value = details.globalPosition;
-    final textPosition = widget.position == _TextSelectionHandlePosition.start
-        ? widget.selection.base
-        : widget.selection.extent;
-    final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
-    final handleSize = widget.selectionControls.getHandleSize(lineHeight);
-    _dragPosition = details.globalPosition + Offset(0, -handleSize.height);
+    _lineMiddleFromTouch =
+        _getLineAtHandle().middle -
+        (_firstTouchPosition ?? details.globalPosition);
+    widget.dragOffsetNotifier?.value = _getSelectionPoint(
+      details.globalPosition,
+    );
   }
 
   void _handleDragEnd(DragEndDetails details) {
@@ -500,10 +569,38 @@ class _TextSelectionHandleOverlayState
     widget.dragOffsetNotifier?.value = null;
   }
 
+  /// Returns the point to which the dragged end of the selection moves when the
+  /// touch is at [touchPosition], in global coordinates.
+  ///
+  /// The point stays on the handle's current line until it is above or below
+  /// that line by at least half the height of the shorter of two lines. These
+  /// are the current line and the line that the point has reached. Because of
+  /// this, small vertical movements during a horizontal drag do not move the
+  /// selection to another line. For two lines of text with the same height,
+  /// the point moves to the next line when it reaches the middle of that line.
+  /// Between a tall line, such as a heading or an image, and a line of text,
+  /// the point needs no more movement past the edge of the current line than
+  /// between two lines of text.
+  Offset _getSelectionPoint(Offset touchPosition) {
+    final movedLineMiddle = touchPosition + _lineMiddleFromTouch;
+    final currentLine = _getLineAtHandle();
+    final renderObject = widget.renderObject;
+    final reachedLineHeight = renderObject.preferredLineHeight(
+      renderObject.getPositionForOffset(movedLineMiddle),
+    );
+    final minDistanceToLeaveLine =
+        currentLine.height / 2 +
+        math.min(currentLine.height, reachedLineHeight) / 2;
+    return (movedLineMiddle.dy - currentLine.middle.dy).abs() <
+            minDistanceToLeaveLine
+        ? Offset(movedLineMiddle.dx, currentLine.middle.dy)
+        : movedLineMiddle;
+  }
+
   void _handleDragUpdate(DragUpdateDetails details) {
-    widget.dragOffsetNotifier?.value = details.globalPosition;
-    _dragPosition += details.delta;
-    final position = widget.renderObject.getPositionForOffset(_dragPosition);
+    final selectionPoint = _getSelectionPoint(details.globalPosition);
+    widget.dragOffsetNotifier?.value = selectionPoint;
+    final position = widget.renderObject.getPositionForOffset(selectionPoint);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -619,24 +716,30 @@ class _TextSelectionHandleOverlayState
           alignment: Alignment.topLeft,
           width: interactiveRect.width,
           height: interactiveRect.height,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            dragStartBehavior: widget.dragStartBehavior,
-            onPanStart: _handleDragStart,
-            onPanUpdate: _handleDragUpdate,
-            onPanEnd: _handleDragEnd,
-            onTap: _handleTap,
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: padding.left,
-                top: padding.top,
-                right: padding.right,
-                bottom: padding.bottom,
-              ),
-              child: widget.selectionControls.buildHandle(
-                context,
-                type,
-                lineHeight,
+          child: _SelectionHandleTouchArea(
+            // `interactiveRect` is relative to the point where the handle is
+            // attached, at the bottom of the line.
+            lineBottom: -interactiveRect.top,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              dragStartBehavior: widget.dragStartBehavior,
+              onPanDown: _handleDragDown,
+              onPanStart: _handleDragStart,
+              onPanUpdate: _handleDragUpdate,
+              onPanEnd: _handleDragEnd,
+              onTap: _handleTap,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: padding.left,
+                  top: padding.top,
+                  right: padding.right,
+                  bottom: padding.bottom,
+                ),
+                child: widget.selectionControls.buildHandle(
+                  context,
+                  type,
+                  lineHeight,
+                ),
               ),
             ),
           ),
@@ -659,6 +762,46 @@ class _TextSelectionHandleOverlayState
         return rtlType;
     }
   }
+}
+
+/// The touch area of a selection handle, which is larger than the handle that
+/// is drawn.
+///
+/// Below [lineBottom], only the handle receives touches. Otherwise the editor
+/// under the handle would also receive them, and the editor could scroll or
+/// select a word instead of moving the handle. Above [lineBottom], on the
+/// selected line, the editor still receives touches, so taps and long presses
+/// on the text next to the selection still work.
+class _SelectionHandleTouchArea extends SingleChildRenderObjectWidget {
+  const _SelectionHandleTouchArea({
+    required this.lineBottom,
+    required super.child,
+  });
+
+  /// The bottom of the line where the handle is attached, in the coordinates
+  /// of this widget.
+  final double lineBottom;
+
+  @override
+  _RenderSelectionHandleTouchArea createRenderObject(BuildContext context) =>
+      _RenderSelectionHandleTouchArea(lineBottom);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderSelectionHandleTouchArea renderObject,
+  ) {
+    renderObject.lineBottom = lineBottom;
+  }
+}
+
+class _RenderSelectionHandleTouchArea extends RenderProxyBox {
+  _RenderSelectionHandleTouchArea(this.lineBottom);
+
+  double lineBottom;
+
+  @override
+  bool hitTestSelf(Offset position) => position.dy >= lineBottom;
 }
 
 /// A gesture detector to respond to non-exclusive event chains for a
@@ -701,6 +844,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.detectWordBoundary = true,
     this.dragOffsetNotifier,
     this.quillMagnifierBuilder,
+    this.getMagnifierPoint,
     super.key,
   });
 
@@ -782,6 +926,12 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
   final QuillMagnifierBuilder? quillMagnifierBuilder;
 
+  /// Computes the point that the magnifier shows for the point that is being
+  /// selected, in global coordinates. [getMagnifierPointOnLine] is an example.
+  /// It is called only when [quillMagnifierBuilder] is set. If this is `null`,
+  /// the magnifier shows the point that is being selected.
+  final Offset Function(Offset selectionPoint)? getMagnifierPoint;
+
   @override
   State<StatefulWidget> createState() =>
       _EditorTextSelectionGestureDetectorState();
@@ -800,8 +950,12 @@ class _EditorTextSelectionGestureDetectorState
   // _isDoubleTap for mouse right click
   bool _isSecondaryDoubleTap = false;
 
-  // The last offset of the drag gesture.
+  // The point that the magnifier shows, in the coordinates of the root overlay.
   Offset? _magnifierPosition;
+
+  // Like the selection handles, the magnifier is in the root overlay, so that
+  // it is drawn above the rest of the app, such as an app bar.
+  OverlayEntry? _magnifierEntry;
 
   @override
   void initState() {
@@ -811,32 +965,85 @@ class _EditorTextSelectionGestureDetectorState
   }
 
   @override
+  void didUpdateWidget(EditorTextSelectionGestureDetector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.quillMagnifierBuilder == null) {
+      _removeMagnifier();
+    }
+  }
+
+  @override
   void dispose() {
     _doubleTapTimer?.cancel();
     _dragUpdateThrottleTimer?.cancel();
     widget.dragOffsetNotifier?.removeListener(_dragOffsetListener);
+    _removeMagnifier();
     super.dispose();
   }
 
-  // update magnifier location (hide if null) - this listener is called during a build phase
-  // when selection handles are being dragged, so update during the next build
+  // The selection handles can change `dragOffsetNotifier` during a build, when
+  // the overlay cannot change. In that case, update the magnifier at the end of
+  // the frame.
   void _dragOffsetListener() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Offset? position;
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => _updateMagnifier());
+    } else {
+      _updateMagnifier();
+    }
+  }
 
-      final globalPosition = widget.dragOffsetNotifier?.value;
+  // Shows, moves or removes the magnifier.
+  void _updateMagnifier() {
+    final selectionPoint = widget.dragOffsetNotifier?.value;
+    if (!mounted ||
+        selectionPoint == null ||
+        widget.quillMagnifierBuilder == null) {
+      _removeMagnifier();
+      return;
+    }
+    final globalMagnifierPoint =
+        widget.getMagnifierPoint?.call(selectionPoint) ?? selectionPoint;
+    if (!_isOnVisibleEditor(globalMagnifierPoint)) {
+      _removeMagnifier();
+      return;
+    }
+    final overlay = Overlay.of(context, rootOverlay: true);
+    _magnifierPosition = (overlay.context.findRenderObject()! as RenderBox)
+        .globalToLocal(globalMagnifierPoint);
+    if (_magnifierEntry == null) {
+      _magnifierEntry = OverlayEntry(builder: _buildMagnifier);
+      overlay.insert(_magnifierEntry!);
+    } else {
+      _magnifierEntry!.markNeedsBuild();
+    }
+  }
 
-      if (globalPosition != null) {
-        final renderBox = context.findRenderObject()! as RenderBox;
-        position = renderBox.globalToLocal(globalPosition);
-      }
+  // Text that is scrolled out of view cannot be magnified. At such a point,
+  // the magnifier would show something else that is drawn there, such as a
+  // toolbar below the editor.
+  bool _isOnVisibleEditor(Offset globalPosition) {
+    final editorBox = context.findRenderObject()! as RenderBox;
+    return (Offset.zero & editorBox.size).contains(
+      editorBox.globalToLocal(globalPosition),
+    );
+  }
 
-      if (mounted) {
-        setState(() {
-          _magnifierPosition = position;
-        });
-      }
-    });
+  Widget _buildMagnifier(BuildContext context) {
+    final point = _magnifierPosition;
+    final builder = widget.quillMagnifierBuilder;
+    if (point == null || builder == null) {
+      return const SizedBox.shrink();
+    }
+    return builder(point);
+  }
+
+  void _removeMagnifier() {
+    _magnifierEntry
+      ?..remove()
+      ..dispose();
+    _magnifierEntry = null;
+    _magnifierPosition = null;
   }
 
   // The down handler is force-run on success of a single tap and optimistically
@@ -951,6 +1158,8 @@ class _EditorTextSelectionGestureDetectorState
     }
 
     widget.onDragSelectionEnd?.call(details);
+    // Remove the magnifier, as at the end of a long press or a handle drag.
+    widget.dragOffsetNotifier?.value = null;
 
     _dragUpdateThrottleTimer = null;
     _lastDragStartDetails = null;
@@ -1012,7 +1221,9 @@ class _EditorTextSelectionGestureDetectorState
 
     // Use _TransparentTapGestureRecognizer so that TextSelectionGestureDetector
     // can receive the same tap events that a selection handle placed visually
-    // on top of it also receives.
+    // on top of it also receives. Only the part of a handle's touch area that
+    // is on the selected line passes these events on. Below that line, only
+    // the handle receives them (see `_SelectionHandleTouchArea`).
     gestures[_TransparentTapGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<_TransparentTapGestureRecognizer>(
           () => _TransparentTapGestureRecognizer(debugOwner: this),
@@ -1086,15 +1297,7 @@ class _EditorTextSelectionGestureDetectorState
       gestures: gestures,
       excludeFromSemantics: true,
       behavior: widget.behavior,
-      child: (widget.quillMagnifierBuilder == null)
-          ? widget.child
-          : Stack(
-              children: [
-                widget.child,
-                if (_magnifierPosition != null)
-                  widget.quillMagnifierBuilder!(_magnifierPosition!),
-              ],
-            ),
+      child: widget.child,
     );
   }
 }
@@ -1104,10 +1307,11 @@ class _EditorTextSelectionGestureDetectorState
 // GestureRecognizers can handle the same event.
 //
 // This enables proper handling of events on both the selection handle and the
-// underlying input, since there is significant overlap between the two given
-// the handle's padded hit area.  For example, the selection handle needs to
-// handle single taps on itself, but double taps need to be handled by the
-// underlying input.
+// underlying input where the two overlap. They overlap in the part of the
+// handle's touch area that is on the selected line. There, for example, the
+// selection handle needs to handle single taps on itself, but double taps need
+// to be handled by the underlying input. Below the selected line, the touch
+// area does not pass any events on (see `_SelectionHandleTouchArea`).
 class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
   _TransparentTapGestureRecognizer({super.debugOwner});
 

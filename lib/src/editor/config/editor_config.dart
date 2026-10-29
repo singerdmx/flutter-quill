@@ -401,6 +401,11 @@ class QuillEditorConfig {
   ///
   /// There is a provided magnifier [QuillMagnifier] that is available via the function
   /// defaultQuillMagnifierBuilder
+  ///
+  /// On Android and iOS, the magnifier shows the line that is being selected
+  /// while the user drags a selection handle or selects text with a long
+  /// press. It is shown in the root [Overlay], above the rest of the app. See
+  /// [QuillMagnifierBuilder] for the point that the builder receives.
   final QuillMagnifierBuilder? quillMagnifierBuilder;
 
   /// See [search](https://github.com/singerdmx/flutter-quill/blob/master/doc/configurations/search.md)

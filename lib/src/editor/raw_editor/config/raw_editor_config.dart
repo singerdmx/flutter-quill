@@ -424,5 +424,7 @@ class QuillRawEditorConfig {
   final void Function(TextInputAction action)? onPerformAction;
 
   /// Used to build the [QuillMagnifier] when long-pressing/dragging selection
+  ///
+  /// See [QuillMagnifierBuilder] for the point that the builder receives.
   final QuillMagnifierBuilder? quillMagnifierBuilder;
 }
