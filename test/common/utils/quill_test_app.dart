@@ -39,6 +39,7 @@ class QuillTestApp extends StatelessWidget {
     required this.home,
     required this.scaffoldBody,
     this.onLocalizationsAvailable,
+    this.builder,
     super.key,
   }) {
     if (home != null && scaffoldBody != null) {
@@ -50,20 +51,24 @@ class QuillTestApp extends StatelessWidget {
   factory QuillTestApp.withScaffold(
     Widget body, {
     LocalizationsAvailableCallback? onLocalizationsAvailable,
+    TransitionBuilder? builder,
   }) => QuillTestApp(
     home: null,
     scaffoldBody: body,
     onLocalizationsAvailable: onLocalizationsAvailable,
+    builder: builder,
   );
 
   /// Creates a [QuillTestApp] with the specified [home] widget.
   factory QuillTestApp.home(
     Widget home, {
     LocalizationsAvailableCallback? onLocalizationsAvailable,
+    TransitionBuilder? builder,
   }) => QuillTestApp(
     home: home,
     scaffoldBody: null,
     onLocalizationsAvailable: onLocalizationsAvailable,
+    builder: builder,
   );
 
   /// The home widget for the application.
@@ -78,11 +83,15 @@ class QuillTestApp extends StatelessWidget {
 
   final LocalizationsAvailableCallback? onLocalizationsAvailable;
 
+  /// Wraps the app's [Navigator], as [MaterialApp.builder] does.
+  final TransitionBuilder? builder;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: FlutterQuillLocalizations.localizationsDelegates,
       supportedLocales: FlutterQuillLocalizations.supportedLocales,
+      builder: builder,
       home: Builder(
         builder: (context) {
           if (onLocalizationsAvailable != null) {

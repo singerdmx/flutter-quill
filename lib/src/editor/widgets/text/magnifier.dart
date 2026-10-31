@@ -20,10 +20,10 @@ Widget defaultQuillMagnifierBuilder(Offset dragPosition) =>
 /// A magnifier that appears above [dragPosition] and shows an enlarged view of
 /// the text at that point.
 ///
-/// The magnifier always stays inside the screen and does not cover the system
-/// bars, such as the status bar. Near an edge of the screen, it moves from its
-/// usual place above [dragPosition], but it still shows the text at that
-/// point.
+/// The magnifier always stays inside the [Overlay] that shows it and inside
+/// the screen, and it does not cover the system bars, such as the status bar.
+/// Near an edge, it moves from its usual place above [dragPosition], but it
+/// still shows the text at that point.
 class QuillMagnifier extends StatelessWidget {
   const QuillMagnifier({required this.dragPosition, super.key});
 
@@ -36,21 +36,46 @@ class QuillMagnifier extends StatelessWidget {
   // The distance between `dragPosition` and the bottom edge of the magnifier.
   static const _gapAbovePoint = 22.0;
 
+  // The area in which the magnifier is fully visible, in the coordinates of
+  // the overlay that shows it: the part of the overlay that is on the screen
+  // and not under the system bars. An app can make its root overlay smaller
+  // than the screen, for example with `MaterialApp.builder`.
+  static Rect _getVisibleArea(BuildContext context) {
+    final safeArea = MediaQuery.paddingOf(
+      context,
+    ).deflateRect(Offset.zero & MediaQuery.sizeOf(context));
+    final overlayBox = Overlay.maybeOf(context)?.context.findRenderObject();
+    if (overlayBox is! RenderBox || !overlayBox.hasSize) {
+      return safeArea;
+    }
+    return (Offset.zero & overlayBox.size).intersect(
+      Rect.fromPoints(
+        overlayBox.globalToLocal(safeArea.topLeft),
+        overlayBox.globalToLocal(safeArea.bottomRight),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final magnifierRect = MagnifierController.shiftWithinBounds(
-      rect: Rect.fromCenter(
-        center: dragPosition.translate(
-          0,
-          -_gapAbovePoint - _magnifierSize.height / 2,
-        ),
-        width: _magnifierSize.width,
-        height: _magnifierSize.height,
+    final usualRect = Rect.fromCenter(
+      center: dragPosition.translate(
+        0,
+        -_gapAbovePoint - _magnifierSize.height / 2,
       ),
-      bounds: MediaQuery.paddingOf(
-        context,
-      ).deflateRect(Offset.zero & MediaQuery.sizeOf(context)),
+      width: _magnifierSize.width,
+      height: _magnifierSize.height,
     );
+    final visibleArea = _getVisibleArea(context);
+    // An area smaller than the magnifier cannot hold it anyway.
+    final magnifierRect =
+        visibleArea.width >= usualRect.width &&
+            visibleArea.height >= usualRect.height
+        ? MagnifierController.shiftWithinBounds(
+            rect: usualRect,
+            bounds: visibleArea,
+          )
+        : usualRect;
     return Positioned.fromRect(
       rect: magnifierRect,
       child: IgnorePointer(

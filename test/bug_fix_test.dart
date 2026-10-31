@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -622,6 +624,10 @@ void main() {
     final documentJson = [
       for (var i = 1; i <= 40; i++) {'insert': 'Line $i alpha bravo charlie\n'},
     ];
+    const platforms = TargetPlatformVariant({
+      TargetPlatform.android,
+      TargetPlatform.iOS,
+    });
 
     testWidgets('a drag down that starts just below the drawn handle moves '
         'the handle instead of scrolling the editor', (tester) async {
@@ -730,6 +736,39 @@ void main() {
         });
       }
     }
+
+    testWidgets('a stylus drags a selection handle as a finger does, and the '
+        'handles stay', (tester) async {
+      final controller = await _pumpEditor(tester, documentJson);
+      final before = await _selectMiddleWord(tester, controller, 4);
+      final gesture = await _beginDraggingHandle(
+        tester,
+        isStart: false,
+        kind: PointerDeviceKind.stylus,
+      );
+
+      _expectDraggedEndMovedOnLine(controller, before, isStart: false, line: 4);
+      // `_getSelectionHandleTouchArea` also checks that both handles are
+      // still shown.
+      _getSelectionHandleTouchArea(tester, isStart: false);
+      await gesture.up();
+    }, variant: platforms);
+
+    testWidgets('a touch on a selection handle is not a tap outside the '
+        'editor', (tester) async {
+      var tapsOutside = 0;
+      final controller = await _pumpEditor(
+        tester,
+        documentJson,
+        onTapOutside: (_, _) => tapsOutside++,
+      );
+      await _selectMiddleWord(tester, controller, 4);
+      final gesture = await _beginDraggingHandle(tester, isStart: false);
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(tapsOutside, 0);
+    }, variant: platforms);
   });
 
   group('The magnifier shows the line that is being selected', () {
@@ -915,6 +954,48 @@ void main() {
       await gesture.up();
     }, variant: platforms);
 
+    testWidgets('the magnifier stays inside a root overlay that is smaller '
+        'than the screen, and still magnifies the selected line', (
+      tester,
+    ) async {
+      final magnifierPoints = <Offset>[];
+      final controller = await _pumpEditor(
+        tester,
+        [
+          {'insert': 'alpha bravo charlie\n'},
+        ],
+        quillMagnifierBuilder: _createRecordingMagnifierBuilder(
+          magnifierPoints,
+        ),
+        // So narrow that each word is on a line of its own, which ends near
+        // the right edge of the overlay.
+        appBuilder: (context, child) => Align(
+          alignment: Alignment.topLeft,
+          child: SizedBox(width: 150, height: 400, child: child),
+        ),
+      );
+      await _selectMiddleWord(tester, controller, 0);
+      final gesture = await _beginDraggingHandle(tester, isStart: false);
+
+      final overlayRect = tester.getRect(find.byType(Overlay).first);
+      final magnifier = find.byType(RawMagnifier);
+      final magnifierRect = tester.getRect(magnifier);
+      expect(
+        magnifierRect.left >= overlayRect.left &&
+            magnifierRect.top >= overlayRect.top &&
+            magnifierRect.right <= overlayRect.right &&
+            magnifierRect.bottom <= overlayRect.bottom,
+        isTrue,
+        reason: '$magnifierRect is not inside $overlayRect',
+      );
+      expect(
+        magnifierRect.center +
+            tester.widget<RawMagnifier>(magnifier).focalPointOffset,
+        offsetMoreOrLessEquals(magnifierPoints.last, epsilon: 0.5),
+      );
+      await gesture.up();
+    }, variant: platforms);
+
     testWidgets('dragging onto an empty line magnifies it', (tester) async {
       final magnifierPoints = <Offset>[];
       final controller = await _pumpEditor(
@@ -940,6 +1021,74 @@ void main() {
       );
       await gesture.up();
     }, variant: platforms);
+
+    testWidgets(
+      'on a line with text in both directions, the magnifier follows the '
+      'handle over the text in the other direction',
+      (tester) async {
+        const lineText = 'abc defg אבגד הוזח';
+        // A paragraph, and an item of a list. The editor shows a list as a
+        // block of lines.
+        for (final lineAttributes in [
+          null,
+          {'list': 'bullet'},
+        ]) {
+          final reason = lineAttributes == null ? 'paragraph' : 'list item';
+          final magnifierPoints = <Offset>[];
+          final controller = await _pumpEditor(
+            tester,
+            [
+              {'insert': lineText},
+              {
+                'insert': '\n',
+                if (lineAttributes != null) 'attributes': lineAttributes,
+              },
+            ],
+            quillMagnifierBuilder: _createRecordingMagnifierBuilder(
+              magnifierPoints,
+            ),
+          );
+          await _selectMiddleWord(tester, controller, 0);
+          // The middle of the Hebrew text, between its left and right ends.
+          // The ends are measured from the carets between its letters.
+          final hebrewStart = lineText.indexOf('א');
+          final hebrewCaretXs = [
+            for (var offset = hebrewStart; offset <= lineText.length; offset++)
+              _getCaretCenter(tester, offset).dx,
+          ];
+          final hebrewMiddleX =
+              (hebrewCaretXs.reduce(math.min) +
+                  hebrewCaretXs.reduce(math.max)) /
+              2;
+          // A dragged end moves as far as the finger, from the middle of its
+          // line at the handle.
+          final distanceToHebrewMiddle =
+              hebrewMiddleX -
+              _getLineMiddleAtHandle(tester, controller, isStart: false).dx;
+          final gesture = await tester.startGesture(
+            _getSelectionHandleTouchArea(tester, isStart: false).center,
+          );
+          for (var i = 0; i < 5; i++) {
+            await gesture.moveBy(Offset(distanceToHebrewMiddle / 5, 0));
+            await tester.pump(const Duration(milliseconds: 16));
+          }
+
+          expect(
+            controller.selection.end,
+            greaterThan(hebrewStart),
+            reason: reason,
+          );
+          expect(
+            magnifierPoints.last.dx,
+            moreOrLessEquals(hebrewMiddleX, epsilon: 0.5),
+            reason: reason,
+          );
+          await gesture.up();
+          await tester.pumpAndSettle();
+        }
+      },
+      variant: platforms,
+    );
 
     testWidgets('the magnifier is hidden while the selected line is outside '
         'the visible part of the editor', (tester) async {
@@ -984,6 +1133,65 @@ void main() {
       expect(find.byType(QuillMagnifier), findsNothing);
       await gesture.up();
     }, variant: platforms);
+
+    testWidgets(
+      'the magnifier is hidden while the selected line is scrolled out of view '
+      'by a scroll view around an editor that does not scroll itself',
+      (tester) async {
+        final magnifierPoints = <Offset>[];
+        final outerScrollController = ScrollController();
+        addTearDown(outerScrollController.dispose);
+        final controller = await _pumpEditor(
+          tester,
+          [
+            {
+              'insert':
+                  '${[for (var i = 1; i <= 40; i++) 'Line $i alpha bravo'].join('\n')}\n',
+            },
+          ],
+          quillMagnifierBuilder: _createRecordingMagnifierBuilder(
+            magnifierPoints,
+          ),
+          withAppBar: true,
+          outerScrollController: outerScrollController,
+        );
+        outerScrollController.jumpTo(200);
+        await tester.pumpAndSettle();
+        // The first line that is fully visible below the app bar.
+        final scrollViewTop = tester
+            .getRect(find.byType(SingleChildScrollView))
+            .top;
+        final lineHeight = _getRenderEditor(
+          tester,
+        ).preferredLineHeight(const TextPosition(offset: 0));
+        var line = 0;
+        while (_getLineMiddleY(tester, controller, line) <
+            scrollViewTop + lineHeight) {
+          line++;
+        }
+        await _selectMiddleWord(tester, controller, line);
+        final gesture = await _beginDraggingHandle(tester, isStart: true);
+        expect(find.byType(QuillMagnifier), findsOneWidget);
+
+        // Up, over the app bar. The lines there are scrolled out of view.
+        for (var i = 0; i < 20; i++) {
+          await gesture.moveBy(const Offset(0, -4));
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+
+        expect(
+          controller.selection.start,
+          lessThan(_getLineStart(controller, line)),
+        );
+        expect(
+          magnifierPoints.where((point) => point.dy < scrollViewTop),
+          isEmpty,
+        );
+        await gesture.up();
+        await tester.pumpAndSettle();
+      },
+      variant: platforms,
+    );
 
     testWidgets('the magnifier is removed together with the editor', (
       tester,
@@ -1070,7 +1278,11 @@ void main() {
 ///
 /// If [withAppBar] is `true`, an [AppBar] is shown above the editor. If
 /// [editorHeight] is given, the editor has that height and is at the top of
-/// the screen.
+/// the screen. If [outerScrollController] is given, the editor does not scroll
+/// itself. Instead, it is inside a [SingleChildScrollView] that
+/// [outerScrollController] scrolls. If [appBuilder] is given, it wraps the
+/// app's [Navigator], as [MaterialApp.builder] does. [onTapOutside] is passed
+/// to the editor's configuration.
 Future<QuillController> _pumpEditor(
   WidgetTester tester,
   List<Map<String, Object>> documentJson, {
@@ -1078,6 +1290,9 @@ Future<QuillController> _pumpEditor(
   QuillMagnifierBuilder? quillMagnifierBuilder,
   bool withAppBar = false,
   double? editorHeight,
+  ScrollController? outerScrollController,
+  TransitionBuilder? appBuilder,
+  void Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
 }) async {
   final controller = QuillController(
     document: Document.fromJson(documentJson),
@@ -1088,17 +1303,25 @@ Future<QuillController> _pumpEditor(
   addTearDown(controller.dispose);
   addTearDown(focusNode.dispose);
   addTearDown(scrollController.dispose);
-  final editor = QuillEditor(
+  final quillEditor = QuillEditor(
     controller: controller,
     focusNode: focusNode,
     scrollController: scrollController,
     config: QuillEditorConfig(
       padding: const EdgeInsets.all(16),
+      scrollable: outerScrollController == null,
       contextMenuBuilder: (_, _) => const SizedBox.shrink(),
       embedBuilders: embedBuilders,
       quillMagnifierBuilder: quillMagnifierBuilder,
+      onTapOutside: onTapOutside,
     ),
   );
+  final editor = outerScrollController == null
+      ? quillEditor
+      : SingleChildScrollView(
+          controller: outerScrollController,
+          child: quillEditor,
+        );
   final body = editorHeight == null
       ? editor
       : Column(
@@ -1120,8 +1343,9 @@ Future<QuillController> _pumpEditor(
               appBar: AppBar(title: const Text('Notes')),
               body: body,
             ),
+            builder: appBuilder,
           )
-        : QuillTestApp.withScaffold(body),
+        : QuillTestApp.withScaffold(body, builder: appBuilder),
   );
   focusNode.requestFocus();
   await tester.pumpAndSettle();
@@ -1133,6 +1357,26 @@ RenderEditor _getRenderEditor(WidgetTester tester) => tester
     .editableTextKey
     .currentState!
     .renderEditor;
+
+/// Returns the middle of the caret at [offset], in global coordinates.
+///
+/// The x is taken from the end point of a collapsed selection, because
+/// `RenderEditor.getLocalRectForCaret` leaves out the horizontal offset of the
+/// line, such as the editor's padding.
+Offset _getCaretCenter(WidgetTester tester, int offset) {
+  final renderEditor = _getRenderEditor(tester);
+  final position = TextPosition(offset: offset);
+  return renderEditor.localToGlobal(
+    Offset(
+      renderEditor
+          .getEndpointsForSelection(TextSelection.fromPosition(position))
+          .first
+          .point
+          .dx,
+      renderEditor.getLocalRectForCaret(position).center.dy,
+    ),
+  );
+}
 
 int _getLineStart(QuillController controller, int line) {
   final text = controller.document.toPlainText();
@@ -1162,16 +1406,9 @@ Future<TextSelection> _selectMiddleWord(
       .allMatches(text.substring(lineStart, text.indexOf('\n', lineStart)))
       .toList();
   final middleWordMatch = wordMatches[wordMatches.length ~/ 2];
-  final renderEditor = _getRenderEditor(tester);
-  final wordCenter = renderEditor.localToGlobal(
-    renderEditor
-        .getLocalRectForCaret(
-          TextPosition(
-            offset:
-                lineStart + (middleWordMatch.start + middleWordMatch.end) ~/ 2,
-          ),
-        )
-        .center,
+  final wordCenter = _getCaretCenter(
+    tester,
+    lineStart + (middleWordMatch.start + middleWordMatch.end) ~/ 2,
   );
   if (defaultTargetPlatform == TargetPlatform.iOS) {
     await tester.tapAt(wordCenter);
@@ -1280,11 +1517,13 @@ QuillMagnifierBuilder _createRecordingMagnifierBuilder(
 /// Begins dragging the start or end handle, and keeps the finger on the
 /// screen. The finger starts at [heightFraction] of the height of the handle's
 /// touch area. It then moves along the line, away from the other handle, far
-/// enough for the drag to be recognized.
+/// enough for the drag to be recognized. [kind] is the kind of pointer that
+/// drags, such as a stylus instead of a finger.
 Future<TestGesture> _beginDraggingHandle(
   WidgetTester tester, {
   required bool isStart,
   double heightFraction = 0.5,
+  PointerDeviceKind kind = PointerDeviceKind.touch,
 }) async {
   final touchArea = _getSelectionHandleTouchArea(tester, isStart: isStart);
   final gesture = await tester.startGesture(
@@ -1292,6 +1531,7 @@ Future<TestGesture> _beginDraggingHandle(
       touchArea.center.dx,
       touchArea.top + touchArea.height * heightFraction,
     ),
+    kind: kind,
   );
   for (var i = 0; i < 5; i++) {
     await gesture.moveBy(Offset(isStart ? -10 : 10, 0));

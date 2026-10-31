@@ -114,8 +114,11 @@ abstract class RenderEditableBox extends RenderBox {
   /// contains bidirectional text because logically contiguous text might not be
   /// visually contiguous.
   ///
+  /// The `textSelection` parameter must be relative to the [node]'s content.
+  /// The rects are in the local coordinates of this render box.
+  ///
   /// Valid only after [layout].
-  // List<TextBox> getBoxesForSelection(TextSelection selection);
+  List<TextBox> getBoxesForSelection(TextSelection textSelection);
 
   /// Returns a point for the base selection handle used on touch-oriented
   /// devices.

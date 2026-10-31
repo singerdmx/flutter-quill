@@ -4,7 +4,8 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show RenderProxyBox;
+import 'package:flutter/rendering.dart'
+    show BoxParentData, RenderAbstractViewport, RenderProxyBox;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
@@ -35,21 +36,59 @@ Offset getMagnifierPointOnLine(RenderEditor editor, Offset selectionPoint) {
       .getEndpointsForSelection(TextSelection.fromPosition(position))
       .first
       .point;
-  var localX = caretBottom.dx;
-  // An empty line has no text, so it has no ends to keep `localX` between.
-  // Also, `getLineAtOffset` fails with an error for an empty line.
-  if ((editor.document.queryChild(position.offset).node?.length ?? 1) > 1) {
-    final lineEnds = editor.getEndpointsForSelection(
-      editor.getLineAtOffset(position),
-    );
-    localX = clampDouble(
-      editor.globalToLocal(selectionPoint).dx,
-      math.min(lineEnds.first.point.dx, lineEnds.last.point.dx),
-      math.max(lineEnds.first.point.dx, lineEnds.last.point.dx),
-    );
+  final lineMiddleY = caretBottom.dy - editor.preferredLineHeight(position) / 2;
+  final lineEnds = _getLineEnds(editor, position, lineMiddleY);
+  // An empty line has no ends to keep the point between, so the point is at
+  // the caret.
+  final localX = lineEnds == null
+      ? caretBottom.dx
+      : clampDouble(
+          editor.globalToLocal(selectionPoint).dx,
+          lineEnds.left,
+          lineEnds.right,
+        );
+  return editor.localToGlobal(Offset(localX, lineMiddleY));
+}
+
+/// Returns the left and right ends of the text on the line at [position], in
+/// the local coordinates of [editor], or `null` if that line has no text.
+/// [lineMiddleY] is the vertical middle of that line, in the same coordinates.
+///
+/// The ends are taken from the boxes around the text, because
+/// `getLineAtOffset` is not exact for a line with text in both directions:
+/// its range can end where the two directions meet, in the middle of the line.
+({double left, double right})? _getLineEnds(
+  RenderEditor editor,
+  TextPosition position,
+  double lineMiddleY,
+) {
+  final documentLine = editor.document.queryChild(position.offset).node;
+  if (documentLine == null) {
+    return null;
   }
-  return editor.localToGlobal(
-    Offset(localX, caretBottom.dy - editor.preferredLineHeight(position) / 2),
+  final child = editor.childAtPosition(position);
+  final childOrigin = (child.parentData as BoxParentData).offset;
+  // A line of the document can wrap onto several lines on the screen. Only
+  // the boxes across `lineMiddleY` are on the line at `position`.
+  final lineBoxes = child
+      .getBoxesForSelection(
+        localSelection(
+          child.container,
+          TextSelection(
+            baseOffset: documentLine.documentOffset,
+            extentOffset: documentLine.documentOffset + documentLine.length - 1,
+          ),
+          true,
+        ),
+      )
+      .map((box) => box.toRect().shift(childOrigin))
+      .where((box) => box.top < lineMiddleY && box.bottom > lineMiddleY);
+  if (lineBoxes.isEmpty) {
+    return null;
+  }
+  return (
+    left: lineBoxes.map((box) => box.left).reduce(math.min),
+    right: lineBoxes.map((box) => box.right).reduce(math.max),
   );
 }
 
@@ -710,35 +749,40 @@ class _TextSelectionHandleOverlayState
       link: layerLink,
       offset: interactiveRect.topLeft,
       showWhenUnlinked: false,
-      child: FadeTransition(
-        opacity: _opacity,
-        child: Container(
-          alignment: Alignment.topLeft,
-          width: interactiveRect.width,
-          height: interactiveRect.height,
-          child: _SelectionHandleTouchArea(
-            // `interactiveRect` is relative to the point where the handle is
-            // attached, at the bottom of the line.
-            lineBottom: -interactiveRect.top,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              dragStartBehavior: widget.dragStartBehavior,
-              onPanDown: _handleDragDown,
-              onPanStart: _handleDragStart,
-              onPanUpdate: _handleDragUpdate,
-              onPanEnd: _handleDragEnd,
-              onTap: _handleTap,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: padding.left,
-                  top: padding.top,
-                  right: padding.right,
-                  bottom: padding.bottom,
-                ),
-                child: widget.selectionControls.buildHandle(
-                  context,
-                  type,
-                  lineHeight,
+      // A pointer on a handle is part of using the editor, not a tap outside
+      // it. Otherwise, a stylus or a mouse on a handle makes the editor lose
+      // the focus, which removes the handles before a drag can start.
+      child: TextFieldTapRegion(
+        child: FadeTransition(
+          opacity: _opacity,
+          child: Container(
+            alignment: Alignment.topLeft,
+            width: interactiveRect.width,
+            height: interactiveRect.height,
+            child: _SelectionHandleTouchArea(
+              // `interactiveRect` is relative to the point where the handle is
+              // attached, at the bottom of the line.
+              lineBottom: -interactiveRect.top,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                dragStartBehavior: widget.dragStartBehavior,
+                onPanDown: _handleDragDown,
+                onPanStart: _handleDragStart,
+                onPanUpdate: _handleDragUpdate,
+                onPanEnd: _handleDragEnd,
+                onTap: _handleTap,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: padding.left,
+                    top: padding.top,
+                    right: padding.right,
+                    bottom: padding.bottom,
+                  ),
+                  child: widget.selectionControls.buildHandle(
+                    context,
+                    type,
+                    lineHeight,
+                  ),
                 ),
               ),
             ),
@@ -1021,12 +1065,21 @@ class _EditorTextSelectionGestureDetectorState
 
   // Text that is scrolled out of view cannot be magnified. At such a point,
   // the magnifier would show something else that is drawn there, such as a
-  // toolbar below the editor.
+  // toolbar below the editor. The point must be inside the editor and inside
+  // every scroll view around it, because an editor that does not scroll
+  // itself can be partly scrolled out of view by such a scroll view.
   bool _isOnVisibleEditor(Offset globalPosition) {
-    final editorBox = context.findRenderObject()! as RenderBox;
-    return (Offset.zero & editorBox.size).contains(
-      editorBox.globalToLocal(globalPosition),
-    );
+    // The editor's box first, then the box of each scroll view around it.
+    var boundingBox = context.findRenderObject();
+    while (boundingBox is RenderBox) {
+      if (!(Offset.zero & boundingBox.size).contains(
+        boundingBox.globalToLocal(globalPosition),
+      )) {
+        return false;
+      }
+      boundingBox = RenderAbstractViewport.maybeOf(boundingBox.parent);
+    }
+    return true;
   }
 
   Widget _buildMagnifier(BuildContext context) {
