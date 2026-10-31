@@ -35,9 +35,12 @@ class QuillRawEditor extends StatefulWidget {
   /// dragOffsetNotifier - Only used on iOS and Android
   ///
   /// [QuillRawEditor] contains a gesture detector [EditorTextSelectionGestureDetector]
-  /// within it's widget tree that includes a [RawMagnifier]. The RawMagnifier needs
-  /// the current position of selection drag events in order to display the magnifier
-  /// in the correct location. Setting the position to null will hide the magnifier.
+  /// within its widget tree that shows the magnifier in the root [Overlay]. The
+  /// value is the point that is being selected, in global coordinates. During
+  /// a long press or a mouse drag, it is the position of the touch or of the
+  /// mouse. During a handle drag, it is the point to which the dragged end of
+  /// the selection moves. The magnifier shows the line at this point. Setting
+  /// the value to `null` hides the magnifier.
   ///
   /// Initial selection events are posted by [EditorTextSelectionGestureDetector]. Once
   /// a selection has been created, dragging the selection handles happens in

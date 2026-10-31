@@ -206,7 +206,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // added to show toolbar by right click
       if (checkSelectionToolbarShouldShow(isAdditionalAction: true)) {
-        editor!.showToolbar();
+        // The app may remove the editor before this callback runs.
+        editor?.showToolbar();
       }
     });
     SchedulerBinding.instance.scheduleFrame();
@@ -299,7 +300,10 @@ class EditorTextSelectionGestureDetectorBuilder {
       // get added
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
-          editor!.showToolbar();
+          // The app may remove the editor before this callback runs. If the
+          // double tap does not change the selection, nothing requests a
+          // frame, so the callback may run much later.
+          editor?.showToolbar();
         }
       });
     }
@@ -388,6 +392,12 @@ class EditorTextSelectionGestureDetectorBuilder {
       detectWordBoundary: detectWordBoundary,
       dragOffsetNotifier: dragOffsetNotifier,
       quillMagnifierBuilder: quillMagnifierBuilder,
+      getMagnifierPoint: (selectionPoint) {
+        final renderEditor = this.renderEditor;
+        return renderEditor == null
+            ? selectionPoint
+            : getMagnifierPointOnLine(renderEditor, selectionPoint);
+      },
       child: child,
     );
   }

@@ -616,6 +616,33 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   }
 
   @override
+  List<TextBox> getBoxesForSelection(TextSelection textSelection) {
+    final boxes = <TextBox>[];
+    for (var child = firstChild; child != null; child = childAfter(child)) {
+      final childStart = child.container.offset;
+      if (childStart >= textSelection.end ||
+          childStart + child.container.length <= textSelection.start) {
+        continue;
+      }
+      final parentData = child.parentData as BoxParentData;
+      for (final box in child.getBoxesForSelection(
+        localSelection(child.container, textSelection, true),
+      )) {
+        boxes.add(
+          TextBox.fromLTRBD(
+            box.left + parentData.offset.dx,
+            box.top + parentData.offset.dy,
+            box.right + parentData.offset.dx,
+            box.bottom + parentData.offset.dy,
+            box.direction,
+          ),
+        );
+      }
+    }
+    return boxes;
+  }
+
+  @override
   TextSelectionPoint getBaseEndpointForSelection(TextSelection selection) {
     if (selection.isCollapsed) {
       return TextSelectionPoint(

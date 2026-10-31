@@ -1043,6 +1043,10 @@ class RenderEditableTextLine extends RenderEditableBox {
     return newChild;
   }
 
+  @override
+  List<TextBox> getBoxesForSelection(TextSelection textSelection) =>
+      _getBoxes(textSelection);
+
   List<TextBox> _getBoxes(TextSelection textSelection) {
     final parentData = _body!.parentData as BoxParentData?;
     return _body!

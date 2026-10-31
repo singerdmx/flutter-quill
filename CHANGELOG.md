@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `quillMagnifierBuilder` now receives the point to magnify instead of the position of the finger. This point is on the line that is being selected, in the coordinates of the root `Overlay`. The magnifier is now shown in that overlay instead of inside the editor. Builders that place their widget relative to the point, such as `defaultQuillMagnifierBuilder`, work without changes.
+
+### Fixed
+
+- Fixed the optional magnifier (`quillMagnifierBuilder`), which showed the area under the finger instead of the line that is being selected. It is no longer cut off at the edges of the editor or hidden under an app bar ([#2566](https://github.com/singerdmx/flutter-quill/issues/2566)), and it stays inside the screen and inside the root `Overlay`. It is hidden while the line that is being selected is scrolled out of view. On Android and iOS, it now also disappears when a mouse drag ends.
+- Fixed selection handles that behaved differently depending on where the user touched them. On Android, a handle could stop moving or jump to another line. On iOS (since 11.6.0), dragging the start handle moved the selection up by one or more lines, and the end handle often did not move ([#2774](https://github.com/singerdmx/flutter-quill/issues/2774)). A dragged handle now moves to another line only when the drag reaches half a line above or below its current line. A drag that starts just below a handle, with or without a long press first, now moves the handle instead of scrolling or selecting a word. Taps, double taps and long presses there no longer act on the text.
+- Fixed selection handles that could not be dragged with a stylus on Android and iOS. A pointer on a selection handle no longer counts as a tap outside the editor, so the editor keeps the focus and `onTapOutside` is not called.
+- Fixed a `Null check operator used on a null value` error when the editor was removed right after a double tap or a right click.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
