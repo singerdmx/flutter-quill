@@ -298,11 +298,7 @@ class Document {
       _unknownEmbedBuilder = unknownEmbedBuilder;
 
   /// Returns plain text within the specified text range.
-  String getPlainText(
-    int index,
-    int len, {
-    @internal bool includeEmbeds = false,
-  }) {
+  String getPlainText(int index, int len, {bool includeEmbeds = false}) {
     final res = queryChild(index);
     return (res.node as Line).getPlainText(
       res.offset,
