@@ -18,9 +18,11 @@ class QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions
 }
 
 class QuillToolbarSelectLineHeightStyleDropdownButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
-        QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+          QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions
+        > {
   const QuillToolbarSelectLineHeightStyleDropdownButtonOptions({
     super.afterButtonPressed,
     super.childBuilder,

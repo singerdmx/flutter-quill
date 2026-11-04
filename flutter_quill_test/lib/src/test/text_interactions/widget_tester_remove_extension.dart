@@ -29,9 +29,7 @@ extension QuillWidgetTesterRemoveExt on WidgetTester {
       await quillUpdateEditingValueWithSelection(
         finder,
         plainTextRemoved,
-        TextSelection.collapsed(
-          offset: selection.baseOffset,
-        ),
+        TextSelection.collapsed(offset: selection.baseOffset),
       );
       await idle();
     });
@@ -54,8 +52,11 @@ extension QuillWidgetTesterRemoveExt on WidgetTester {
   /// find.byType(QuillEditor)
   /// ```
   Future<void> quillRemoveText(Finder finder, TextSelection selection) async {
-    expect(selection.isValid, isTrue,
-        reason: 'The selection passed for removing text is not valid');
+    expect(
+      selection.isValid,
+      isTrue,
+      reason: 'The selection passed for removing text is not valid',
+    );
     final editor = findRawEditor(finder);
     final plainTextRemoved = editor.controller.document
         .toPlainText()

@@ -72,8 +72,12 @@ class ResolveLineFormatRule extends FormatRule {
     return result;
   }
 
-  Delta _applyAttribute(String text, Operation op, Attribute attribute,
-      {bool firstOnly = false}) {
+  Delta _applyAttribute(
+    String text,
+    Operation op,
+    Attribute attribute, {
+    bool firstOnly = false,
+  }) {
     final result = Delta();
     var offset = 0;
     var lf = text.indexOf('\n');
@@ -97,17 +101,21 @@ class ResolveLineFormatRule extends FormatRule {
   }
 
   Iterable<MapEntry<String, dynamic>> _getRemovedBlocks(
-      Attribute<dynamic> attribute, Operation op) {
+    Attribute<dynamic> attribute,
+    Operation op,
+  ) {
     // Enforce Block Format exclusivity by rule
     if (!Attribute.exclusiveBlockKeys.contains(attribute.key)) {
       return <MapEntry<String, dynamic>>[];
     }
 
     return op.attributes?.keys
-            .where((key) =>
-                Attribute.exclusiveBlockKeys.contains(key) &&
-                attribute.key != key &&
-                attribute.value != null)
+            .where(
+              (key) =>
+                  Attribute.exclusiveBlockKeys.contains(key) &&
+                  attribute.key != key &&
+                  attribute.value != null,
+            )
             .map((key) => MapEntry<String, dynamic>(key, null)) ??
         [];
   }

@@ -12,8 +12,12 @@ class QuillToolbarIndentButtonExtraOptions
 }
 
 @immutable
-class QuillToolbarIndentButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarIndentButtonOptions, QuillToolbarIndentButtonExtraOptions> {
+class QuillToolbarIndentButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarIndentButtonOptions,
+          QuillToolbarIndentButtonExtraOptions
+        > {
   const QuillToolbarIndentButtonOptions({
     super.iconData,
     super.afterButtonPressed,

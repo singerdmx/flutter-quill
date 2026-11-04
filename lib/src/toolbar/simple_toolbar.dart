@@ -50,12 +50,13 @@ class QuillSimpleToolbar extends StatelessWidget
       final axis = config.axis;
 
       final divider = SizedBox(
-          height: _toolbarSize,
-          child: QuillToolbarDivider(
-            axis,
-            color: config.sectionDividerColor,
-            space: config.sectionDividerSpace,
-          ));
+        height: _toolbarSize,
+        child: QuillToolbarDivider(
+          axis,
+          color: config.sectionDividerColor,
+          space: config.sectionDividerSpace,
+        ),
+      );
 
       final groups = [
         [
@@ -348,7 +349,8 @@ class QuillSimpleToolbar extends StatelessWidget
           );
         }
         return Container(
-          decoration: config.decoration ??
+          decoration:
+              config.decoration ??
               BoxDecoration(
                 color: config.color ?? Theme.of(context).canvasColor,
               ),
@@ -376,20 +378,15 @@ class QuillSimpleToolbar extends StatelessWidget
 /// It can be used outside of this package, for example when user does not use
 /// [QuillToolbar.basic] and compose toolbar's children on its own.
 class QuillToolbarDivider extends StatelessWidget {
-  const QuillToolbarDivider(
-    this.axis, {
-    super.key,
-    this.color,
-    this.space,
-  });
+  const QuillToolbarDivider(this.axis, {super.key, this.color, this.space});
 
   /// Provides a horizontal divider for vertical toolbar.
   const QuillToolbarDivider.horizontal({Key? key, Color? color, double? space})
-      : this(Axis.horizontal, color: color, space: space, key: key);
+    : this(Axis.horizontal, color: color, space: space, key: key);
 
   /// Provides a horizontal divider for horizontal toolbar.
   const QuillToolbarDivider.vertical({Key? key, Color? color, double? space})
-      : this(Axis.vertical, color: color, space: space, key: key);
+    : this(Axis.vertical, color: color, space: space, key: key);
 
   /// The axis along which the toolbar is.
   final Axis axis;
@@ -404,12 +401,7 @@ class QuillToolbarDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     // Vertical toolbar requires horizontal divider, and vice versa
     return axis == Axis.vertical
-        ? Divider(
-            height: space,
-            color: color,
-            indent: 12,
-            endIndent: 12,
-          )
+        ? Divider(height: space, color: color, indent: 12, endIndent: 12)
         : VerticalDivider(
             width: space,
             color: color,

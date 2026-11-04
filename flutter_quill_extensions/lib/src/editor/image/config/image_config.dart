@@ -12,12 +12,12 @@ import '../image_embed_types.dart';
 @immutable
 class QuillEditorImageEmbedConfig {
   const QuillEditorImageEmbedConfig({
-    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
+    this._onImageRemovedCallback,
     this.shouldRemoveImageCallback,
     this.imageProviderBuilder,
     this.imageErrorWidgetBuilder,
     this.onImageClicked,
-  }) : _onImageRemovedCallback = onImageRemovedCallback;
+  });
 
   /// [onImageRemovedCallback] is called when an image is
   ///  removed from the editor.

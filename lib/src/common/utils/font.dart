@@ -22,8 +22,10 @@ dynamic getFontSize(dynamic sizeValue) {
   return fontSize;
 }
 
-double? getFontSizeAsDouble(dynamic sizeValue,
-    {required DefaultStyles defaultStyles}) {
+double? getFontSizeAsDouble(
+  dynamic sizeValue, {
+  required DefaultStyles defaultStyles,
+}) {
   if (sizeValue is String &&
       ['small', 'normal', 'large', 'huge'].contains(sizeValue)) {
     return switch (sizeValue) {

@@ -27,8 +27,9 @@ class EmbeddableTableSyntax extends BlockSyntax {
   Node? parse(BlockParser parser) {
     final columnCount = _columnCount(parser.next!.content);
     final headCells = _columnCount(parser.current.content);
-    final valBuf =
-        StringBuffer('${parser.current.content}\n${parser.next!.content}');
+    final valBuf = StringBuffer(
+      '${parser.current.content}\n${parser.next!.content}',
+    );
     parser.advance();
     if (columnCount != headCells) {
       return null;

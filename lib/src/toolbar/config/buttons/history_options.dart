@@ -17,8 +17,12 @@ class QuillToolbarHistoryButtonExtraOptions
 }
 
 @immutable
-class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions> {
+class QuillToolbarHistoryButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarHistoryButtonOptions,
+          QuillToolbarHistoryButtonExtraOptions
+        > {
   const QuillToolbarHistoryButtonOptions({
     super.iconData,
     super.iconTheme,

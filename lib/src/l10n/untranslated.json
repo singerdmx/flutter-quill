@@ -95,18 +95,6 @@
     "saveImagePermissionDenied"
   ],
 
-  "en_US": [
-    "insertVideo",
-    "errorUnexpectedSavingImage",
-    "successImageSavedGallery",
-    "successImageSaved",
-    "successImageDownloaded",
-    "openGallery",
-    "openFileLocation",
-    "openFile",
-    "saveImagePermissionDenied"
-  ],
-
   "es": [
     "insertVideo",
     "errorUnexpectedSavingImage",

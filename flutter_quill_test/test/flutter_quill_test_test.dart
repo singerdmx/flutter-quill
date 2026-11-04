@@ -17,11 +17,7 @@ void main() {
   testWidgets('Test QuillEditor interactions', (tester) async {
     // Build the QuillEditor widget
     await tester.pumpWidget(
-      MaterialApp(
-        home: QuillEditor.basic(
-          controller: controller,
-        ),
-      ),
+      MaterialApp(home: QuillEditor.basic(controller: controller)),
     );
 
     await tester.tap(find.byType(QuillEditor));
@@ -35,8 +31,10 @@ void main() {
     expect(controller.selection, const TextSelection.collapsed(offset: 12));
 
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
-    expect(controller.selection,
-        const TextSelection(baseOffset: 12, extentOffset: 13));
+    expect(
+      controller.selection,
+      const TextSelection(baseOffset: 12, extentOffset: 13),
+    );
 
     await tester.quillReplaceText(find.byType(QuillEditor), ' and hi, World!');
     expect(controller.document.toPlainText(), 'Hello, World and hi, World!\n');
@@ -47,8 +45,10 @@ void main() {
 
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 7);
     expect(controller.selection.isCollapsed, isFalse);
-    expect(controller.selection,
-        const TextSelection(baseOffset: 0, extentOffset: 7));
+    expect(
+      controller.selection,
+      const TextSelection(baseOffset: 0, extentOffset: 7),
+    );
 
     await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
     expect(controller.document.toPlainText(), 'World and hi, World!\n');

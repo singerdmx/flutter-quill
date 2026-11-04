@@ -7,8 +7,12 @@ import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
 import '../simple_toolbar.dart';
 
-class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
-    QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
+class QuillToolbarFontSizeButton
+    extends
+        QuillToolbarBaseButton<
+          QuillToolbarFontSizeButtonOptions,
+          QuillToolbarFontSizeButtonExtraOptions
+        > {
   QuillToolbarFontSizeButton({
     required super.controller,
     super.options = const QuillToolbarFontSizeButtonOptions(),
@@ -17,29 +21,35 @@ class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : assert(options.items?.isNotEmpty ?? true),
-        assert(options.initialValue == null ||
-            (options.initialValue?.isNotEmpty ?? true));
+  }) : assert(options.items?.isNotEmpty ?? true),
+       assert(
+         options.initialValue == null ||
+             (options.initialValue?.isNotEmpty ?? true),
+       );
 
   @override
   QuillToolbarFontSizeButtonState createState() =>
       QuillToolbarFontSizeButtonState();
 }
 
-class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
-    QuillToolbarFontSizeButton,
-    QuillToolbarFontSizeButtonOptions,
-    QuillToolbarFontSizeButtonExtraOptions,
-    String> {
+class QuillToolbarFontSizeButtonState
+    extends
+        QuillToolbarBaseButtonState<
+          QuillToolbarFontSizeButton,
+          QuillToolbarFontSizeButtonOptions,
+          QuillToolbarFontSizeButtonExtraOptions,
+          String
+        > {
   final _menuController = MenuController();
 
   Map<String, String> get _items {
-    final fontSizes = options.items ??
+    final fontSizes =
+        options.items ??
         {
           context.loc.small: 'small',
           context.loc.large: 'large',
           context.loc.huge: 'huge',
-          context.loc.clear: '0'
+          context.loc.clear: '0',
         };
     return fontSizes;
   }
@@ -62,8 +72,9 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
 
   @override
   String get currentStateValue {
-    final attribute =
-        controller.getSelectionStyle().attributes[options.attribute.key];
+    final attribute = controller
+        .getSelectionStyle()
+        .attributes[options.attribute.key];
     return attribute == null
         ? _defaultDisplayText
         : (_getKeyName(attribute.value) ?? _defaultDisplayText);
@@ -177,16 +188,10 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
             child: Text(
               getLabel(currentValue) ?? '',
               overflow: options.labelOverflow,
-              style: options.style ??
-                  TextStyle(
-                    fontSize: iconSize / 1.15,
-                  ),
+              style: options.style ?? TextStyle(fontSize: iconSize / 1.15),
             ),
           ),
-          Icon(
-            Icons.arrow_drop_down,
-            size: iconSize * iconButtonFactor,
-          )
+          Icon(Icons.arrow_drop_down, size: iconSize * iconButtonFactor),
         ],
       ),
     );

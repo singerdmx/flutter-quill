@@ -16,18 +16,14 @@ class SelectCameraActionDialog extends StatelessWidget {
           children: [
             ListTile(
               title: Text(context.loc.photo),
-              subtitle: Text(
-                context.loc.takeAPhotoUsingYourCamera,
-              ),
+              subtitle: Text(context.loc.takeAPhotoUsingYourCamera),
               leading: const Icon(Icons.photo_sharp),
               enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.image),
             ),
             ListTile(
               title: Text(context.loc.video),
-              subtitle: Text(
-                context.loc.recordAVideoUsingYourCamera,
-              ),
+              subtitle: Text(context.loc.recordAVideoUsingYourCamera),
               leading: const Icon(Icons.camera),
               enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.video),

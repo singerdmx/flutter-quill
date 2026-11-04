@@ -19,15 +19,19 @@ extension QuillControllerPaste on QuillController {
       if (clipboardText == pastePlainText &&
           pastePlainText.isNotEmpty &&
           pasteDelta.isNotEmpty) {
-        replaceText(selection.start, selection.end - selection.start,
-            pasteDelta, TextSelection.collapsed(offset: selection.end));
+        replaceText(
+          selection.start,
+          selection.end - selection.start,
+          pasteDelta,
+          TextSelection.collapsed(offset: selection.end),
+        );
       } else {
         replaceText(
-            selection.start,
-            selection.end - selection.start,
-            clipboardText,
-            TextSelection.collapsed(
-                offset: selection.end + clipboardText.length));
+          selection.start,
+          selection.end - selection.start,
+          clipboardText,
+          TextSelection.collapsed(offset: selection.end + clipboardText.length),
+        );
       }
       return true;
     }

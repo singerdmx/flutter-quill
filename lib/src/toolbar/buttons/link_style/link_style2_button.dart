@@ -14,14 +14,20 @@ import '../../theme/quill_dialog_theme.dart';
 
 import '../quill_icon_button.dart';
 
-typedef QuillToolbarLinkStyleBaseButton2 = QuillToolbarBaseButton<
-    QuillToolbarLinkStyleButton2Options,
-    QuillToolbarLinkStyleButton2ExtraOptions>;
+typedef QuillToolbarLinkStyleBaseButton2 =
+    QuillToolbarBaseButton<
+      QuillToolbarLinkStyleButton2Options,
+      QuillToolbarLinkStyleButton2ExtraOptions
+    >;
 
 typedef QuillToolbarLinkStyleBaseButton2State<
-        W extends QuillToolbarLinkStyleBaseButton2>
-    = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButton2Options,
-        QuillToolbarLinkStyleButton2ExtraOptions>;
+  W extends QuillToolbarLinkStyleBaseButton2
+> =
+    QuillToolbarCommonButtonState<
+      W,
+      QuillToolbarLinkStyleButton2Options,
+      QuillToolbarLinkStyleButton2ExtraOptions
+    >;
 
 /// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more
 /// customization
@@ -35,13 +41,19 @@ class QuillToolbarLinkStyleButton2 extends QuillToolbarLinkStyleBaseButton2 {
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : assert(options.addLinkLabel == null ||
-            (options.addLinkLabel?.isNotEmpty ?? true)),
-        assert(options.editLinkLabel == null ||
-            (options.editLinkLabel?.isNotEmpty ?? true)),
-        assert(options.childrenSpacing > 0),
-        assert(options.validationMessage == null ||
-            (options.validationMessage?.isNotEmpty ?? true));
+  }) : assert(
+         options.addLinkLabel == null ||
+             (options.addLinkLabel?.isNotEmpty ?? true),
+       ),
+       assert(
+         options.editLinkLabel == null ||
+             (options.editLinkLabel?.isNotEmpty ?? true),
+       ),
+       assert(options.childrenSpacing > 0),
+       assert(
+         options.validationMessage == null ||
+             (options.validationMessage?.isNotEmpty ?? true),
+       );
 
   @override
   State<QuillToolbarLinkStyleButton2> createState() =>
@@ -146,8 +158,10 @@ class LinkStyleDialog extends StatefulWidget {
     this.link,
     this.dialogTheme,
     this.constraints,
-    this.contentPadding =
-        const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+    this.contentPadding = const EdgeInsets.symmetric(
+      vertical: 16,
+      horizontal: 16,
+    ),
     this.addLinkLabel,
     this.editLinkLabel,
     this.linkColor,
@@ -155,10 +169,10 @@ class LinkStyleDialog extends StatefulWidget {
     this.autovalidateMode = AutovalidateMode.disabled,
     this.validationMessage,
     this.buttonSize,
-  })  : assert(addLinkLabel == null || addLinkLabel.length > 0),
-        assert(editLinkLabel == null || editLinkLabel.length > 0),
-        assert(childrenSpacing > 0),
-        assert(validationMessage == null || validationMessage.length > 0);
+  }) : assert(addLinkLabel == null || addLinkLabel.length > 0),
+       assert(editLinkLabel == null || editLinkLabel.length > 0),
+       assert(childrenSpacing > 0),
+       assert(validationMessage == null || validationMessage.length > 0);
 
   final String? text;
   final String? link;
@@ -224,7 +238,8 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final constraints = widget.constraints ??
+    final constraints =
+        widget.constraints ??
         widget.dialogTheme?.linkDialogConstraints ??
         () {
           final size = MediaQuery.sizeOf(context);
@@ -233,10 +248,9 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
         }();
 
     final buttonStyle = widget.buttonSize != null
-        ? Theme.of(context)
-            .elevatedButtonTheme
-            .style
-            ?.copyWith(fixedSize: WidgetStatePropertyAll(widget.buttonSize))
+        ? Theme.of(context).elevatedButtonTheme.style?.copyWith(
+            fixedSize: WidgetStatePropertyAll(widget.buttonSize),
+          )
         : widget.dialogTheme?.buttonStyle;
 
     final isWrappable = widget.dialogTheme?.isWrappable ?? false;
@@ -247,14 +261,12 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
               wrapper: (child) => Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: child,
-                ),
+                child: Align(alignment: Alignment.centerLeft, child: child),
               ),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                padding: EdgeInsets.symmetric(
+                  horizontal: widget.childrenSpacing,
+                ),
                 child: Link(
                   uri: Uri.parse(_linkController.text),
                   builder: (context, followLink) {
@@ -299,12 +311,11 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
             Text(widget.addLinkLabel ?? context.loc.enterLink),
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
-              wrapper: (child) => Expanded(
-                child: child,
-              ),
+              wrapper: (child) => Expanded(child: child),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                padding: EdgeInsets.symmetric(
+                  horizontal: widget.childrenSpacing,
+                ),
                 child: TextFormField(
                   controller: _linkController,
                   style: widget.dialogTheme?.inputTextStyle,
@@ -329,7 +340,8 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
     return Dialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
-      shape: widget.dialogTheme?.shape ??
+      shape:
+          widget.dialogTheme?.shape ??
           DialogTheme.of(context).shape ??
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       child: ConstrainedBox(
@@ -343,9 +355,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
                   runSpacing: widget.dialogTheme?.runSpacing ?? 0.0,
                   children: children,
                 )
-              : Row(
-                  children: children,
-                ),
+              : Row(children: children),
         ),
       ),
     );

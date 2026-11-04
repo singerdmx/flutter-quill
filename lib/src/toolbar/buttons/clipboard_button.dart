@@ -29,7 +29,9 @@ class ClipboardMonitor {
 
     if (add) {
       _timer = Timer.periodic(
-          const Duration(seconds: 1), (timer) => _update(listener));
+        const Duration(seconds: 1),
+        (timer) => _update(listener),
+      );
     } else {
       _timer?.cancel();
     }
@@ -65,8 +67,8 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : _options = options,
-        super(options: options ?? const QuillToolbarClipboardButtonOptions());
+  }) : _options = options,
+       super(options: options ?? const QuillToolbarClipboardButtonOptions());
 
   final QuillToolbarClipboardButtonOptions? _options;
 
@@ -77,8 +79,8 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 }
 
 class QuillToolbarClipboardButtonState
-    extends QuillToolbarToggleStyleBaseButtonState<
-        QuillToolbarClipboardButton> {
+    extends
+        QuillToolbarToggleStyleBaseButtonState<QuillToolbarClipboardButton> {
   final ClipboardMonitor _monitor = ClipboardMonitor();
 
   @override
@@ -142,17 +144,17 @@ class QuillToolbarClipboardButtonState
 
   @override
   String get defaultTooltip => switch (widget.clipboardAction) {
-        ClipboardAction.cut => context.loc.cut,
-        ClipboardAction.copy => context.loc.copy,
-        ClipboardAction.paste => context.loc.paste,
-      };
+    ClipboardAction.cut => context.loc.cut,
+    ClipboardAction.copy => context.loc.copy,
+    ClipboardAction.paste => context.loc.paste,
+  };
 
   @override
   IconData get defaultIconData => switch (widget.clipboardAction) {
-        ClipboardAction.cut => Icons.cut_outlined,
-        ClipboardAction.copy => Icons.copy_outlined,
-        ClipboardAction.paste => Icons.paste_outlined,
-      };
+    ClipboardAction.cut => Icons.cut_outlined,
+    ClipboardAction.copy => Icons.copy_outlined,
+    ClipboardAction.paste => Icons.paste_outlined,
+  };
 
   bool get _shouldUseClipboardMonitor {
     return widget.clipboardAction == ClipboardAction.paste &&
@@ -190,16 +192,14 @@ class QuillToolbarClipboardButtonState
     }
 
     return UtilityWidgets.maybeTooltip(
-        message: tooltip,
-        child: QuillToolbarIconButton(
-          icon: Icon(
-            iconData,
-            size: iconSize * iconButtonFactor,
-          ),
-          isSelected: false,
-          onPressed: currentValue ? _onPressed : null,
-          afterPressed: afterButtonPressed,
-          iconTheme: iconTheme,
-        ));
+      message: tooltip,
+      child: QuillToolbarIconButton(
+        icon: Icon(iconData, size: iconSize * iconButtonFactor),
+        isSelected: false,
+        onPressed: currentValue ? _onPressed : null,
+        afterPressed: afterButtonPressed,
+        iconTheme: iconTheme,
+      ),
+    );
   }
 }

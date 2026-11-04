@@ -23,10 +23,7 @@ Future<void> updatePubspecVersion({
     print('The pubspec file does not exist: ${pubspecFile.absolute.path}');
     exit(1);
   }
-  _updatePubspecYamlFile(
-    pubspecFile: pubspecFile,
-    newVersion: newVersion,
-  );
+  _updatePubspecYamlFile(pubspecFile: pubspecFile, newVersion: newVersion);
 }
 
 /// Update the `pubspec.yaml` package version to [newVersion]

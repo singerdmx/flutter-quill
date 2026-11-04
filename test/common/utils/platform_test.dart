@@ -8,52 +8,34 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.linux;
     test('Check isDesktop', () {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      expect(
-        isDesktop,
-        false,
-      );
+      expect(isDesktop, false);
 
       for (final desktopPlatform in [
         TargetPlatform.macOS,
         TargetPlatform.linux,
-        TargetPlatform.windows
+        TargetPlatform.windows,
       ]) {
         debugDefaultTargetPlatformOverride = desktopPlatform;
-        expect(
-          isDesktopApp,
-          true,
-        );
+        expect(isDesktopApp, true);
 
         debugDefaultTargetPlatformOverride = null;
-        expect(
-          isDesktopApp,
-          false,
-        );
+        expect(isDesktopApp, false);
       }
     });
     test('Check isMobile', () {
       debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
-      expect(
-        isMobile,
-        false,
-      );
+      expect(isMobile, false);
 
       for (final mobilePlatform in [
         TargetPlatform.android,
         TargetPlatform.iOS,
       ]) {
         debugDefaultTargetPlatformOverride = mobilePlatform;
-        expect(
-          isMobile,
-          true,
-        );
+        expect(isMobile, true);
 
         debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
-        expect(
-          isMobile,
-          false,
-        );
+        expect(isMobile, false);
       }
     });
   });

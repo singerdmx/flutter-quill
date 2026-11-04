@@ -12,9 +12,12 @@ class QuillToolbarLinkStyleButton2ExtraOptions
   });
 }
 
-class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
-    QuillToolbarLinkStyleButton2Options,
-    QuillToolbarLinkStyleButton2ExtraOptions> {
+class QuillToolbarLinkStyleButton2Options
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarLinkStyleButton2Options,
+          QuillToolbarLinkStyleButton2ExtraOptions
+        > {
   const QuillToolbarLinkStyleButton2Options({
     super.iconSize,
     super.iconButtonFactor,

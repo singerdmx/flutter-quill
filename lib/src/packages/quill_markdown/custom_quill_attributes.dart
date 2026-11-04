@@ -4,7 +4,7 @@ import '../../document/attribute.dart';
 class CodeBlockLanguageAttribute extends Attribute<String?> {
   /// @nodoc
   const CodeBlockLanguageAttribute(String? value)
-      : super(attrKey, AttributeScope.ignore, value);
+    : super(attrKey, AttributeScope.ignore, value);
 
   /// attribute key
   static const attrKey = 'x-md-codeblock-lang';

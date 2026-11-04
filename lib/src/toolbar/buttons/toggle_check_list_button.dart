@@ -8,9 +8,12 @@ import '../base_button/base_value_button.dart';
 import '../config/buttons/toggle_check_list_options.dart';
 import 'toggle_style_button.dart';
 
-class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
-    QuillToolbarToggleCheckListButtonOptions,
-    QuillToolbarToggleCheckListButtonExtraOptions> {
+class QuillToolbarToggleCheckListButton
+    extends
+        QuillToolbarBaseButton<
+          QuillToolbarToggleCheckListButtonOptions,
+          QuillToolbarToggleCheckListButtonExtraOptions
+        > {
   const QuillToolbarToggleCheckListButton({
     required super.controller,
     super.options = const QuillToolbarToggleCheckListButtonOptions(),
@@ -27,26 +30,20 @@ class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
 }
 
 class QuillToolbarToggleCheckListButtonState
-    extends QuillToolbarBaseButtonState<
-        QuillToolbarToggleCheckListButton,
-        QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions,
-        bool> {
+    extends
+        QuillToolbarBaseButtonState<
+          QuillToolbarToggleCheckListButton,
+          QuillToolbarToggleCheckListButtonOptions,
+          QuillToolbarToggleCheckListButtonExtraOptions,
+          bool
+        > {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
   bool get currentStateValue => _getIsToggled(_selectionStyle.attributes);
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    var attribute = controller.toolbarButtonToggler[Attribute.list.key];
-
-    if (attribute == null) {
-      attribute = attrs[Attribute.list.key];
-    } else {
-      // checkbox tapping causes controller.selection to go to offset 0
-      controller.toolbarButtonToggler.remove(Attribute.list.key);
-    }
-
+    final attribute = attrs[Attribute.list.key];
     if (attribute == null) {
       return false;
     }

@@ -121,17 +121,17 @@ class QuillDialogTheme with Diagnosticable {
 
   @override
   int get hashCode => Object.hash(
-        buttonTextStyle,
-        labelTextStyle,
-        inputTextStyle,
-        dialogBackgroundColor,
-        shape,
-        buttonStyle,
-        linkDialogConstraints,
-        linkDialogPadding,
-        mediaSelectorDialogConstraints,
-        mediaSelectorDialogPadding,
-        isWrappable,
-        runSpacing,
-      );
+    buttonTextStyle,
+    labelTextStyle,
+    inputTextStyle,
+    dialogBackgroundColor,
+    shape,
+    buttonStyle,
+    linkDialogConstraints,
+    linkDialogPadding,
+    mediaSelectorDialogConstraints,
+    mediaSelectorDialogPadding,
+    isWrappable,
+    runSpacing,
+  );
 }

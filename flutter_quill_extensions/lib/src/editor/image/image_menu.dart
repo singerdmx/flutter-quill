@@ -79,11 +79,7 @@ class ImageOptionsMenu extends StatelessWidget {
                         );
                         controller
                           ..skipRequestKeyboard = true
-                          ..formatText(
-                            res.offset,
-                            1,
-                            StyleAttribute(attr),
-                          );
+                          ..formatText(res.offset, 1, StyleAttribute(attr));
                       },
                       imageWidth: imageSize.width,
                       imageHeight: imageSize.height,
@@ -106,7 +102,8 @@ class ImageOptionsMenu extends StatelessWidget {
 
               final imageBytes = await ImageLoader.instance
                   .loadImageBytesFromImageProvider(
-                      imageProvider: imageProvider);
+                    imageProvider: imageProvider,
+                  );
               if (imageBytes != null) {
                 await ClipboardServiceProvider.instance.copyImage(imageBytes);
               }
@@ -158,35 +155,40 @@ class ImageOptionsMenu extends StatelessWidget {
                   prefersGallerySave: prefersGallerySave,
                 );
               } on GalleryImageSaveAccessDeniedException {
-                messenger.showSnackBar(SnackBar(
-                    content: Text(
-                  localizations.saveImagePermissionDenied,
-                )));
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(localizations.saveImagePermissionDenied),
+                  ),
+                );
                 return;
               }
 
               if (result == null) {
-                messenger.showSnackBar(SnackBar(
-                    content: Text(
-                  localizations.errorUnexpectedSavingImage,
-                )));
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(localizations.errorUnexpectedSavingImage),
+                  ),
+                );
                 return;
               }
 
               if (kIsWeb) {
-                messenger.showSnackBar(SnackBar(
-                    content: Text(localizations.successImageDownloaded)));
+                messenger.showSnackBar(
+                  SnackBar(content: Text(localizations.successImageDownloaded)),
+                );
                 return;
               }
 
               if (result.isGallerySave) {
-                messenger.showSnackBar(SnackBar(
-                  content: Text(localizations.successImageSavedGallery),
-                  action: SnackBarAction(
-                    label: localizations.openGallery,
-                    onPressed: QuillNativeProvider.instance.openGalleryApp,
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(localizations.successImageSavedGallery),
+                    action: SnackBarAction(
+                      label: localizations.openGallery,
+                      onPressed: QuillNativeProvider.instance.openGalleryApp,
+                    ),
                   ),
-                ));
+                );
                 return;
               }
 
@@ -213,7 +215,8 @@ class ImageOptionsMenu extends StatelessWidget {
                         : SnackBarAction(
                             label: localizations.openFileLocation,
                             onPressed: () => launchUrl(
-                                Uri.directory(p.dirname(imageFilePath))),
+                              Uri.directory(p.dirname(imageFilePath)),
+                            ),
                           ),
                   ),
                 );
@@ -222,7 +225,8 @@ class ImageOptionsMenu extends StatelessWidget {
               }
 
               throw StateError(
-                  'Image save result is not handled on $defaultTargetPlatform');
+                'Image save result is not handled on $defaultTargetPlatform',
+              );
             },
           ),
           ListTile(
@@ -231,10 +235,8 @@ class ImageOptionsMenu extends StatelessWidget {
             onTap: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (_) => ImageTapWrapper(
-                  imageUrl: imageSource,
-                  config: config,
-                ),
+                builder: (_) =>
+                    ImageTapWrapper(imageUrl: imageSource, config: config),
               ),
             ),
           ),
