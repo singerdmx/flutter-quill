@@ -258,26 +258,24 @@ void main() {
           QuillTestApp.withScaffold(QuillEditor.basic(controller: controller)),
         );
 
-        final state = tester.state<QuillRawEditorState>(
-          find.byType(QuillRawEditor),
-        );
         // A space-bar cursor drag, as iOS sends it.
-        state
-          ..updateFloatingCursor(
-            RawFloatingCursorPoint(
-              offset: Offset.zero,
-              state: FloatingCursorDragState.Start,
-            ),
-          )
-          ..updateFloatingCursor(
-            RawFloatingCursorPoint(
-              offset: const Offset(20, 0),
-              state: FloatingCursorDragState.Update,
-            ),
-          )
-          ..updateFloatingCursor(
-            RawFloatingCursorPoint(state: FloatingCursorDragState.End),
-          );
+        final state =
+            tester.state<QuillRawEditorState>(find.byType(QuillRawEditor))
+              ..updateFloatingCursor(
+                RawFloatingCursorPoint(
+                  offset: Offset.zero,
+                  state: FloatingCursorDragState.Start,
+                ),
+              )
+              ..updateFloatingCursor(
+                RawFloatingCursorPoint(
+                  offset: const Offset(20, 0),
+                  state: FloatingCursorDragState.Update,
+                ),
+              )
+              ..updateFloatingCursor(
+                RawFloatingCursorPoint(state: FloatingCursorDragState.End),
+              );
         expect(state.floatingCursorResetController.isAnimating, isTrue);
 
         // Remove the editor before the reset animation finishes.
