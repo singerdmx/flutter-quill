@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed a `Null check operator used on a null value` crash in `QuillRawEditorState.renderEditor`, reached from `onFloatingCursorResetTick`, when the editor is disposed while the iOS floating cursor's reset animation is still running (e.g. the editor's route is popped just after the user lets go of the space-bar cursor). `QuillRawEditorState.dispose` now disposes the floating-cursor reset controller.
+- Fixed a `Null check operator used on a null value` crash in `QuillRawEditorState.renderEditor`, reached from `onFloatingCursorResetTick`, when the editor is disposed while the iOS floating cursor's reset animation is still running (e.g. the editor's route is popped just after the user lets go of the space-bar cursor). `QuillRawEditorState.dispose` now disposes the floating-cursor reset controller [#2782](https://github.com/singerdmx/flutter-quill/pull/2782).
 
 ## [11.6.0] - 2026-09-16
 
