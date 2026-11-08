@@ -1074,6 +1074,9 @@ class QuillRawEditorState extends EditorState
       composingRange.removeListener(_onComposingRangeChanged);
     }
     _cursorCont.dispose();
+    // Stops a floating-cursor reset animation that is still running, so it
+    // can't tick after the editor's render object is gone.
+    _floatingCursorResetController.dispose();
     if (_clipboardStatus != null) {
       _clipboardStatus!
         ..removeListener(_onChangedClipboardStatus)

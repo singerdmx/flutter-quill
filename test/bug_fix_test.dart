@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_test/flutter_quill_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -242,4 +243,51 @@ void main() {
       );
     },
   );
+
+  group('Floating cursor reset animation after dispose', () {
+    testWidgets(
+      'disposing the editor mid-animation stops the reset animation',
+      (tester) async {
+        final controller = QuillController(
+          document: Document()..insert(0, 'Hello world\nSecond line'),
+          selection: const TextSelection.collapsed(offset: 3),
+        );
+        addTearDown(controller.dispose);
+
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(QuillEditor.basic(controller: controller)),
+        );
+
+        final state = tester.state<QuillRawEditorState>(
+          find.byType(QuillRawEditor),
+        );
+        // A space-bar cursor drag, as iOS sends it.
+        state
+          ..updateFloatingCursor(
+            RawFloatingCursorPoint(
+              offset: Offset.zero,
+              state: FloatingCursorDragState.Start,
+            ),
+          )
+          ..updateFloatingCursor(
+            RawFloatingCursorPoint(
+              offset: const Offset(20, 0),
+              state: FloatingCursorDragState.Update,
+            ),
+          )
+          ..updateFloatingCursor(
+            RawFloatingCursorPoint(state: FloatingCursorDragState.End),
+          );
+        expect(state.floatingCursorResetController.isAnimating, isTrue);
+
+        // Remove the editor before the reset animation finishes.
+        await tester.pump(const Duration(milliseconds: 10));
+        await tester.pumpWidget(QuillTestApp.home(const SizedBox()));
+        await tester.pump(const Duration(milliseconds: 50));
+        await tester.pump(const Duration(milliseconds: 200));
+
+        expect(tester.takeException(), isNull);
+      },
+    );
+  });
 }
