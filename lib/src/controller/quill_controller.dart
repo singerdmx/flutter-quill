@@ -533,8 +533,17 @@ class QuillController extends ChangeNotifier {
     Clipboard.setData(const ClipboardData(text: ''));
   }
 
+  /// Copies the selection to the clipboard. When [copy] is false, it also
+  /// removes the selection from the document.
+  ///
+  /// Returns whether this succeeded. With nothing selected, it returns false
+  /// and changes nothing.
   @experimental
   bool clipboardSelection(bool copy) {
+    if (selection.isCollapsed) {
+      return false;
+    }
+
     copiedImageUrl = null;
 
     /// Get the text for the selected region and expand the content of Embedded objects.
@@ -550,21 +559,18 @@ class QuillController extends ChangeNotifier {
     /// Get the deltas for the selection so they can be pasted into a QuillEditor with styles and embeds retained.
     _pasteDelta = document.toDelta().slice(selection.start, selection.end);
 
-    if (!selection.isCollapsed) {
-      Clipboard.setData(ClipboardData(text: _pastePlainText));
-      if (!copy) {
-        if (readOnly) return false;
-        final sel = selection;
-        replaceText(
-          sel.start,
-          sel.end - sel.start,
-          '',
-          TextSelection.collapsed(offset: sel.start),
-        );
-      }
-      return true;
+    Clipboard.setData(ClipboardData(text: _pastePlainText));
+    if (!copy) {
+      if (readOnly) return false;
+      final sel = selection;
+      replaceText(
+        sel.start,
+        sel.end - sel.start,
+        '',
+        TextSelection.collapsed(offset: sel.start),
+      );
     }
-    return false;
+    return true;
   }
 
   /// Returns whether paste operation was handled here.

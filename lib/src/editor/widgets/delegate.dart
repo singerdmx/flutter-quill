@@ -200,13 +200,25 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
+  /// Handler for [EditorTextSelectionGestureDetector.onSecondaryTapDown].
+  ///
+  /// By default, it passes the tap to [RenderEditor.handleSecondaryTapDown].
+  /// The context menu then opens where the right click was.
+  @protected
+  void onSecondaryTapDown(TapDownDetails details) {
+    renderEditor!.handleSecondaryTapDown(details);
+  }
+
   /// onSingleTapUp for mouse right click
   @protected
   void onSecondarySingleTapUp(TapUpDetails details) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // added to show toolbar by right click
       if (checkSelectionToolbarShouldShow(isAdditionalAction: true)) {
-        editor!.showToolbar();
+        // A menu that is already shown opens again where this right click was.
+        // A TextField on macOS does the same.
+        editor?.hideToolbar(false);
+        editor?.showToolbar();
       }
     });
     SchedulerBinding.instance.scheduleFrame();
@@ -380,6 +392,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
       onSingleLongTapEnd: onSingleLongTapEnd,
       onDoubleTapDown: onDoubleTapDown,
+      onSecondaryTapDown: onSecondaryTapDown,
       onSecondarySingleTapUp: onSecondarySingleTapUp,
       onDragSelectionStart: onDragSelectionStart,
       onDragSelectionUpdate: onDragSelectionUpdate,

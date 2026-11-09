@@ -23,6 +23,7 @@ import '../../document/document.dart';
 import '../../document/nodes/block.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
+import '../../document/style.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
@@ -59,9 +60,26 @@ class QuillRawEditorState extends EditorState
   EditorTextSelectionOverlay? get selectionOverlay => _selectionOverlay;
   EditorTextSelectionOverlay? _selectionOverlay;
 
+  // The value of the editor when a scroll hid the menu. While it is not null,
+  // the menu can be shown again. This happens when a scroll ends with the same
+  // value and the selection in view.
+  TextEditingValue? _valueWhenMenuHiddenForScroll;
+  bool _isMenuAfterScrollScheduled = false;
+  bool _isMenuUpdateAfterOuterScrollScheduled = false;
+
+  // The style chosen for the next text when the menu was last shown.
+  Style _toggledStyleWhenMenuShown = const Style();
+
   @override
   ScrollController get scrollController => _scrollController;
   late ScrollController _scrollController;
+
+  // The positions of the scroll views around the editor.
+  final List<ScrollPosition> _outerScrollPositions = [];
+
+  // Reports the scroll notifications of the scroll views around the editor. An
+  // ancestor such as a Scaffold provides it.
+  ScrollNotificationObserverState? _scrollNotificationObserver;
 
   // Cursors
   late CursorCont _cursorCont;
@@ -256,25 +274,54 @@ class QuillRawEditorState extends EditorState
   static const double _kSelectionContextMenuReserve =
       kMinInteractiveDimension + 16;
 
-  /// Returns the anchor points for the default context menu.
-  ///
-  /// Copied from [EditableTextState].
+  /// Returns the anchor points for the default context menu, in global
+  /// coordinates.
   TextSelectionToolbarAnchors get contextMenuAnchors {
+    final anchors = _clampAnchorsToVisibleViewport(
+      _getContextMenuAnchorsInEditor(),
+    );
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: renderEditor.localToGlobal(anchors.primaryAnchor),
+      secondaryAnchor: anchors.secondaryAnchor == null
+          ? null
+          : renderEditor.localToGlobal(anchors.secondaryAnchor!),
+    );
+  }
+
+  /// Returns the anchor points for the default context menu, in the coordinates
+  /// of the editor.
+  TextSelectionToolbarAnchors _getContextMenuAnchorsInEditor() {
+    final lastSecondaryTapDownLocalPosition =
+        renderEditor.lastSecondaryTapDownLocalPosition;
+    if (lastSecondaryTapDownLocalPosition != null) {
+      return TextSelectionToolbarAnchors(
+        primaryAnchor: lastSecondaryTapDownLocalPosition,
+      );
+    }
+
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);
-    final anchors = TextSelectionToolbarAnchors.fromSelection(
-      renderBox: renderEditor,
-      startGlyphHeight: glyphHeights.startGlyphHeight,
-      endGlyphHeight: glyphHeights.endGlyphHeight,
-      selectionEndpoints: points,
+    // The same rectangle as in TextSelectionToolbarAnchors.fromSelection. Here
+    // it is in the coordinates of the editor.
+    final isMultiline =
+        points.last.point.dy - points.first.point.dy >
+        glyphHeights.endGlyphHeight / 2;
+    final selectionRect = Rect.fromLTRB(
+      isMultiline ? 0 : points.first.point.dx,
+      points.first.point.dy - glyphHeights.startGlyphHeight,
+      isMultiline ? renderEditor.size.width : points.last.point.dx,
+      points.last.point.dy,
     );
-    return _clampAnchorsToVisibleViewport(anchors);
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: selectionRect.topCenter,
+      secondaryAnchor: selectionRect.bottomCenter,
+    );
   }
 
-  /// Clamps [anchors] into the visible region of the editor so the selection
-  /// context menu keeps an on-screen position even when the selection extends
-  /// past the viewport.
+  /// Clamps [anchors] to the visible part of the editor. The anchors are in the
+  /// coordinates of the editor. This keeps the context menu on the screen when
+  /// the selection goes past the viewport.
   TextSelectionToolbarAnchors _clampAnchorsToVisibleViewport(
     TextSelectionToolbarAnchors anchors,
   ) {
@@ -282,34 +329,29 @@ class QuillRawEditorState extends EditorState
     if (!editor.hasSize) {
       return anchors;
     }
-    final viewportObject = RenderAbstractViewport.maybeOf(editor);
-    if (viewportObject is! RenderBox) {
-      return anchors;
-    }
-    final viewport = viewportObject as RenderBox;
-    if (!viewport.hasSize) {
+    final viewportRect = editor.getVisibleViewportRect();
+    if (viewportRect == null) {
       return anchors;
     }
 
-    // The vertical bounds of the editor that are actually visible, in global
-    // coordinates.
-    final editorTop = editor.localToGlobal(Offset.zero).dy;
-    final editorBottom = editor.localToGlobal(Offset(0, editor.size.height)).dy;
-    final viewportTop = viewport.localToGlobal(Offset.zero).dy;
-    final viewportBottom = viewport
-        .localToGlobal(Offset(0, viewport.size.height))
-        .dy;
-    final visibleTop = math.max(editorTop, viewportTop);
-    final visibleBottom = math.min(editorBottom, viewportBottom);
+    // The vertical range of the editor that is visible.
+    final visibleTop = math.max<double>(0, viewportRect.top);
+    final visibleBottom = math.min(editor.size.height, viewportRect.bottom);
 
-    // Not enough visible room to reposition meaningfully, leave as-is.
-    if (visibleBottom - visibleTop <= _kSelectionContextMenuReserve) {
+    // No part of the editor is visible. The visible part then gives no limit.
+    if (visibleBottom <= visibleTop) {
       return anchors;
     }
 
     Offset clampY(Offset point, double low, double high) =>
         Offset(point.dx, point.dy.clamp(low, high));
 
+    // The room for a menu below the selection is measured from the bottom of
+    // the viewport. It is not measured from the bottom of the text. Otherwise a
+    // menu below a short text would move up over the handles. When the visible
+    // part is smaller than that room, the anchor only stays inside it.
+    final hasRoomForMenu =
+        visibleBottom - visibleTop > _kSelectionContextMenuReserve;
     return TextSelectionToolbarAnchors(
       primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
       secondaryAnchor: anchors.secondaryAnchor == null
@@ -317,7 +359,9 @@ class QuillRawEditorState extends EditorState
           : clampY(
               anchors.secondaryAnchor!,
               visibleTop,
-              visibleBottom - _kSelectionContextMenuReserve,
+              hasRoomForMenu
+                  ? viewportRect.bottom - _kSelectionContextMenuReserve
+                  : visibleBottom,
             ),
     );
   }
@@ -501,6 +545,11 @@ class QuillRawEditorState extends EditorState
           ),
         ),
       );
+      // The menu hides while the editor scrolls.
+      child = NotificationListener<ScrollNotification>(
+        onNotification: _handleScrollNotification,
+        child: child,
+      );
     } else {
       child = _scribbleFocusable(
         CompositedTransformTarget(
@@ -580,6 +629,22 @@ class QuillRawEditorState extends EditorState
       return;
     }
     final oldSelection = controller.selection;
+    // A position on the placeholder of an empty editor can be past the end of
+    // the document. The controller limits such a position to the end. If the
+    // selection then stays the same, the controller is not updated. Otherwise a
+    // long press there would reset the style chosen for the next text.
+    final documentEnd = controller.document.length - 1;
+    if (_hasFocus &&
+        selection.end > documentEnd &&
+        math.min(selection.baseOffset, documentEnd) ==
+            oldSelection.baseOffset &&
+        math.min(selection.extentOffset, documentEnd) ==
+            oldSelection.extentOffset) {
+      if (!_keyboardVisible) {
+        requestKeyboard();
+      }
+      return;
+    }
     controller.updateSelection(selection, ChangeSource.local);
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
@@ -997,6 +1062,8 @@ class QuillRawEditorState extends EditorState
       _styles = _styles!.merge(widget.config.customStyles!);
     }
 
+    _updateOuterScrollPositions();
+    _updateScrollNotificationObserver();
     _requestAutoFocusIfShould();
   }
 
@@ -1065,6 +1132,10 @@ class QuillRawEditorState extends EditorState
     WidgetsBinding.instance.removeObserver(this);
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
+    for (final position in _outerScrollPositions) {
+      position.removeListener(_handleOuterScroll);
+    }
+    _scrollNotificationObserver?.removeListener(_handleOuterScrollNotification);
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
@@ -1084,6 +1155,139 @@ class QuillRawEditorState extends EditorState
 
   void _updateSelectionOverlayForScroll() {
     _selectionOverlay?.updateForScroll();
+  }
+
+  void _updateOuterScrollPositions() {
+    for (final position in _outerScrollPositions) {
+      position.removeListener(_handleOuterScroll);
+    }
+    _outerScrollPositions.clear();
+    var scrollable = Scrollable.maybeOf(context);
+    while (scrollable != null) {
+      _outerScrollPositions.add(
+        scrollable.position..addListener(_handleOuterScroll),
+      );
+      scrollable = Scrollable.maybeOf(scrollable.context);
+    }
+  }
+
+  // The editor hides the handles of text out of view when it is painted. It
+  // also finds then whether the selection is in view. A scroll view around the
+  // editor does not always paint it. For example, the items of a ListView are
+  // repaint boundaries.
+  void _handleOuterScroll() {
+    if (_selectionOverlay != null || _valueWhenMenuHiddenForScroll != null) {
+      renderEditor.markNeedsPaint();
+    }
+    // The menu is built again so that it stays in the visible part of the
+    // editor. This happens after the frame, because a ListView moves the editor
+    // only when it lays it out.
+    if (_selectionOverlay?.toolbar != null &&
+        !_isMenuUpdateAfterOuterScrollScheduled) {
+      _isMenuUpdateAfterOuterScrollScheduled = true;
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _isMenuUpdateAfterOuterScrollScheduled = false;
+        _selectionOverlay?.toolbar?.markNeedsBuild();
+      });
+    }
+  }
+
+  void _updateScrollNotificationObserver() {
+    final scrollNotificationObserver = ScrollNotificationObserver.maybeOf(
+      context,
+    );
+    if (scrollNotificationObserver == _scrollNotificationObserver) {
+      return;
+    }
+    _scrollNotificationObserver?.removeListener(_handleOuterScrollNotification);
+    _scrollNotificationObserver = scrollNotificationObserver
+      ?..addListener(_handleOuterScrollNotification);
+  }
+
+  // The observer reports every scroll under it. This includes the editor's own
+  // scroll view, scroll views inside embeds and other scroll views on the
+  // screen. Only the scroll views around the editor are used here.
+  void _handleOuterScrollNotification(ScrollNotification notification) {
+    if (notification is! ScrollStartNotification &&
+        notification is! ScrollEndNotification) {
+      return;
+    }
+    final scrollable = notification.context
+        ?.findAncestorStateOfType<ScrollableState>();
+    if (scrollable != null &&
+        _outerScrollPositions.contains(scrollable.position)) {
+      _updateMenuForScroll(notification);
+    }
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    // Only the scroll view of this editor, not a scroll view inside an embed.
+    if (notification.depth == 0) {
+      _updateMenuForScroll(notification);
+    }
+    return false;
+  }
+
+  // On Android and iOS, the menu hides while the editor or a scroll view around
+  // it scrolls. A TextField does the same. The menu is shown again when a
+  // scroll ends with the same text and selection. The selection must also be in
+  // view.
+  void _updateMenuForScroll(ScrollNotification notification) {
+    if (!isMobile) {
+      return;
+    }
+    if (notification is ScrollStartNotification) {
+      _hideMenuForScroll();
+    } else if (notification is ScrollEndNotification) {
+      _scheduleMenuAfterScroll();
+    }
+  }
+
+  void _hideMenuForScroll() {
+    final overlay = _selectionOverlay;
+    // A handle drag hides and shows the menu itself. A menu for an older value
+    // is updated or closed after this frame. An example is the menu during the
+    // scroll after a paste. If such a menu were stored here, it would be shown
+    // again after the scroll.
+    if (overlay == null ||
+        overlay.toolbar == null ||
+        widget.dragOffsetNotifier?.value != null ||
+        !_isMenuForCurrentValue(overlay)) {
+      return;
+    }
+    _valueWhenMenuHiddenForScroll = textEditingValue;
+    overlay.hideToolbar();
+  }
+
+  void _scheduleMenuAfterScroll() {
+    if (_valueWhenMenuHiddenForScroll == null || _isMenuAfterScrollScheduled) {
+      return;
+    }
+    _isMenuAfterScrollScheduled = true;
+    // Whether the selection is in view is known after the editor has been
+    // painted at its new scroll position.
+    SchedulerBinding.instance
+      ..addPostFrameCallback((_) {
+        _isMenuAfterScrollScheduled = false;
+        if (mounted) {
+          _showMenuHiddenForScroll();
+        }
+      })
+      ..ensureVisualUpdate();
+  }
+
+  void _showMenuHiddenForScroll() {
+    if (_valueWhenMenuHiddenForScroll == null) {
+      return;
+    }
+    if (!_hasFocus || _valueWhenMenuHiddenForScroll != textEditingValue) {
+      _valueWhenMenuHiddenForScroll = null;
+      return;
+    }
+    if (renderEditor.selectionStartInViewport.value ||
+        renderEditor.selectionEndInViewport.value) {
+      showToolbar();
+    }
   }
 
   void _onComposingRangeChanged() {
@@ -1123,6 +1327,13 @@ class QuillRawEditorState extends EditorState
       // keeps its stale cursor position and inserts typed text there.
       // Does nothing if no input connection is open.
       updateRemoteValueIfNeeded();
+      // Update the selection menu and handles after the change.
+      // `_onChangeTextEditingValue` does the same when the keyboard is visible.
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _updateOrDisposeSelectionOverlayIfNeeded();
+        }
+      });
       if (mounted) {
         // Use controller.value in build()
         // Mark widget as dirty and trigger build and updateChildren
@@ -1170,11 +1381,19 @@ class QuillRawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
+      if (!_hasFocus ||
+          (textEditingValue.selection.isCollapsed &&
+              !_isMenuShownForSameCaret(_selectionOverlay!))) {
         _selectionOverlay!.dispose();
         _selectionOverlay = null;
       } else {
-        _selectionOverlay!.update(textEditingValue);
+        // The menu and the handles can move while the text and the selection
+        // stay the same. This happens, for example, when the format of a line
+        // changes. The overlay is therefore built again with their new
+        // positions.
+        _selectionOverlay!
+          ..update(textEditingValue)
+          ..markNeedsBuild();
       }
     } else if (_hasFocus) {
       _selectionOverlay = EditorTextSelectionOverlay(
@@ -1189,12 +1408,59 @@ class QuillRawEditorState extends EditorState
         clipboardStatus: _clipboardStatus,
         contextMenuBuilder: widget.config.contextMenuBuilder == null
             ? null
-            : (context) => widget.config.contextMenuBuilder!(context, this),
+            : _buildContextMenu,
         dragOffsetNotifier: widget.dragOffsetNotifier,
       );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
     }
+  }
+
+  // The menu follows the editor, as in a TextField. It therefore moves with its
+  // text when the layout moves the editor. The inverse of the editor's
+  // transform keeps the menu in global coordinates, like its anchors. A scaled
+  // editor therefore does not scale the menu. The Stack lets the app's menu use
+  // a Positioned widget, as it can in the overlay.
+  Widget _buildContextMenu(BuildContext context) {
+    final globalToEditor = Matrix4.tryInvert(renderEditor.getTransformTo(null));
+    final viewportRect = renderEditor.getVisibleViewportRect();
+    // No menu is built while the editor is out of view. There, a scroll view
+    // that keeps the focused editor alive can give it a transform without an
+    // inverse. The menu is built again when the editor scrolls into view.
+    if (globalToEditor == null ||
+        (viewportRect != null &&
+            !viewportRect.overlaps(Offset.zero & renderEditor.size))) {
+      return const SizedBox.shrink();
+    }
+    return CompositedTransformFollower(
+      link: _toolbarLayerLink,
+      showWhenUnlinked: false,
+      child: Transform(
+        transform: globalToEditor,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [widget.config.contextMenuBuilder!(context, this)],
+        ),
+      ),
+    );
+  }
+
+  // Whether [overlay] shows a menu for the current caret and text. The style
+  // for the next text must also be the same. Such a menu stays when the overlay
+  // is updated without a change. An example is the update when the keyboard
+  // appears after a long press.
+  bool _isMenuShownForSameCaret(EditorTextSelectionOverlay overlay) {
+    return overlay.toolbar != null && _isMenuForCurrentValue(overlay);
+  }
+
+  // Whether the menu of [overlay] belongs to the current text and selection.
+  // For a caret, the style for the next text must also be the same. After a
+  // change, the overlay is updated only after the frame.
+  bool _isMenuForCurrentValue(EditorTextSelectionOverlay overlay) {
+    return overlay.value.selection == textEditingValue.selection &&
+        overlay.value.text == textEditingValue.text &&
+        (!textEditingValue.selection.isCollapsed ||
+            controller.toggledStyle == _toggledStyleWhenMenuShown);
   }
 
   void _handleFocusChanged() {
@@ -1381,7 +1647,23 @@ class QuillRawEditorState extends EditorState
 
     _selectionOverlay!.update(textEditingValue);
     _selectionOverlay!.showToolbar();
+    _toggledStyleWhenMenuShown = controller.toggledStyle;
+    // The menu is shown now. No menu waits for the end of a scroll.
+    _valueWhenMenuHiddenForScroll = null;
     return true;
+  }
+
+  @override
+  void hideToolbar([bool hideHandles = true]) {
+    // A menu that is closed on purpose is not shown again when a scroll ends.
+    // Its handles are closed with it, as for a menu that is shown.
+    if (_valueWhenMenuHiddenForScroll != null) {
+      _valueWhenMenuHiddenForScroll = null;
+      if (hideHandles) {
+        _selectionOverlay?.hide();
+      }
+    }
+    super.hideToolbar(hideHandles);
   }
 
   @override

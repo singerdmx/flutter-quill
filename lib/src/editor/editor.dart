@@ -578,13 +578,22 @@ class _QuillEditorSelectionGestureDetectorBuilder
   /// onSingleTapUp for mouse right click
   @override
   void onSecondarySingleTapUp(TapUpDetails details) {
-    if (delegate.selectionEnabled &&
-        renderEditor != null &&
-        renderEditor!.selection.isCollapsed) {
-      renderEditor!.selectPositionAt(
-        from: details.globalPosition,
-        cause: SelectionChangedCause.longPress,
-      );
+    if (delegate.selectionEnabled && renderEditor != null) {
+      if (isAppleOS && !_isOnSelection(details.globalPosition)) {
+        // On macOS and iOS, a right click outside the selection selects the
+        // word under the pointer. A TextField does the same. The menu then acts
+        // on that word.
+        renderEditor!.selectWordsInRange(
+          details.globalPosition,
+          null,
+          SelectionChangedCause.tap,
+        );
+      } else if (renderEditor!.selection.isCollapsed) {
+        renderEditor!.selectPositionAt(
+          from: details.globalPosition,
+          cause: SelectionChangedCause.longPress,
+        );
+      }
     }
 
     if (renderEditor?._hasFocus == false) {
@@ -596,6 +605,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
     } else {
       super.onSecondarySingleTapUp(details);
     }
+  }
+
+  // Whether [globalPosition] is on the selection or at the caret. Flutter's
+  // TextSelectionGestureDetectorBuilder makes the same check for a right click.
+  bool _isOnSelection(Offset globalPosition) {
+    final offset = renderEditor!.getPositionForOffset(globalPosition).offset;
+    final selection = renderEditor!.selection;
+    return selection.start <= offset && offset <= selection.end;
   }
 
   @override
@@ -728,8 +745,125 @@ class RenderEditor extends RenderEditableContainerBox
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
 
-  void _updateSelectionExtentsVisibility(Offset effectiveOffset) {
-    final visibleRegion = Offset.zero & size;
+  /// Returns the part of the screen where this editor can be seen, in local
+  /// coordinates. This part is inside every scroll view around the editor. It
+  /// does not include the part under a pinned header. Returns null when no
+  /// scroll view is around the editor.
+  ///
+  /// The selection handles and the context menu stay inside this part.
+  @internal
+  Rect? getVisibleViewportRect() {
+    Rect? visibleViewportRect;
+    var viewport = RenderAbstractViewport.maybeOf(parent);
+    while (viewport is RenderBox) {
+      final viewportBox = viewport as RenderBox;
+      if (!viewportBox.hasSize) {
+        return null;
+      }
+      final viewportRect = MatrixUtils.transformRect(
+        viewportBox.getTransformTo(this),
+        _getUncoveredRect(viewportBox),
+      );
+      visibleViewportRect = visibleViewportRect == null
+          ? viewportRect
+          : _getRectInside(visibleViewportRect, viewportRect);
+      viewport = RenderAbstractViewport.maybeOf(viewportBox.parent);
+    }
+    return visibleViewportRect;
+  }
+
+  // Returns the part of this editor that can be seen, in local coordinates.
+  // When no part can be seen, the result has no area. It then lies on the edge
+  // of the visible part that is closest to this editor.
+  Rect _getVisibleRect() {
+    final editorRect = Offset.zero & size;
+    final viewportRect = getVisibleViewportRect();
+    return viewportRect == null
+        ? editorRect
+        : _getRectInside(editorRect, viewportRect);
+  }
+
+  // Returns [rect] with each edge moved inside [bounds]. When the two do not
+  // overlap, the result has no area. It then lies on the edge of [bounds] that
+  // is closest to [rect].
+  Rect _getRectInside(Rect rect, Rect bounds) => Rect.fromLTRB(
+    rect.left.clamp(bounds.left, bounds.right),
+    rect.top.clamp(bounds.top, bounds.bottom),
+    rect.right.clamp(bounds.left, bounds.right),
+    rect.bottom.clamp(bounds.top, bounds.bottom),
+  );
+
+  // Returns the part of [viewport] that no pinned header before this box
+  // covers. An example of such a header is a pinned SliverAppBar. Headers
+  // inside a SliverMainAxisGroup count too. The result is in the coordinates of
+  // [viewport].
+  Rect _getUncoveredRect(RenderBox viewport) {
+    final viewportRect = Offset.zero & viewport.size;
+    if (viewport is! RenderViewportBase) {
+      return viewportRect;
+    }
+    SliverConstraints? constraints;
+    var coveredExtent = 0.0;
+    for (
+      RenderObject? node = this;
+      node != null && node != viewport;
+      node = node.parent
+    ) {
+      if (node is RenderAbstractViewport) {
+        // The slivers found so far belong to a scroll view inside [viewport].
+        // Its covered part is removed when that scroll view is handled.
+        constraints = null;
+        coveredExtent = 0;
+        continue;
+      }
+      if (node is! RenderSliver) {
+        continue;
+      }
+      constraints = node.constraints;
+      if (constraints.overlap <= 0) {
+        continue;
+      }
+      // The overlap is measured from where the sliver starts in the layout.
+      // That place is where the sliver starts to paint, minus its paint origin.
+      // It is not the edge of the viewport while a pinned header above the
+      // sliver still shrinks.
+      final sliverRect = MatrixUtils.transformRect(
+        node.getTransformTo(viewport),
+        node.paintBounds,
+      );
+      final sliverStart = switch (applyGrowthDirectionToAxisDirection(
+        constraints.axisDirection,
+        constraints.growthDirection,
+      )) {
+        AxisDirection.down => sliverRect.top,
+        AxisDirection.up => viewportRect.bottom - sliverRect.bottom,
+        AxisDirection.right => sliverRect.left,
+        AxisDirection.left => viewportRect.right - sliverRect.right,
+      };
+      coveredExtent = math.max(
+        coveredExtent,
+        sliverStart - (node.geometry?.paintOrigin ?? 0) + constraints.overlap,
+      );
+    }
+    if (constraints == null || coveredExtent <= 0) {
+      return viewportRect;
+    }
+    coveredExtent = math.min(
+      coveredExtent,
+      viewport.axis == Axis.vertical ? viewportRect.height : viewportRect.width,
+    );
+    return switch (applyGrowthDirectionToAxisDirection(
+      constraints.axisDirection,
+      constraints.growthDirection,
+    )) {
+      AxisDirection.down => EdgeInsets.only(top: coveredExtent),
+      AxisDirection.up => EdgeInsets.only(bottom: coveredExtent),
+      AxisDirection.right => EdgeInsets.only(left: coveredExtent),
+      AxisDirection.left => EdgeInsets.only(right: coveredExtent),
+    }.deflateRect(viewportRect);
+  }
+
+  void _updateSelectionExtentsVisibility(Rect visibleRegion) {
     final startPosition = TextPosition(
       offset: selection.start,
       affinity: selection.affinity,
@@ -745,7 +879,7 @@ class RenderEditor extends RenderEditableContainerBox
     const visibleRegionSlop = 0.5;
     _selectionStartInViewport.value = visibleRegion
         .inflate(visibleRegionSlop)
-        .contains(startOffset + effectiveOffset);
+        .contains(startOffset);
 
     final endPosition = TextPosition(
       offset: selection.end,
@@ -754,7 +888,7 @@ class RenderEditor extends RenderEditableContainerBox
     final endOffset = _getOffsetForCaret(endPosition);
     _selectionEndInViewport.value = visibleRegion
         .inflate(visibleRegionSlop)
-        .contains(endOffset + effectiveOffset);
+        .contains(endOffset);
   }
 
   // returns offset relative to this at which the caret will be painted
@@ -782,8 +916,6 @@ class RenderEditor extends RenderEditableContainerBox
     _hasFocus = h;
     markNeedsSemanticsUpdate();
   }
-
-  Offset get _paintOffset => Offset(0, -(offset?.pixels ?? 0.0));
 
   ViewportOffset? get offset => _offset;
   ViewportOffset? _offset;
@@ -935,6 +1067,19 @@ class RenderEditor extends RenderEditableContainerBox
 
   Offset? _lastTapDownPosition;
 
+  /// The position of the last secondary tap down, such as a right click. It is
+  /// in local coordinates. It is null before the first such tap and after a
+  /// primary tap down.
+  ///
+  /// The context menu opens at this position.
+  /// [RenderEditable.lastSecondaryTapDownPosition] is a global position
+  /// instead. A local position keeps the menu at the clicked text when the
+  /// layout moves the editor.
+  @internal
+  Offset? get lastSecondaryTapDownLocalPosition =>
+      _lastSecondaryTapDownLocalPosition;
+  Offset? _lastSecondaryTapDownLocalPosition;
+
   // Used on Desktop (mouse and keyboard enabled platforms) as base offset
   // for extending selection, either with combination of `Shift` + Click or
   // by dragging
@@ -943,6 +1088,16 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   void handleTapDown(TapDownDetails details) {
     _lastTapDownPosition = details.globalPosition;
+    // A menu that a primary gesture opens belongs at the selection. An example
+    // of such a gesture is a long press. Flutter's RenderEditable keeps the
+    // place of the earlier right click instead.
+    _lastSecondaryTapDownLocalPosition = null;
+  }
+
+  /// Tracks the position of a secondary tap, such as a right click. The context
+  /// menu then opens there, as with [RenderEditable.handleSecondaryTapDown].
+  void handleSecondaryTapDown(TapDownDetails details) {
+    _lastSecondaryTapDownLocalPosition = globalToLocal(details.globalPosition);
   }
 
   bool _isDragging = false;
@@ -1202,8 +1357,13 @@ class RenderEditor extends RenderEditableContainerBox
       _paintFloatingCursor(context, offset);
     }
     defaultPaint(context, offset);
-    _updateSelectionExtentsVisibility(offset + _paintOffset);
-    _paintHandleLayers(context, getEndpointsForSelection(selection));
+    final visibleRect = _getVisibleRect();
+    _updateSelectionExtentsVisibility(visibleRect);
+    _paintHandleLayers(
+      context,
+      getEndpointsForSelection(selection),
+      visibleRect,
+    );
 
     if (_hasFocus &&
         _cursorController.show.value &&
@@ -1217,31 +1377,39 @@ class RenderEditor extends RenderEditableContainerBox
     return defaultHitTestChildren(result, position: position);
   }
 
+  // A handle is shown only while its text is in the visible part of the editor.
+  // Without its leader layer, the handle is not drawn and gets no touches. It
+  // then never appears over the widgets around the editor.
   void _paintHandleLayers(
     PaintingContext context,
     List<TextSelectionPoint> endpoints,
+    Rect visibleRect,
   ) {
     var startPoint = endpoints[0].point;
     startPoint = Offset(
-      startPoint.dx.clamp(0.0, size.width),
-      startPoint.dy.clamp(0.0, size.height),
+      startPoint.dx.clamp(visibleRect.left, visibleRect.right),
+      startPoint.dy.clamp(visibleRect.top, visibleRect.bottom),
     );
-    context.pushLayer(
-      LeaderLayer(link: _startHandleLayerLink, offset: startPoint),
-      super.paint,
-      Offset.zero,
-    );
-    if (endpoints.length == 2) {
-      var endPoint = endpoints[1].point;
-      endPoint = Offset(
-        endPoint.dx.clamp(0.0, size.width),
-        endPoint.dy.clamp(0.0, size.height),
-      );
+    if (_selectionStartInViewport.value) {
       context.pushLayer(
-        LeaderLayer(link: _endHandleLayerLink, offset: endPoint),
+        LeaderLayer(link: _startHandleLayerLink, offset: startPoint),
         super.paint,
         Offset.zero,
       );
+    }
+    if (endpoints.length == 2) {
+      var endPoint = endpoints[1].point;
+      endPoint = Offset(
+        endPoint.dx.clamp(visibleRect.left, visibleRect.right),
+        endPoint.dy.clamp(visibleRect.top, visibleRect.bottom),
+      );
+      if (_selectionEndInViewport.value) {
+        context.pushLayer(
+          LeaderLayer(link: _endHandleLayerLink, offset: endPoint),
+          super.paint,
+          Offset.zero,
+        );
+      }
     }
   }
 
