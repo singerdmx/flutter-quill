@@ -1585,6 +1585,48 @@ void main() {
     );
 
     testWidgets(
+      'stays beside a header pinned at the left that covers the clicked text',
+      (tester) async {
+        final innerScrollController = ScrollController();
+        addTearDown(innerScrollController.dispose);
+        final (
+          :controller,
+          scrollController: _,
+        ) = await _pumpEditorInHorizontalScrollView(
+          tester,
+          innerScrollController,
+        );
+        final wordStart = await _selectAndRightClickWord(
+          tester,
+          controller,
+          line: 0,
+        );
+        final headerRect = tester.getRect(
+          find.descendant(
+            of: find.byType(SliverPersistentHeader),
+            matching: find.byType(ColoredBox),
+          ),
+        );
+
+        // Moves the clicked text under the header, 40 px from its left edge.
+        innerScrollController.jumpTo(
+          _getCaretCenter(tester, wordStart + 1).dx - headerRect.left - 40,
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          _getCaretCenter(tester, wordStart + 1).dx,
+          lessThan(headerRect.right),
+        );
+        expect(
+          _getMenuRect(tester).left,
+          greaterThanOrEqualTo(headerRect.right - 0.01),
+        );
+      },
+      variant: TargetPlatformVariant.desktop(),
+    );
+
+    testWidgets(
       'opens at the pointer in an editor that a widget around it scales',
       (tester) async {
         final editorScale = ValueNotifier<double>(1);
@@ -1616,6 +1658,39 @@ void main() {
             reason: 'line $line',
           );
         }
+      },
+      variant: TargetPlatformVariant.desktop(),
+    );
+
+    testWidgets(
+      'keeps its size and its place when the scale of the editor changes',
+      (tester) async {
+        final editorScale = ValueNotifier<double>(0.75);
+        addTearDown(editorScale.dispose);
+        final (:controller, scrollController: _) = await _pumpScaledEditor(
+          tester,
+          editorScale,
+        );
+        final wordStart = await _selectAndRightClickWord(
+          tester,
+          controller,
+          line: 4,
+        );
+        final menuSize = _getMenuRect(tester).size;
+        final menuOffset =
+            _getMenuRect(tester).topLeft -
+            _getCaretCenter(tester, wordStart + 1);
+
+        editorScale.value = 1;
+        await tester.pumpAndSettle();
+
+        final menuRect = _getMenuRect(tester);
+        expect(menuRect.width, moreOrLessEquals(menuSize.width));
+        expect(menuRect.height, moreOrLessEquals(menuSize.height));
+        expect(
+          menuRect.topLeft - _getCaretCenter(tester, wordStart + 1),
+          offsetMoreOrLessEquals(menuOffset, epsilon: 0.01),
+        );
       },
       variant: TargetPlatformVariant.desktop(),
     );
@@ -2050,6 +2125,53 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(scrollController.offset, greaterThan(0));
+        expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+      },
+      variant: platforms,
+    );
+
+    testWidgets(
+      'and is not shown again after a format is chosen during the scroll',
+      (tester) async {
+        final (:controller, scrollController: _) = await _pumpEditorWithMenu(
+          tester,
+          _createLinesJson(100),
+        );
+        final lineEnd = controller.document.toPlainText().indexOf(
+          '\n',
+          _getWordStart(controller, line: 5),
+        );
+        // A point to the right of the end of the line. A long press there
+        // leaves only the caret.
+        await tester.longPressAt(
+          Offset(
+            tester.getRect(find.byType(QuillEditor)).right - 30,
+            _getCaretCenter(tester, lineEnd).dy,
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          (controller.selection.isCollapsed, controller.selection.extentOffset),
+          (true, lineEnd),
+        );
+        expect(find.byType(AdaptiveTextSelectionToolbar), findsOneWidget);
+
+        final gesture = await tester.startGesture(
+          tester.getCenter(find.byType(QuillEditor)),
+        );
+        await gesture.moveBy(const Offset(0, -20));
+        await gesture.moveBy(const Offset(0, -20));
+        await tester.pump();
+        expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+        // What the bold button of the toolbar does.
+        controller.formatSelection(Attribute.bold);
+        await gesture.up();
+        await tester.pumpAndSettle();
+
+        expect(
+          controller.toggledStyle.attributes,
+          contains(Attribute.bold.key),
+        );
         expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
       },
       variant: platforms,

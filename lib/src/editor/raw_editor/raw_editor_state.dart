@@ -65,7 +65,10 @@ class QuillRawEditorState extends EditorState
   // value and the selection in view.
   TextEditingValue? _valueWhenMenuHiddenForScroll;
   bool _isMenuAfterScrollScheduled = false;
-  bool _isMenuUpdateAfterOuterScrollScheduled = false;
+
+  // The transform of the editor when the menu was last built.
+  Matrix4? _editorTransformWhenMenuBuilt;
+  bool _isMenuTransformCheckScheduled = false;
 
   // The style chosen for the next text when the menu was last shown.
   Style _toggledStyleWhenMenuShown = const Style();
@@ -334,17 +337,21 @@ class QuillRawEditorState extends EditorState
       return anchors;
     }
 
-    // The vertical range of the editor that is visible.
+    // The part of the editor that is visible.
+    final visibleLeft = math.max<double>(0, viewportRect.left);
+    final visibleRight = math.min(editor.size.width, viewportRect.right);
     final visibleTop = math.max<double>(0, viewportRect.top);
     final visibleBottom = math.min(editor.size.height, viewportRect.bottom);
 
     // No part of the editor is visible. The visible part then gives no limit.
-    if (visibleBottom <= visibleTop) {
+    if (visibleRight <= visibleLeft || visibleBottom <= visibleTop) {
       return anchors;
     }
 
-    Offset clampY(Offset point, double low, double high) =>
-        Offset(point.dx, point.dy.clamp(low, high));
+    Offset clampToVisiblePart(Offset point, double maxDy) => Offset(
+      point.dx.clamp(visibleLeft, visibleRight),
+      point.dy.clamp(visibleTop, maxDy),
+    );
 
     // The room for a menu below the selection is measured from the bottom of
     // the viewport. It is not measured from the bottom of the text. Otherwise a
@@ -353,12 +360,11 @@ class QuillRawEditorState extends EditorState
     final hasRoomForMenu =
         visibleBottom - visibleTop > _kSelectionContextMenuReserve;
     return TextSelectionToolbarAnchors(
-      primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
+      primaryAnchor: clampToVisiblePart(anchors.primaryAnchor, visibleBottom),
       secondaryAnchor: anchors.secondaryAnchor == null
           ? null
-          : clampY(
+          : clampToVisiblePart(
               anchors.secondaryAnchor!,
-              visibleTop,
               hasRoomForMenu
                   ? viewportRect.bottom - _kSelectionContextMenuReserve
                   : visibleBottom,
@@ -1179,17 +1185,6 @@ class QuillRawEditorState extends EditorState
     if (_selectionOverlay != null || _valueWhenMenuHiddenForScroll != null) {
       renderEditor.markNeedsPaint();
     }
-    // The menu is built again so that it stays in the visible part of the
-    // editor. This happens after the frame, because a ListView moves the editor
-    // only when it lays it out.
-    if (_selectionOverlay?.toolbar != null &&
-        !_isMenuUpdateAfterOuterScrollScheduled) {
-      _isMenuUpdateAfterOuterScrollScheduled = true;
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        _isMenuUpdateAfterOuterScrollScheduled = false;
-        _selectionOverlay?.toolbar?.markNeedsBuild();
-      });
-    }
   }
 
   void _updateScrollNotificationObserver() {
@@ -1280,7 +1275,9 @@ class QuillRawEditorState extends EditorState
     if (_valueWhenMenuHiddenForScroll == null) {
       return;
     }
-    if (!_hasFocus || _valueWhenMenuHiddenForScroll != textEditingValue) {
+    if (!_hasFocus ||
+        _valueWhenMenuHiddenForScroll != textEditingValue ||
+        !_hasSameStyleForNextText()) {
       _valueWhenMenuHiddenForScroll = null;
       return;
     }
@@ -1422,7 +1419,10 @@ class QuillRawEditorState extends EditorState
   // editor therefore does not scale the menu. The Stack lets the app's menu use
   // a Positioned widget, as it can in the overlay.
   Widget _buildContextMenu(BuildContext context) {
-    final globalToEditor = Matrix4.tryInvert(renderEditor.getTransformTo(null));
+    final editorTransform = renderEditor.getTransformTo(null);
+    _editorTransformWhenMenuBuilt = editorTransform;
+    _scheduleMenuTransformCheck();
+    final globalToEditor = Matrix4.tryInvert(editorTransform);
     final viewportRect = renderEditor.getVisibleViewportRect();
     // No menu is built while the editor is out of view. There, a scroll view
     // that keeps the focused editor alive can give it a transform without an
@@ -1445,6 +1445,29 @@ class QuillRawEditorState extends EditorState
     );
   }
 
+  // The menu uses the editor's transform from its last build. A widget around
+  // the editor can change that transform without a new build. Examples are
+  // Transform.scale and a scroll view. The menu is therefore built again after
+  // a frame that changed the transform.
+  void _scheduleMenuTransformCheck() {
+    if (_isMenuTransformCheckScheduled) {
+      return;
+    }
+    _isMenuTransformCheckScheduled = true;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _isMenuTransformCheckScheduled = false;
+      final toolbar = _selectionOverlay?.toolbar;
+      if (!mounted || toolbar == null || !renderEditor.attached) {
+        return;
+      }
+      if (renderEditor.getTransformTo(null) != _editorTransformWhenMenuBuilt) {
+        toolbar.markNeedsBuild();
+      } else {
+        _scheduleMenuTransformCheck();
+      }
+    });
+  }
+
   // Whether [overlay] shows a menu for the current caret and text. The style
   // for the next text must also be the same. Such a menu stays when the overlay
   // is updated without a change. An example is the update when the keyboard
@@ -1459,8 +1482,14 @@ class QuillRawEditorState extends EditorState
   bool _isMenuForCurrentValue(EditorTextSelectionOverlay overlay) {
     return overlay.value.selection == textEditingValue.selection &&
         overlay.value.text == textEditingValue.text &&
-        (!textEditingValue.selection.isCollapsed ||
-            controller.toggledStyle == _toggledStyleWhenMenuShown);
+        _hasSameStyleForNextText();
+  }
+
+  // Whether the style for the next text is the same as when the menu was last
+  // shown. Only a caret has such a style.
+  bool _hasSameStyleForNextText() {
+    return !textEditingValue.selection.isCollapsed ||
+        controller.toggledStyle == _toggledStyleWhenMenuShown;
   }
 
   void _handleFocusChanged() {
