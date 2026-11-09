@@ -1104,14 +1104,51 @@ class RenderEditableTextLine extends RenderEditableBox {
     final lineDy = getOffsetForCaret(
       position,
     ).translate(0, 0.5 * preferredLineHeight(position)).dy;
-    final lineBoxes =
-        _getBoxes(TextSelection(baseOffset: 0, extentOffset: line.length - 1))
-            .where((element) => element.top < lineDy && element.bottom > lineDy)
-            .toList(growable: false);
-    return TextRange(
-      start: getPositionForOffset(Offset(lineBoxes.first.left, lineDy)).offset,
-      end: getPositionForOffset(Offset(lineBoxes.last.right, lineDy)).offset,
+    final boxes = _getBoxes(
+      TextSelection(baseOffset: 0, extentOffset: line.length - 1),
     );
+    final lineBoxes = boxes
+        .where((box) => box.top < lineDy && box.bottom > lineDy)
+        .toList(growable: false);
+    if (lineBoxes.isEmpty) {
+      return TextRange.collapsed(position.offset);
+    }
+    final lineStart = _getVisualLineStart(lineBoxes, lineDy);
+    // A wrapped line ends where the next line starts. The spaces at its end can
+    // be drawn over its other text. Its boxes therefore do not show its end.
+    // The last line ends with the text.
+    final lineBottom = lineBoxes.map((box) => box.bottom).reduce(math.max);
+    final boxesBelow = boxes
+        .where((box) => box.top >= lineBottom - 0.5)
+        .toList(growable: false);
+    if (boxesBelow.isEmpty) {
+      return TextRange(start: lineStart, end: line.length - 1);
+    }
+    final nextLineTop = boxesBelow.map((box) => box.top).reduce(math.min);
+    final nextLineBoxes = boxesBelow
+        .where((box) => box.top < nextLineTop + 0.5)
+        .toList(growable: false);
+    final nextLineDy = (nextLineTop + nextLineBoxes.first.bottom) / 2;
+    return TextRange(
+      start: lineStart,
+      end: _getVisualLineStart(nextLineBoxes, nextLineDy),
+    );
+  }
+
+  // Returns the position at which the visual line at the height [dy] starts.
+  // The [boxes] hold the text of that line.
+  //
+  // With text in both directions, a line can start inside its text. Each box
+  // holds text in one direction. The line therefore starts at the smallest of
+  // the positions just inside the edges of its boxes.
+  int _getVisualLineStart(List<TextBox> boxes, double dy) {
+    return boxes
+        .expand((box) {
+          final edgeInset = math.min(0.5, (box.right - box.left) / 2);
+          return [box.left + edgeInset, box.right - edgeInset];
+        })
+        .map((dx) => getPositionForOffset(Offset(dx, dy)).offset)
+        .reduce(math.min);
   }
 
   @override

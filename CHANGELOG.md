@@ -10,6 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed selection handles that stayed visible and took taps after their text scrolled out of view or under a pinned header.
+- Fixed the context menu of a caret closing right after a long press, and a long press on the placeholder resetting the style for the next text.
+- Fixed the context menu covering the selection handles at the end of a short document.
+- Fixed the context menu covering a pinned header or leaving the screen when its text is out of view.
+- Fixed an error from the context menu while a `ListView` keeps the focused editor alive out of view.
+- On Android and iOS, the context menu now hides while the editor or a scroll view around it scrolls, as in a `TextField`. For a scroll view around the editor, this needs a `ScrollNotificationObserver`, such as the one in a `Scaffold`.
+- Removed Cut and Copy from the context menu of a caret, where they emptied the clipboard. `QuillController.clipboardSelection` now does nothing without a selection.
+- Fixed End stopping inside a line with text in both directions, and Home and End causing an error on an empty line. `RenderEditor.selectLineAtPosition` now selects the whole line.
+- Fixed the context menu staying in place when the layout moves the editor, and its position in a scaled editor.
+- A right click now opens the context menu at the pointer, as in a `TextField`, and a second right click moves it. The new `RenderEditor.handleSecondaryTapDown` records the place of the click.
+- On macOS and iOS, a right click outside the selection now selects the word under the pointer, as in a `TextField`.
+- Fixed an error when the editor is removed in the same frame as a right click.
+- Fixed the old context menu staying after a paste when no on-screen keyboard is shown.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added
