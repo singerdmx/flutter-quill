@@ -21,7 +21,11 @@ void main() {
     scroll = ScrollController();
   });
 
-  Future<void> openAtBottom(WidgetTester tester, {FocusNode? other}) async {
+  Future<void> openAtBottom(
+    WidgetTester tester, {
+    FocusNode? other,
+    FocusNode? after,
+  }) async {
     addTearDown(controller.dispose);
     addTearDown(focus.dispose);
     addTearDown(scroll.dispose);
@@ -29,7 +33,15 @@ void main() {
       controller: controller,
       focusNode: focus,
       scrollController: scroll,
-      config: const QuillEditorConfig(autoFocus: true),
+      config: QuillEditorConfig(
+        autoFocus: true,
+        // An editable Quill normally consumes Tab for text or indentation.
+        onKeyPressed: after == null
+            ? null
+            : (event, _) => event.logicalKey == LogicalKeyboardKey.tab
+                  ? KeyEventResult.ignored
+                  : null,
+      ),
     );
     await tester.pumpWidget(
       QuillTestApp.withScaffold(
@@ -37,6 +49,7 @@ void main() {
           children: [
             if (other != null) Focus(focusNode: other, child: const SizedBox()),
             Expanded(child: editor),
+            if (after != null) Focus(focusNode: after, child: const SizedBox()),
           ],
         ),
       ),
@@ -65,17 +78,158 @@ void main() {
 
   // Exercise the framework's public view-focus event path. Flutter chooses
   // which node to suspend and restore, as it does for a native view.
-  Future<void> viewFocus(WidgetTester tester, ViewFocusState state) async {
+  Future<void> viewFocus(
+    WidgetTester tester,
+    ViewFocusState state, [
+    ViewFocusDirection direction = ViewFocusDirection.undefined,
+  ]) async {
     tester.binding.handleViewFocusChanged(
       ViewFocusEvent(
         viewId: tester.view.viewId,
         state: state,
-        direction: ViewFocusDirection.undefined,
+        direction: direction,
       ),
     );
     await tester.pump();
     expect(focus.hasPrimaryFocus, state == ViewFocusState.focused);
   }
+
+  bool caretIsVisible(WidgetTester tester) {
+    final editor = tester
+        .state<QuillRawEditorState>(find.byType(QuillRawEditor))
+        .renderEditor;
+    final center = editor
+        .getLocalRectForCaret(controller.selection.extent)
+        .center;
+    return tester
+        .getRect(find.byType(QuillEditor))
+        .contains(editor.localToGlobal(center));
+  }
+
+  for (final direction in [
+    ViewFocusDirection.forward,
+    ViewFocusDirection.backward,
+  ]) {
+    testWidgets('directed view entry reveals the focused caret: $direction', (
+      tester,
+    ) async {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await openAtBottom(tester);
+      expect(caretIsVisible(tester), isFalse);
+      await viewFocus(tester, ViewFocusState.unfocused);
+      await viewFocus(tester, ViewFocusState.focused, direction);
+      await tester.pumpAndSettle();
+      expect(controller.selection, const TextSelection.collapsed(offset: 0));
+      expect(caretIsVisible(tester), isTrue);
+    }, variant: windows);
+  }
+
+  testWidgets(
+    'a directional event during application restoration preserves scroll',
+    (tester) async {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await openAtBottom(tester);
+      final bottom = scroll.offset;
+      await viewFocus(tester, ViewFocusState.unfocused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      // Deliver the host's event before Flutter applies the restored focus.
+      await viewFocus(
+        tester,
+        ViewFocusState.focused,
+        ViewFocusDirection.forward,
+      );
+      await tester.pumpAndSettle();
+      expect(controller.selection.extentOffset, 0);
+      expect(scroll.offset, bottom);
+    },
+    variant: windows,
+  );
+
+  testWidgets(
+    'directional notifications cannot retarget a passive view entry',
+    (tester) async {
+      await openAtBottom(tester);
+      final bottom = scroll.offset;
+      await viewFocus(tester, ViewFocusState.unfocused);
+      void enter(int viewId, ViewFocusDirection direction) {
+        tester.binding.handleViewFocusChanged(
+          ViewFocusEvent(
+            viewId: viewId,
+            state: ViewFocusState.focused,
+            direction: direction,
+          ),
+        );
+      }
+
+      // Deliver the foreign notification and the late acknowledgement before
+      // focus moves off the root. Only the first entry for this view counts.
+      enter(tester.view.viewId + 1, ViewFocusDirection.backward);
+      enter(tester.view.viewId, ViewFocusDirection.undefined);
+      enter(tester.view.viewId, ViewFocusDirection.forward);
+      await tester.pumpAndSettle();
+      expect(focus.hasPrimaryFocus, isTrue);
+      expect(controller.selection.extentOffset, 0);
+      expect(scroll.offset, bottom);
+    },
+    variant: windows,
+  );
+
+  testWidgets('view inset changes only reveal the focused editor', (
+    tester,
+  ) async {
+    final other = FocusNode();
+    addTearDown(other.dispose);
+    addTearDown(tester.view.resetViewInsets);
+    await openAtBottom(tester, other: other);
+    other.requestFocus();
+    await tester.pumpAndSettle();
+    expect(other.hasPrimaryFocus, isTrue);
+    tester.view.viewInsets = const FakeViewPadding(bottom: 100);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 150));
+    await tester.pumpAndSettle();
+    expect(caretIsVisible(tester), isFalse);
+    focus.requestFocus();
+    await tester.pumpAndSettle();
+    scroll.jumpTo(scroll.position.maxScrollExtent);
+    await tester.pumpAndSettle();
+    expect(caretIsVisible(tester), isFalse);
+    tester.view.viewInsets = const FakeViewPadding(bottom: 200);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 150));
+    await tester.pumpAndSettle();
+    expect(caretIsVisible(tester), isTrue);
+  }, variant: windows);
+
+  testWidgets('Tab and Shift+Tab back into the editor reveal the caret', (
+    tester,
+  ) async {
+    final before = FocusNode();
+    final after = FocusNode();
+    addTearDown(before.dispose);
+    addTearDown(after.dispose);
+    await openAtBottom(tester, other: before, after: after);
+    Future<void> tab({required bool reverse}) async {
+      if (reverse) await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      if (reverse) await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.pumpAndSettle();
+    }
+
+    for (final reverse in [false, true]) {
+      scroll.jumpTo(scroll.position.maxScrollExtent);
+      await tester.pumpAndSettle();
+      expect(caretIsVisible(tester), isFalse);
+      await tab(reverse: reverse);
+      expect((reverse ? before : after).hasPrimaryFocus, isTrue);
+      await tab(reverse: !reverse);
+      expect(focus.hasPrimaryFocus, isTrue);
+      expect(caretIsVisible(tester), isTrue);
+      expect(controller.selection.extentOffset, 0);
+    }
+    expect(controller.document.toPlainText(), '$contents\n');
+  }, variant: windows);
 
   testWidgets('restoring view focus preserves scroll and the offscreen caret', (
     tester,
