@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a viewport jump on Windows when returning to the editor with Alt+Tab or by clicking visible text while the caret is offscreen.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

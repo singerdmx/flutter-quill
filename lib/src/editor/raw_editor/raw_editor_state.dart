@@ -70,6 +70,22 @@ class QuillRawEditorState extends EditorState
 
   // Focus
   bool _didAutoFocus = false;
+  FocusNode? _suspendedFocus;
+  ui.ViewFocusEvent? _viewFocusTransition;
+
+  // Desktop views park focus on the root while inactive. If another control
+  // takes focus first, the editor's next focus gain is an ordinary one.
+  void _forgetSuspendedFocusIfNeeded() {
+    final manager = FocusManager.instance;
+    if (manager.primaryFocus == manager.rootScope) {
+      return;
+    }
+    manager.removeListener(_forgetSuspendedFocusIfNeeded);
+    if (_suspendedFocus?.hasFocus != true) {
+      _suspendedFocus = null;
+      _viewFocusTransition = null;
+    }
+  }
 
   bool get _hasFocus => widget.config.focusNode.hasFocus;
 
@@ -904,6 +920,7 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _shortcutActionsManager = EditorKeyboardShortcutsActionsManager(
       rawEditorState: this,
       context: context,
@@ -1060,6 +1077,7 @@ class QuillRawEditorState extends EditorState
 
   @override
   void dispose() {
+    FocusManager.instance.removeListener(_forgetSuspendedFocusIfNeeded);
     closeConnectionIfNeeded();
     _keyboardInsetSettleTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
@@ -1197,11 +1215,35 @@ class QuillRawEditorState extends EditorState
     }
   }
 
-  void _handleFocusChanged() {
+  void _handleFocusChanged([bool revealCaret = true]) {
+    if (!mounted) {
+      return;
+    }
+    final manager = FocusManager.instance;
+    final node = widget.config.focusNode;
+    final parked = manager.primaryFocus == manager.rootScope;
+    if (isDesktopApp &&
+        parked &&
+        node.enclosingScope?.focusedChild == node &&
+        _suspendedFocus == null) {
+      _suspendedFocus = node;
+      manager.addListener(_forgetSuspendedFocusIfNeeded);
+    }
+    final directedEntry =
+        _viewFocusTransition?.state == ui.ViewFocusState.focused &&
+        _viewFocusTransition?.direction != ui.ViewFocusDirection.undefined;
+    final shouldReveal =
+        revealCaret && (_suspendedFocus != node || directedEntry);
+    if (_hasFocus) {
+      _suspendedFocus = null;
+      _viewFocusTransition = null;
+    }
     if (dirty) {
-      requestKeyboard();
+      if (shouldReveal) {
+        requestKeyboard();
+      }
       SchedulerBinding.instance.addPostFrameCallback(
-        (_) => _handleFocusChanged(),
+        (_) => _handleFocusChanged(shouldReveal),
       );
       return;
     }
@@ -1209,18 +1251,46 @@ class QuillRawEditorState extends EditorState
     _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
-      WidgetsBinding.instance.addObserver(this);
       _lastBottomViewInset = View.maybeOf(context)?.viewInsets.bottom ?? 0;
-      _showCaretOnScreen();
+      if (shouldReveal) {
+        _showCaretOnScreen();
+      }
     } else {
-      WidgetsBinding.instance.removeObserver(this);
+      _lastBottomViewInset = null;
     }
     updateKeepAlive();
   }
 
   @override
+  void didChangeViewFocus(ui.ViewFocusEvent event) {
+    final lifecycle = WidgetsBinding.instance.lifecycleState;
+    if (!mounted ||
+        !isDesktopApp ||
+        (lifecycle != null && lifecycle != AppLifecycleState.resumed)) {
+      return;
+    }
+    // Only pair a focused editor's own view exit with the first entry while
+    // its focus is still parked. A focus acknowledgement can also be directed.
+    if (event.state == ui.ViewFocusState.unfocused) {
+      if (_hasFocus && event.viewId == View.maybeOf(context)?.viewId) {
+        _viewFocusTransition = event;
+      }
+    } else if (_viewFocusTransition?.viewId == event.viewId &&
+        _viewFocusTransition?.state == ui.ViewFocusState.unfocused) {
+      _viewFocusTransition = _focusIsParked ? event : null;
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _viewFocusTransition = null;
+    }
+  }
+
+  @override
   void didChangeMetrics() {
-    if (!mounted) {
+    if (!mounted || _lastBottomViewInset == null) {
       return;
     }
     final view = View.maybeOf(context);
@@ -1270,7 +1340,8 @@ class QuillRawEditorState extends EditorState
   // Tracks the bottom view inset (keyboard height). Caret reveal is debounced until the
   // inset stops changing (see didChangeMetrics) so the caret is revealed against the final
   // viewport.
-  double _lastBottomViewInset = 0;
+  // Null while the editor is not observing keyboard insets.
+  double? _lastBottomViewInset;
   Timer? _keyboardInsetSettleTimer;
   // Tapping a checkbox also triggers the editor's tap gesture (onSingleTapUp), which
   // would move the caret to the tapped line and make the toolbar briefly reflect that
@@ -1278,8 +1349,15 @@ class QuillRawEditorState extends EditorState
   // selection change so the caret — and the toolbar — stay put.
   bool _ignoreCheckboxTapSelectionChange = false;
 
+  bool get _focusIsParked =>
+      _suspendedFocus == widget.config.focusNode &&
+      !_hasFocus &&
+      FocusManager.instance.primaryFocus == FocusManager.instance.rootScope;
+
   void _showCaretOnScreen() {
-    if (!widget.config.showCursor || _showCaretOnScreenScheduled) {
+    if (!widget.config.showCursor ||
+        _showCaretOnScreenScheduled ||
+        _focusIsParked) {
       return;
     }
 
@@ -1288,7 +1366,7 @@ class QuillRawEditorState extends EditorState
       if (widget.config.scrollable || _scrollController.hasClients) {
         _showCaretOnScreenScheduled = false;
 
-        if (!mounted) {
+        if (!mounted || _focusIsParked) {
           return;
         }
 
