@@ -943,6 +943,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
 
     final containsSelection = containsTextSelection();
+    final wasAttachedToCursorController = _attachedToCursorController;
     if (_attachedToCursorController) {
       cursorCont.removeListener(markNeedsLayout);
       cursorCont.color.removeListener(safeMarkNeedsPaint);
@@ -956,6 +957,9 @@ class RenderEditableTextLine extends RenderEditableBox {
       cursorCont.addListener(markNeedsLayout);
       cursorCont.color.addListener(safeMarkNeedsPaint);
       _attachedToCursorController = true;
+      if (!wasAttachedToCursorController) {
+        markNeedsLayout();
+      }
     }
 
     if (containsSelection || containsTextSelection()) {

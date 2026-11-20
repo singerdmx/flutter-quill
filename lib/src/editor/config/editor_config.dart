@@ -39,6 +39,7 @@ class QuillEditorConfig {
     this.disableClipboard = false,
     this.textSelectionThemeData,
     this.showCursor,
+    this.cursorWidth = 2,
     this.paintCursorAboveText,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
@@ -88,7 +89,7 @@ class QuillEditorConfig {
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
     this.showCodeBlockLineNumbers = true,
-  });
+  }) : assert(cursorWidth >= 0 && cursorWidth < double.infinity);
 
   @experimental
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
@@ -256,6 +257,12 @@ class QuillEditorConfig {
   ///
   /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
+
+  /// The width of the editing caret in logical pixels.
+  ///
+  /// Defaults to 2.0. Must be finite and non-negative.
+  final double cursorWidth;
+
   final bool? paintCursorAboveText;
 
   /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
@@ -520,6 +527,7 @@ class QuillEditorConfig {
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
     KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed,
     bool? showCursor,
+    double? cursorWidth,
     bool? paintCursorAboveText,
     MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
@@ -585,6 +593,7 @@ class QuillEditorConfig {
       onTapOutsideEnabled: onTapOutsideEnabled ?? this.onTapOutsideEnabled,
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
+      cursorWidth: cursorWidth ?? this.cursorWidth,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
       readOnlyMouseCursor: readOnlyMouseCursor ?? this.readOnlyMouseCursor,
       enableInteractiveSelection:
