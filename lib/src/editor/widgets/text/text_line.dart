@@ -662,8 +662,13 @@ class _TextLineState extends State<TextLine> {
   }
 
   GestureRecognizer? _getRecognizer(Node segment, bool isLink) {
-    if (_linkRecognizers.containsKey(segment)) {
-      return _linkRecognizers[segment]!;
+    final cachedRecognizer = _linkRecognizers[segment];
+    if (cachedRecognizer != null) {
+      if (!isLink && cachedRecognizer is _LinkGestureRecognizer) {
+        _linkRecognizers.remove(segment)?.dispose();
+        return null;
+      }
+      return cachedRecognizer;
     }
 
     if (widget.customRecognizerBuilder != null) {
@@ -685,10 +690,10 @@ class _TextLineState extends State<TextLine> {
 
     if (isLink && canLaunchLinks) {
       if (isDesktop || widget.readOnly) {
-        _linkRecognizers[segment] = TapGestureRecognizer()
+        _linkRecognizers[segment] = _LinkTapGestureRecognizer()
           ..onTap = () => _tapNodeLink(segment);
       } else {
-        _linkRecognizers[segment] = LongPressGestureRecognizer()
+        _linkRecognizers[segment] = _LinkLongPressGestureRecognizer()
           ..onLongPress = () => _longPressLink(segment);
       }
     }
@@ -700,7 +705,10 @@ class _TextLineState extends State<TextLine> {
   }
 
   void _tapNodeLink(Node node) {
-    final link = node.style.attributes[Attribute.link.key]!.value;
+    final link = node.style.attributes[Attribute.link.key]?.value;
+    if (link is! String) {
+      return;
+    }
 
     _tapLink(link);
   }
@@ -730,7 +738,10 @@ class _TextLineState extends State<TextLine> {
   }
 
   Future<void> _longPressLink(Node node) async {
-    final link = node.style.attributes[Attribute.link.key]!.value!;
+    final link = node.style.attributes[Attribute.link.key]?.value;
+    if (link is! String) {
+      return;
+    }
     final action = await widget.linkActionPicker(node);
     switch (action) {
       case LinkMenuAction.launch:
@@ -746,6 +757,7 @@ class _TextLineState extends State<TextLine> {
           range.end - range.start,
           Attribute.link,
         );
+        _linkRecognizers.remove(node)?.dispose();
         break;
       case LinkMenuAction.none:
         break;
@@ -769,6 +781,15 @@ class _TextLineState extends State<TextLine> {
         );
   }
 }
+
+// A custom recognizer can also be cached for text without a link.
+mixin _LinkGestureRecognizer on GestureRecognizer {}
+
+class _LinkTapGestureRecognizer extends TapGestureRecognizer
+    with _LinkGestureRecognizer {}
+
+class _LinkLongPressGestureRecognizer extends LongPressGestureRecognizer
+    with _LinkGestureRecognizer {}
 
 class EditableTextLine extends RenderObjectWidget {
   const EditableTextLine(
