@@ -128,7 +128,6 @@ class QuillSimpleToolbarConfig {
     this.color,
     this.sectionDividerColor,
     this.sectionDividerSpace,
-
     this._toolbarSize,
     this.toolbarRunSpacing = 4,
   });

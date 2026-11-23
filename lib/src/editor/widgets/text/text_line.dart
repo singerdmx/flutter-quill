@@ -36,6 +36,7 @@ class TextLine extends StatefulWidget {
     this.customStyleBuilder,
     this.customRecognizerBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     super.key,
   });
 
@@ -51,6 +52,7 @@ class TextLine extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
+  final String Function(String link)? transformLink;
   final TextRange composingRange;
 
   @override
@@ -660,12 +662,13 @@ class _TextLineState extends State<TextLine> {
   }
 
   GestureRecognizer? _getRecognizer(Node segment, bool isLink) {
-    if (_linkRecognizers.containsKey(segment)) {
-      if (!isLink) {
+    final cachedRecognizer = _linkRecognizers[segment];
+    if (cachedRecognizer != null) {
+      if (!isLink && cachedRecognizer is _LinkGestureRecognizer) {
         _linkRecognizers.remove(segment)?.dispose();
         return null;
       }
-      return _linkRecognizers[segment]!;
+      return cachedRecognizer;
     }
 
     if (widget.customRecognizerBuilder != null) {
@@ -687,10 +690,10 @@ class _TextLineState extends State<TextLine> {
 
     if (isLink && canLaunchLinks) {
       if (isDesktop || widget.readOnly) {
-        _linkRecognizers[segment] = TapGestureRecognizer()
+        _linkRecognizers[segment] = _LinkTapGestureRecognizer()
           ..onTap = () => _tapNodeLink(segment);
       } else {
-        _linkRecognizers[segment] = LongPressGestureRecognizer()
+        _linkRecognizers[segment] = _LinkLongPressGestureRecognizer()
           ..onLongPress = () => _longPressLink(segment);
       }
     }
@@ -710,12 +713,7 @@ class _TextLineState extends State<TextLine> {
     _tapLink(link);
   }
 
-  void _tapLink(final String? inputLink) {
-    var link = inputLink?.trim();
-    if (link == null) {
-      return;
-    }
-
+  String _transformLink(String link) {
     final isValidLink = LinkValidator.validate(
       link,
       legacyAddationalLinkPrefixes: widget.customLinkPrefixes,
@@ -723,8 +721,18 @@ class _TextLineState extends State<TextLine> {
     if (!isValidLink) {
       link = 'https://$link';
     }
+    return link;
+  }
 
-    // TODO(EchoEllet): Refactor onLaunchUrl or add a new API to give full control of the launch? See https://github.com/singerdmx/flutter-quill/issues/1776
+  void _tapLink(final String? inputLink) {
+    var link = inputLink?.trim();
+    if (link == null) {
+      return;
+    }
+
+    final transformLink = widget.transformLink ?? _transformLink;
+    link = transformLink(link);
+
     final launchUrl = widget.onLaunchUrl ?? _launchUrl;
     launchUrl(link);
   }
@@ -773,6 +781,15 @@ class _TextLineState extends State<TextLine> {
         );
   }
 }
+
+// A custom recognizer can also be cached for text without a link.
+mixin _LinkGestureRecognizer on GestureRecognizer {}
+
+class _LinkTapGestureRecognizer extends TapGestureRecognizer
+    with _LinkGestureRecognizer {}
+
+class _LinkLongPressGestureRecognizer extends LongPressGestureRecognizer
+    with _LinkGestureRecognizer {}
 
 class EditableTextLine extends RenderObjectWidget {
   const EditableTextLine(
