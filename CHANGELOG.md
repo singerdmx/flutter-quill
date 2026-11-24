@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed a `Null check operator used on a null value` crash in `State.context`, reached from the post-frame callback of `_EditorTextSelectionGestureDetectorState._dragOffsetListener`, when the editor is removed in the same frame a magnifier drag offset arrives (e.g. the editor's route is closed while a selection handle is being dragged). The callback now returns when the state is no longer mounted before it uses `context`.
+- Fixed a `Null check operator used on a null value` crash in `State.context`, reached from the post-frame callback of `_EditorTextSelectionGestureDetectorState._dragOffsetListener`, when the editor is removed in the same frame a magnifier drag offset arrives (e.g. the editor's route is closed while a selection handle is being dragged). The callback now returns when the state is no longer mounted before it uses `context` [#2790](https://github.com/singerdmx/flutter-quill/pull/2790).
 
 ## [11.6.0] - 2026-09-16
 
