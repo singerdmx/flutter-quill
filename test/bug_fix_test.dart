@@ -242,4 +242,35 @@ void main() {
       );
     },
   );
+
+  group('Magnifier drag offset after dispose', () {
+    testWidgets(
+      'removing the editor in the frame a drag offset arrives does not throw',
+      (tester) async {
+        final controller = QuillController(
+          document: Document()..insert(0, 'Hello world\nSecond line'),
+          selection: const TextSelection.collapsed(offset: 3),
+        );
+        addTearDown(controller.dispose);
+
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(QuillEditor.basic(controller: controller)),
+        );
+
+        // What a selection handle drag does: it sets the offset the magnifier
+        // follows, and the gesture detector reads it after the frame.
+        final notifier = tester
+            .widget<QuillRawEditor>(find.byType(QuillRawEditor))
+            .dragOffsetNotifier;
+        expect(notifier, isNotNull);
+        notifier!.value = const Offset(20, 20);
+
+        // Remove the editor in that same frame.
+        await tester.pumpWidget(QuillTestApp.home(const SizedBox()));
+
+        expect(tester.takeException(), isNull);
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
+  });
 }
