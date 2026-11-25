@@ -548,7 +548,7 @@ class QuillController extends ChangeNotifier {
     _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
 
     /// Get the deltas for the selection so they can be pasted into a QuillEditor with styles and embeds retained.
-    _pasteDelta = document.toDelta().slice(selection.start, selection.end);
+    _pasteDelta = _selectionDelta();
 
     if (!selection.isCollapsed) {
       Clipboard.setData(ClipboardData(text: _pastePlainText));
@@ -565,6 +565,38 @@ class QuillController extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  /// The delta of the current selection, used for internal paste.
+  ///
+  /// A selection that spans several lines and ends at the end of a line, as
+  /// Select All does, leaves out the newline of that last line. The newline
+  /// holds the block attributes of the line (such as a list or a header), so
+  /// the line would be pasted as a plain paragraph. When it has block
+  /// attributes, the newline is added to keep them.
+  Delta _selectionDelta() {
+    final documentDelta = document.toDelta();
+    final selectionDelta = documentDelta.slice(selection.start, selection.end);
+    if (selectionDelta.isEmpty) return selectionDelta;
+
+    final lastData = selectionDelta.last.data;
+    if (lastData is String && lastData.endsWith('\n')) return selectionDelta;
+
+    final spansLines = selectionDelta.operations.any(
+      (op) => op.data is String && (op.data as String).contains('\n'),
+    );
+    if (!spansLines) return selectionDelta;
+
+    final next = documentDelta.slice(selection.end, selection.end + 1);
+    if (next.isEmpty) return selectionDelta;
+    final lineEnd = next.first;
+    final blockAttributes = lineEnd.attributes;
+    if (lineEnd.data != '\n' ||
+        blockAttributes == null ||
+        blockAttributes.isEmpty) {
+      return selectionDelta;
+    }
+    return selectionDelta..insert('\n', blockAttributes);
   }
 
   /// Returns whether paste operation was handled here.

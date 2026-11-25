@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the last line losing its block format (list, header, etc.) when copying several lines and pasting them into a `QuillEditor`, e.g. after **Select All** on a bullet list the last item was pasted as a plain paragraph [#2758](https://github.com/singerdmx/flutter-quill/issues/2758).
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

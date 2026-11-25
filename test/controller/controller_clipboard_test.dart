@@ -225,6 +225,80 @@ void main() {
       expect(controller.selection, const TextSelection.collapsed(offset: 5));
     });
 
+    group('Delta ending at the end of a line', () {
+      QuillController bulletList() => QuillController(
+        document: Document.fromDelta(
+          Delta()
+            ..insert('Item 1')
+            ..insert('\n', {'list': 'bullet'})
+            ..insert('Item 2')
+            ..insert('\n', {'list': 'bullet'})
+            ..insert('Item 3')
+            ..insert('\n', {'list': 'bullet'}),
+        ),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+
+      test('keeps the block attributes of the last line', () {
+        const plainSelection = 'Item 1\nItem 2\nItem 3';
+        final source = bulletList()
+          ..updateSelection(
+            const TextSelection(baseOffset: 0, extentOffset: 20),
+            ChangeSource.local,
+          );
+        assert(source.clipboardSelection(true));
+        expect(source.pastePlainText, plainSelection);
+        final listItems = Delta()
+          ..insert('Item 1')
+          ..insert('\n', {'list': 'bullet'})
+          ..insert('Item 2')
+          ..insert('\n', {'list': 'bullet'})
+          ..insert('Item 3')
+          ..insert('\n', {'list': 'bullet'});
+        expect(source.pasteDelta, listItems);
+        //
+        final controller = QuillController.basic();
+        expect(
+          pasteUsingPlainOrDelta(controller, plainSelection),
+          true,
+          reason: 'Internal paste',
+        );
+        expect(controller.document.toDelta(), listItems..insert('\n'));
+      });
+
+      test('does not add the newline for a single line', () {
+        final source = bulletList()
+          ..updateSelection(
+            const TextSelection(baseOffset: 7, extentOffset: 13),
+            ChangeSource.local,
+          );
+        assert(source.clipboardSelection(true));
+        expect(source.pasteDelta, Delta()..insert('Item 2'));
+      });
+
+      test('does not add the newline of a plain paragraph', () {
+        final source = QuillController.basic()
+          ..compose(
+            Delta()..insert('ABC\nDEF'),
+            const TextSelection.collapsed(offset: 0),
+            ChangeSource.local,
+          )
+          ..formatText(0, 0, Attribute.ul)
+          ..updateSelection(
+            const TextSelection(baseOffset: 0, extentOffset: 7),
+            ChangeSource.local,
+          );
+        assert(source.clipboardSelection(true));
+        expect(
+          source.pasteDelta,
+          Delta()
+            ..insert('ABC')
+            ..insert('\n', {'list': 'bullet'})
+            ..insert('DEF'),
+        );
+      });
+    });
+
     test('Delta multi line', () async {
       const blockAttribute = Attribute.ol;
       const plainSelection = 'BC\nDEF\nGHI\nJK';
