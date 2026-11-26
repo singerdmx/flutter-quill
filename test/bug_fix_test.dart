@@ -242,4 +242,39 @@ void main() {
       );
     },
   );
+
+  group('Selection toolbar after dispose', () {
+    testWidgets(
+      'removing the editor in the frame of a double tap does not throw',
+      (tester) async {
+        final controller = QuillController(
+          document: Document()..insert(0, 'Hello world\nSecond line'),
+          selection: const TextSelection.collapsed(offset: 3),
+        );
+        addTearDown(controller.dispose);
+
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(QuillEditor.basic(controller: controller)),
+        );
+
+        // A double tap selects the word and shows the toolbar after the frame.
+        final position =
+            tester.getTopLeft(find.byType(QuillEditor)) + const Offset(30, 10);
+        await tester.tapAt(position);
+        await tester.pump(const Duration(milliseconds: 50));
+        final gesture = await tester.startGesture(position);
+
+        // The second tap down is reported once the press timeout passes.
+        // Remove the editor in the frame that follows it.
+        await tester.pumpWidget(
+          QuillTestApp.home(const SizedBox()),
+          duration: kPressTimeout,
+        );
+        expect(tester.takeException(), isNull);
+
+        await gesture.up();
+        await tester.pumpAndSettle();
+      },
+    );
+  });
 }
