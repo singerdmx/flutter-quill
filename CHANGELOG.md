@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a `Null check operator used on a null value` crash in the post-frame callbacks of `EditorTextSelectionGestureDetectorBuilder.onDoubleTapDown` and `onSecondarySingleTapUp`, which show the selection toolbar after the frame, when the editor is removed in the frame of the double tap or right click (e.g. the editor's route is closed). The toolbar is now skipped when the editor state is gone.
+
 ## [11.6.0] - 2026-09-16
 
 ### Added

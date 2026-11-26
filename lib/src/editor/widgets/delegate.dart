@@ -205,8 +205,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onSecondarySingleTapUp(TapUpDetails details) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // added to show toolbar by right click
+      // The editor can be gone by the end of the frame.
       if (checkSelectionToolbarShouldShow(isAdditionalAction: true)) {
-        editor!.showToolbar();
+        editor?.showToolbar();
       }
     });
     SchedulerBinding.instance.scheduleFrame();
@@ -298,8 +299,9 @@ class EditorTextSelectionGestureDetectorBuilder {
       // have focus, selection hasn't been set when the toolbars
       // get added
       SchedulerBinding.instance.addPostFrameCallback((_) {
+        // The editor can be gone by the end of the frame.
         if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
-          editor!.showToolbar();
+          editor?.showToolbar();
         }
       });
     }
